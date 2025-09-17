@@ -1,4 +1,3 @@
-
 // src/components/Abacus.jsx
 import React, { useState, useEffect } from 'react';
 import AbacusRod from './AbacusRod';

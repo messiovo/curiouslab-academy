@@ -1,4 +1,3 @@
-
 // src/pages/AbacusPage.jsx
 import React, { useState } from 'react';
 import Abacus from '../components/Abacus';

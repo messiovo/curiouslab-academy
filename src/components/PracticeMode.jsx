@@ -1,3 +1,5 @@
+
+// src/components/PracticeMode.jsx
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, RefreshCw } from 'lucide-react';
 
