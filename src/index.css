@@ -1,0 +1,42 @@
+/* src/index.css */
+
+@import "tailwindcss";
+
+/* Set up the dark variant to trigger when `.dark` class is on <html> (or another root) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Define theme tokens (CSS variables) */
+@theme {
+  --color-primary: #4A90E2;
+  --color-secondary: #50E3C2;
+
+  /* Light mode defaults */
+  --color-bg: #ffffff;
+  --color-text: #2d3748;
+  --color-card-bg: #f7fafc;
+
+  /* Dark mode defaults (fallbacks or "unmoved" values) */
+}
+
+/* Override variables when `.dark` selector is present */
+@layer theme {
+  .dark {
+    --color-bg: #1a202c;
+    --color-text: #f7fafc;
+    --color-card-bg: #2d3748;
+  }
+}
+
+/* (optional) Use the variables in your CSS utility classes or define custom utilities using them */
+/* For example: */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+.card {
+  background-color: var(--color-card-bg);
+}
+/* Add this to your index.css */
+.bg-bg { background-color: var(--color-bg); }
+.text-text { color: var(--color-text); }
+.bg-card-bg { background-color: var(--color-card-bg); }
