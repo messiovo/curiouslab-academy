@@ -13,8 +13,9 @@ const navLinksData = [
   { title: 'Home', href: '/' },
   { title: 'Courses', href: '/courses' },
   { title: 'About', href: '/about' },
-  { title: 'Abacus', href: '/abacus' },
-  { title: 'Contact', href: '/contact' },
+    { title: 'Contact', href: '/contact' },
+  { title: 'Abacus Learning Platform', href: '/abacus-learning' },
+
 ];
 
 const mobileMenuVariants = {
@@ -70,7 +71,7 @@ const Navbar = () => {
           <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-black/10 dark:hover:bg-white/10">
             {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
           </button>
-          <Link to="/enroll" className="hidden md:block bg-primary text-white py-2 px-5 rounded-md font-semibold hover:opacity-90 transition-opacity">
+          <Link to="/enroll" className="hidden md:block bg-secondary text-white py-2 px-5 rounded-md font-semibold hover:opacity-90 transition-opacity">
             Enroll Now
           </Link>
           <button onClick={toggleMobileMenu} className="md:hidden p-2 z-50">

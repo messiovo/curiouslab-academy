@@ -11,8 +11,9 @@ import logoDark from '../assets/images/logo-dark.svg';
 const quickLinks = [
   { title: 'About Us', href: '/about' },
   { title: 'Courses', href: '/courses' },
-  { title: 'Abacus', href: '/abacus' },
   { title: 'Contact', href: '/contact' },
+  { title: 'Abacus Learning Platform', href: '/abacus-learning'  },
+  
   { title: 'Privacy Policy', href: '/privacy-policy' },
 ];
 

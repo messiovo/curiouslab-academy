@@ -8,7 +8,7 @@
 /* Define theme tokens (CSS variables) */
 @theme {
   --color-primary: #4A90E2;
-  --color-secondary: #50E3C2;
+  --color-secondary: #FFDE21;
 
   /* Light mode defaults */
   --color-bg: #ffffff;
@@ -40,3 +40,4 @@ body {
 .bg-bg { background-color: var(--color-bg); }
 .text-text { color: var(--color-text); }
 .bg-card-bg { background-color: var(--color-card-bg); }
+
