@@ -9,7 +9,7 @@ import CourseDetailPage from './pages/CourseDetailPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import AbacusPage from './pages/AbacusPage';
-
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -23,7 +23,8 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} /> 
           <Route path="/abacus-learning" element={<AbacusPage />} /> 
-          
+          {/* 404 Catch-all route */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
        <Footer /> 
