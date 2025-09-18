@@ -1,5 +1,3 @@
-
-// src/components/PracticeMode.jsx
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, RefreshCw } from 'lucide-react';
 
@@ -10,7 +8,7 @@ const PracticeMode = ({ currentValue, onSetTarget }) => {
   const [attempts, setAttempts] = useState(0);
 
   const generateNewProblem = () => {
-    const newTarget = Math.floor(Math.random() * 1000) + 1;
+    const newTarget = Math.floor(Math.random() * 99999) + 1;
     setTargetNumber(newTarget);
     setIsCorrect(null);
     if (onSetTarget) onSetTarget(newTarget);
