@@ -43,7 +43,7 @@ const ProgressRace = ({ playerProgress, characterProgress, totalSteps, prize }) 
         <div className="absolute top-2 h-6 transition-all duration-500" 
              style={{ left: `${Math.min(characterPosition, 85)}%` }}>
           <div className="w-12 h-6 bg-secondary rounded-full flex items-center justify-center shadow-lg">
-            <span className="text-gray-800 text-xs font-bold">BUDDY</span>
+            <span className="text-gray-800 text-xs font-bold">RoboBuddy</span>
           </div>
         </div>
       </div>

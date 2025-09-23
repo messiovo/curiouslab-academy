@@ -13,17 +13,127 @@ const AnimatedCharacter = ({ mood, message, position = 0, onSpeakComplete }) => 
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const speechSynth = useRef(null);
+  const audioContext = useRef(null);
 
   useEffect(() => {
     speechSynth.current = window.speechSynthesis;
+    
+    // Initialize Web Audio Context for robot sounds
+    try {
+      audioContext.current = new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) {
+      console.log("Web Audio not supported");
+    }
     
     // Cleanup on unmount
     return () => {
       if (speechSynth.current) {
         speechSynth.current.cancel();
       }
+      if (audioContext.current) {
+        audioContext.current.close();
+      }
     };
   }, []);
+
+  // Generate robot sound effects
+  const playRobotSound = (type) => {
+    if (isMuted || !audioContext.current) return;
+
+    // Resume audio context if it's suspended (browser policy)
+    if (audioContext.current.state === 'suspended') {
+      audioContext.current.resume();
+    }
+
+    const ctx = audioContext.current;
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+
+    switch (type) {
+      case 'beep':
+        oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+        gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.1);
+        break;
+        
+      case 'boop':
+        oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(200, ctx.currentTime + 0.2);
+        gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.2);
+        break;
+        
+      case 'bzzt':
+        oscillator.type = 'square';
+        oscillator.frequency.setValueAtTime(300, ctx.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(100, ctx.currentTime + 0.15);
+        gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.15);
+        break;
+        
+      case 'whirr':
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.setValueAtTime(150, ctx.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(300, ctx.currentTime + 0.3);
+        oscillator.frequency.linearRampToValueAtTime(100, ctx.currentTime + 0.6);
+        gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.6);
+        break;
+        
+      default:
+        oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+        gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + 0.1);
+    }
+  };
+
+  // Extract and play robot sounds from message, then speak clean text
+  const processMessage = (text) => {
+    if (!text) return;
+
+    // Find robot sounds in the message
+    const soundPatterns = {
+      'beep': /\bbeep\b/gi,
+      'boop': /\bboop\b/gi,
+      'bzzt': /\bbzzt\b/gi,
+      'whirr': /\bwhirr\b/gi
+    };
+
+    let cleanText = text;
+    const soundsToPlay = [];
+
+    // Extract sounds and clean the text
+    Object.entries(soundPatterns).forEach(([sound, pattern]) => {
+      const matches = text.match(pattern);
+      if (matches) {
+        matches.forEach(() => soundsToPlay.push(sound));
+        cleanText = cleanText.replace(pattern, ''); // Remove from speech text
+      }
+    });
+
+    // Play robot sounds with slight delays
+    soundsToPlay.forEach((sound, index) => {
+      setTimeout(() => playRobotSound(sound), index * 200);
+    });
+
+    // Speak the cleaned text (without robot sound words)
+    if (cleanText.trim()) {
+      speakMessage(cleanText.trim());
+    }
+  };
 
   const speakMessage = (text) => {
     if (isMuted || !text) return;
@@ -71,10 +181,10 @@ const AnimatedCharacter = ({ mood, message, position = 0, onSpeakComplete }) => 
     }
   };
 
-  // Speak when message changes
+  // Process message when it changes
   useEffect(() => {
     if (message) {
-      speakMessage(message);
+      processMessage(message);
     }
     
     return () => {
