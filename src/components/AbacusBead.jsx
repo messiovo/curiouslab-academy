@@ -89,7 +89,7 @@ const AbacusBead = ({
             ? 'translateY(-90px)' // Mobile active position
             : 'translateY(18px)',  // Mobile inactive position
         // Desktop transforms using CSS custom properties
-        // These will be overridden by the media query below
+        
         '--desktop-transform': isUpperBead 
           ? isActive 
             ? 'translateY(105px)' // Desktop active position (increased from 90px to 105px)

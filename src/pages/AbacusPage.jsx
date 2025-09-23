@@ -2,14 +2,14 @@
 import React, { useState } from 'react';
 import Abacus from '../components/Abacus';
 import PracticeMode from '../components/PracticeMode';
-import GameTime from '../components/GameTime'; // Import the GameTime component
+import GameTime from '../components/GameTime';
 import { BookOpen, Calculator, Brain, Target, GamepadIcon, ChevronDown, ChevronUp } from 'lucide-react';
 
 const AbacusPage = () => {
   const [currentValue, setCurrentValue] = useState(0);
   const [mode, setMode] = useState('free'); // 'free', 'practice', or 'game'
-  const [showInstructions, setShowInstructions] = useState(false); // For mobile collapsible instructions
-  const [showTips, setShowTips] = useState(false); // For mobile collapsible tips
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [showTips, setShowTips] = useState(false);
 
   return (
     <div className="min-h-screen bg-bg text-text">
@@ -28,7 +28,7 @@ const AbacusPage = () => {
         </div>
       </div>
 
-      {/* Mode Selection - Mobile responsive */}
+      {/* Mode Selection */}
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
         {/* Mobile: Stacked buttons */}
         <div className="flex flex-col sm:hidden space-y-2 mb-6">
@@ -104,21 +104,23 @@ const AbacusPage = () => {
           </button>
         </div>
 
-        {/* Main Content - Mobile first layout */}
+        {/* Main Content */}
         <div className="space-y-6">
-          {/* Practice/Game Mode Components - Display above abacus */}
-          {(mode === 'practice' || mode === 'game') && (
-            <div className="w-full mb-4">
-              {mode === 'practice' && (
-                <PracticeMode currentValue={currentValue} />
-              )}
-              {mode === 'game' && (
-                <GameTime currentValue={currentValue} />
-              )}
+          {/* GameTime Component - Displayed above abacus in vertical stack */}
+          {mode === 'game' && (
+            <div className="w-full">
+              <GameTime currentValue={currentValue} />
             </div>
           )}
 
-          {/* Abacus - Always visible */}
+          {/* Practice Mode Component - Displayed above abacus */}
+          {mode === 'practice' && (
+            <div className="w-full mb-4">
+              <PracticeMode currentValue={currentValue} />
+            </div>
+          )}
+
+          {/* Abacus - Always visible at the bottom */}
           <div className="w-full">
             <Abacus onValueChange={setCurrentValue} />
           </div>
@@ -225,20 +227,6 @@ const AbacusPage = () => {
                   </li>
                 </ul>
               </div>
-
-              {/* Practice Mode Component - Hidden on desktop as it's displayed above abacus */}
-              {mode === 'practice' && (
-                <div className="hidden">
-                  <PracticeMode currentValue={currentValue} />
-                </div>
-              )}
-              
-              {/* Game Time Component - Hidden on desktop as it's displayed above abacus */}
-              {mode === 'game' && (
-                <div className="hidden">
-                  <GameTime currentValue={currentValue} />
-                </div>
-              )}
             </div>
 
             {/* Tips */}

@@ -27,10 +27,10 @@ const GameTime = ({ currentValue, onSetTarget }) => {
 
   const characterMessages = {
     start: [
-      "Ready to race? Let's see who gets the fruit first!",
-      "Think you can beat me? Ha ha!",
-      "I'm pretty fast, but maybe you're faster!",
-      "Let's have some fun! May the best player win!"
+      "Hey friend, my name is Buddy. Are you ready to race? Let's see who gets the fruit first!",
+      "Hey friend, my name is Buddy. Do you think you can beat me? Ha ha!",
+      "Hey friend, my name is Buddy, and I'm pretty fast, but maybe.. just maybe you're faster!",
+      "Hey friend, my name is Buddy. Let's have some fun! May the best player win!"
     ],
     correct: [
       "Nice work! You're getting good at this!",
@@ -207,10 +207,27 @@ const GameTime = ({ currentValue, onSetTarget }) => {
     );
   }
 
-  // Playing state
+  // Playing state - Updated layout
   return (
     <div className="space-y-6">
-      {/* Current Challenge */}
+      {/* Character - Top */}
+      <div className="flex justify-center">
+        <GameCharacter 
+          mood={characterMood} 
+          message={characterMessage}
+          position={characterProgress}
+        />
+      </div>
+
+      {/* Progress Race - Below Character */}
+      <ProgressRace
+        playerProgress={playerProgress}
+        characterProgress={characterProgress}
+        totalSteps={gameStages[currentStage].steps}
+        prize={gameStages[currentStage].prize}
+      />
+
+      {/* Current Challenge - Below Race */}
       <div className="bg-card-bg rounded-xl p-6 text-center shadow-lg">
         <h2 className="text-2xl font-bold text-text mb-4">
           {gameStages[currentStage].name}
@@ -235,46 +252,29 @@ const GameTime = ({ currentValue, onSetTarget }) => {
 
           <button
             onClick={checkAnswer}
-            className="bg-primary hover:bg-primary/80 text-white px-8 py-3 rounded-lg font-semibold transition-colors text-lg"
+            className="bg-primary hover:bg-primary/80 text-white px-8 py-3 rounded-lg font-semibold transition-colors text-lg mb-4"
           >
             Check Answer
           </button>
         </div>
-      </div>
 
-      {/* Progress Race */}
-      <ProgressRace
-        playerProgress={playerProgress}
-        characterProgress={characterProgress}
-        totalSteps={gameStages[currentStage].steps}
-        prize={gameStages[currentStage].prize}
-      />
-
-      {/* Character */}
-      <div className="flex justify-center">
-        <GameCharacter 
-          mood={characterMood} 
-          message={characterMessage}
-          position={characterProgress}
-        />
-      </div>
-
-      {/* Controls */}
-      <div className="flex justify-center space-x-4">
-        <button
-          onClick={generateNewProblem}
-          className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center space-x-2"
-        >
-          <RefreshCw size={16} />
-          <span>New Number</span>
-        </button>
-        <button
-          onClick={goToStageSelect}
-          className="bg-secondary hover:bg-secondary/80 text-gray-800 px-4 py-2 rounded-lg font-semibold transition-colors flex items-center space-x-2"
-        >
-          <Home size={16} />
-          <span>Stages</span>
-        </button>
+        {/* Controls - Below Challenge */}
+        <div className="flex justify-center space-x-4">
+          <button
+            onClick={generateNewProblem}
+            className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center space-x-2"
+          >
+            <RefreshCw size={16} />
+            <span>New Number</span>
+          </button>
+          <button
+            onClick={goToStageSelect}
+            className="bg-secondary hover:bg-secondary/80 text-gray-800 px-4 py-2 rounded-lg font-semibold transition-colors flex items-center space-x-2"
+          >
+            <Home size={16} />
+            <span>Stages</span>
+          </button>
+        </div>
       </div>
     </div>
   );
