@@ -1,6 +1,6 @@
 // src/components/GameTime.jsx
 import React, { useState, useEffect } from 'react';
-import GameCharacter from './GameCharacter';
+import AnimatedCharacter from './AnimatedCharacter';
 import ProgressRace from './ProgressRace';
 import GameStageSelect from './GameStageSelect';
 import { RefreshCw, Home, Trophy } from 'lucide-react';
@@ -15,8 +15,7 @@ const GameTime = ({ currentValue, onSetTarget }) => {
   ]);
 
   const [currentStage, setCurrentStage] = useState(0);
-  const [gameState, setGameState] = useState('stageSelect'); // 'stageSelect', 'playing', 'completed'
-  const [targetNumber, setTargetNumber] = useState(0);
+  const [gameState, setGameState] = useState('stageSelect'); 
   const [playerProgress, setPlayerProgress] = useState(0);
   const [characterProgress, setCharacterProgress] = useState(0);
   const [characterMood, setCharacterMood] = useState('happy');
@@ -24,7 +23,13 @@ const GameTime = ({ currentValue, onSetTarget }) => {
   const [unlockedStages, setUnlockedStages] = useState(0);
   const [earnedPrizes, setEarnedPrizes] = useState([]);
   const [isCorrect, setIsCorrect] = useState(null);
+  const [isCharacterSpeaking, setIsCharacterSpeaking] = useState(false);
+  const [targetNumber, setTargetNumber] = useState(0);
 
+  const handleSpeakComplete = () => {
+    setIsCharacterSpeaking(false);
+  };
+  
   const characterMessages = {
     start: [
       "Hey friend, my name is Buddy. Are you ready to race? Let's see who gets the fruit first!",
@@ -99,7 +104,7 @@ const GameTime = ({ currentValue, onSetTarget }) => {
       if (newPlayerProgress >= gameStages[currentStage].steps) {
         // Player wins!
         setCharacterMessage(getRandomMessage('playerWin', gameStages[currentStage].prize));
-        setCharacterMood('happy');
+        setCharacterMood('winner');
         
         // Unlock next stage and add prize
         if (currentStage === unlockedStages) {
@@ -111,17 +116,22 @@ const GameTime = ({ currentValue, onSetTarget }) => {
         
         setTimeout(() => {
           setGameState('completed');
-        }, 2000);
+        }, 3000);
       } else if (newPlayerProgress >= gameStages[currentStage].steps - 2) {
         setCharacterMessage(getRandomMessage('nearEnd'));
+        setCharacterMood('excited');
         setTimeout(generateNewProblem, 1500);
       } else {
         setCharacterMessage(getRandomMessage('correct'));
+        setCharacterMood('excited');
         setTimeout(generateNewProblem, 1500);
       }
     } else {
-      setCharacterMood('happy');
+      setCharacterMood('sad');
       setCharacterMessage("Try again! You can do this!");
+      setTimeout(() => {
+        setCharacterMood('happy');
+      }, 2000);
     }
 
     // Check if character wins
@@ -130,7 +140,7 @@ const GameTime = ({ currentValue, onSetTarget }) => {
       setCharacterMood('winner');
       setTimeout(() => {
         setGameState('completed');
-      }, 2000);
+      }, 3000);
     }
   };
 
@@ -185,7 +195,12 @@ const GameTime = ({ currentValue, onSetTarget }) => {
           {gameStages[currentStage].prize}
         </div>
         
-        <GameCharacter mood={characterMood} message={characterMessage} />
+        <AnimatedCharacter 
+          mood={characterMood} 
+          message={characterMessage}
+          position={characterProgress}
+          onSpeakComplete={handleSpeakComplete}
+        />
         
         <div className="flex justify-center space-x-4">
           <button
@@ -212,10 +227,11 @@ const GameTime = ({ currentValue, onSetTarget }) => {
     <div className="space-y-6">
       {/* Character - Top */}
       <div className="flex justify-center">
-        <GameCharacter 
+        <AnimatedCharacter 
           mood={characterMood} 
           message={characterMessage}
           position={characterProgress}
+          onSpeakComplete={handleSpeakComplete}
         />
       </div>
 
