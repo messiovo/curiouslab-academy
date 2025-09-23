@@ -153,7 +153,7 @@ const AnimatedCharacter = ({ mood, message, position = 0, onSpeakComplete }) => 
 
       {/* Character Name */}
       <div className="mt-3 px-4 py-2 bg-blue-100 dark:bg-blue-900 rounded-full shadow-sm">
-        <span className="text-sm font-bold text-blue-800 dark:text-blue-200">Buddy</span>
+        <span className="text-sm font-bold text-blue-800 dark:text-blue-200">RoboBuddy</span>
       </div>
 
       {/* Speech Bubble with Enhanced Styling */}

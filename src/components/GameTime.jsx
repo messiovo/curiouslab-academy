@@ -32,35 +32,36 @@ const GameTime = ({ currentValue, onSetTarget }) => {
   
   const characterMessages = {
     start: [
-      "Hey friend, my name is Buddy. Are you ready to race? Let's see who gets the fruit first!",
-      "Hey friend, my name is Buddy. Do you think you can beat me? Ha ha!",
-      "Hey friend, my name is Buddy, and I'm pretty fast, but maybe.. just maybe you're faster!",
-      "Hey friend, my name is Buddy. Let's have some fun! May the best player win!"
-    ],
-    correct: [
-      "Nice work! You're getting good at this!",
-      "Wow! You're fast!",
-      "Impressive! You're keeping up!",
-      "Great job! This is exciting!"
-    ],
-    nearEnd: [
-      "Oh no! You're so close to the fruit!",
-      "This is getting intense! You're almost there!",
-      "You might actually beat me!",
-      "I can almost taste that fruit... or can you?"
-    ],
-    playerWin: [
-      "Congratulations! You won the {prize}! Well deserved!",
-      "Amazing! You earned that {prize}! Save me a bite!",
-      "You're too good! Enjoy your {prize}!",
-      "Wow! You really are fast! That {prize} is all yours!"
-    ],
-    characterWin: [
-      "Ha ha! I got the {prize} this time!",
-      "Better luck next time! This {prize} is delicious!",
-      "Ooh! I win! Want to try again?",
-      "Nice try! I'll share this {prize} with you!"
-    ]
+  "Hey friend, my name is RoboBuddy! Are you ready to race? Let's see who gets the fruit first!",
+  "Hey friend, I'm RoboBuddy! Do you think you can beat me? Beep boop... let's find out!",
+  "Hey there! I'm RoboBuddy, and I'm super fast. But maybe.. just maybe, you're faster!",
+  "Hi friend, RoboBuddy here! Let's have some fun! May the best player win!"
+],
+correct: [
+  "Nice work, human friend! You're getting good at this!",
+  "Wow! You're fast! Even my circuits are impressed!",
+  "Impressive! You're keeping up with me, RoboBuddy!",
+  "Great job! This is exciting, beep boop!"
+],
+nearEnd: [
+  "Oh no! You're so close to the fruit, human!",
+  "This is getting intense! My gears are spinning!",
+  "You might actually beat me this time!",
+  "I can almost taste that fruit... or can you?"
+],
+playerWin: [
+  "Congratulations! You won the {prize}! My sensors say you deserved it!",
+  "Amazing! You earned that {prize}! Save me a digital bite!",
+  "You're too good! Enjoy your {prize}, champion!",
+  "Wow! You really are fast! That {prize} is all yours!"
+],
+characterWin: [
+  "Ha ha! RoboBuddy got the {prize} this time!",
+  "Better luck next time! This {prize} is delicious... even for a robot!",
+  "Ooh! I win! Want to try again, human friend?",
+  "Nice try! I'll share this {prize} with you—robots are generous too!"
+]
+
   };
 
   const getRandomMessage = (type, prize = '') => {
