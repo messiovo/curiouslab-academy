@@ -50,33 +50,6 @@ const AbacusBead = ({
     handleInteractionEnd();
   }, [handleInteractionEnd]);
 
-  // Calculate responsive transforms
-  const getTransform = () => {
-    const mobileOffset = {
-      upperActive: 'translateY(80px)', // Mobile: move down to touch center bar
-      upperInactive: 'translateY(6px)', // Mobile: rest position
-      lowerActive: 'translateY(-80px)', // Mobile: move up to touch center bar  
-      lowerInactive: 'translateY(18px)' // Mobile: rest position
-    };
-
-    const desktopOffset = {
-      upperActive: 'translateY(105px)', // Desktop: move down to touch center bar
-      upperInactive: 'translateY(8px)', // Desktop: rest position
-      lowerActive: 'translateY(-105px)', // Desktop: move up to touch center bar
-      lowerInactive: 'translateY(24px)' // Desktop: rest position
-    };
-
-    if (isUpperBead) {
-      return isActive 
-        ? `${mobileOffset.upperActive} sm:${desktopOffset.upperActive.replace('translateY(', 'translateY(')}`
-        : `${mobileOffset.upperInactive} sm:${desktopOffset.upperInactive.replace('translateY(', 'translateY(')}`;
-    } else {
-      return isActive 
-        ? `${mobileOffset.lowerActive} sm:${desktopOffset.lowerActive.replace('translateY(', 'translateY(')}`
-        : `${mobileOffset.lowerInactive} sm:${desktopOffset.lowerInactive.replace('translateY(', 'translateY(')}`;
-    }
-  };
-
   return (
     <div
       className={`
@@ -107,16 +80,34 @@ const AbacusBead = ({
         MozUserSelect: 'none',
         WebkitTouchCallout: 'none',
         WebkitTapHighlightColor: 'transparent',
-        // Use CSS custom properties for responsive transforms
+        // Mobile transforms (default)
         transform: isUpperBead 
           ? isActive 
-            ? 'translateY(105px)' // Mobile active position
+            ? 'translateY(80px)' // Mobile active position
             : 'translateY(6px)'   // Mobile inactive position
           : isActive 
-            ? 'translateY(-105px)' // Mobile active position
-            : 'translateY(18px)'  // Mobile inactive position
+            ? 'translateY(-90px)' // Mobile active position
+            : 'translateY(18px)',  // Mobile inactive position
+        // Desktop transforms using CSS custom properties
+        // These will be overridden by the media query below
+        '--desktop-transform': isUpperBead 
+          ? isActive 
+            ? 'translateY(105px)' // Desktop active position (increased from 90px to 105px)
+            : 'translateY(8px)'   // Desktop inactive position
+          : isActive 
+            ? 'translateY(-105px)' // Desktop active position (increased from -90px to -105px)
+            : 'translateY(24px)'  // Desktop inactive position
       }}
-    />
+    >
+      {/* Desktop responsive styles using CSS custom properties */}
+      <style jsx>{`
+        @media (min-width: 640px) {
+          div {
+            transform: var(--desktop-transform) !important;
+          }
+        }
+      `}</style>
+    </div>
   );
 };
 
