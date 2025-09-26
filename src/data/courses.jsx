@@ -118,7 +118,7 @@ export const coursesData = [
     whoShouldEnroll: "Ideal for children aged 6-12 looking for a fun way to gain a significant advantage in mathematics.",
     materials: ["Physical Abacus Kit", "Online Practice Portal", "Speed Drills and Competitions"],
     overview: { ageGroup: "6-12 years", sessions: "Once per week", sessionLength: "60 minutes", classSize: "Max 10 students", price: "₦15,000 (or $20) per hour" },
-    instructor: { name: "Mr. Ken Uba", title: "Certified Abacus Trainer", bio: "An expert in abacus techniques with a track record of training national-level competition winners." },
+    instructor: { name: "Ms. Mercy", title: "Certified Abacus Trainer", bio: "An expert in abacus techniques with a track record of training national-level competition winners." },
     reviews: [ { rating: 5, text: "The speed at which my son can do math in his head now is just unbelievable.", author: "- Parent" } ]
   },
 
@@ -137,7 +137,7 @@ export const coursesData = [
     whoShouldEnroll: "Ideal for curious minds aged 12-17 interested in technology and the future of computing.",
     materials: ["Web-based Coding Environment", "AI Project Kits", "Interactive Video Lessons"],
     overview: { ageGroup: "12-17 years", sessions: "Once per week", sessionLength: "90 minutes", classSize: "Max 8 students", price: "₦25,000 (or $25) per hour" },
-    instructor: { name: "Dr. Chioma Okeke", title: "PhD in Computer Science", bio: "A leading researcher in machine learning with a passion for inspiring the next generation of tech innovators." },
+    instructor: { name: "Mr. Jerry Idahosa", title: "Bsc in Computer Science", bio: "A leading researcher in machine learning with a passion for inspiring the next generation of tech innovators." },
     reviews: [ { rating: 5, text: "The AI course was mind-blowing. I can't believe I built a working program!", author: "- Daniel, Age 14" } ]
   },
   
