@@ -1,8 +1,7 @@
-
 // src/components/Footer.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, ChevronDown } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Youtube, Mail, Phone, ChevronDown } from 'lucide-react';
 
 // Import your logo files
 import logoLight from '../assets/images/logo-light.svg';
@@ -24,14 +23,27 @@ const quickLinks = [
   { title: 'Contact', href: '/contact' },
   { title: 'Terms of Service', href: '/terms-of-service' },
   { title: 'Privacy Policy', href: '/privacy-policy' },
-  
 ];
 
+// Custom SVG icons for X (Twitter) and TikTok
+const XIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
+
+const TiktokIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.528V6.79a4.831 4.831 0 0 1-3.77-1.104l.001.003z"/>
+  </svg>
+);
+
 const socialLinks = [
-  { label: 'Facebook', href: '#', icon: <Facebook size={20} /> },
-  { label: 'Twitter', href: '#', icon: <Twitter size={20} /> },
-  { label: 'Instagram', href: '#', icon: <Instagram size={20} /> },
-  { label: 'LinkedIn', href: '#', icon: <Linkedin size={20} /> },
+  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61576976462758', icon: <Facebook size={20} /> },
+  { label: 'X (Twitter)', href: 'https://x.com/curiousLabKids', icon: <XIcon /> },
+  { label: 'Instagram', href: 'https://www.instagram.com/curiouslab_academy/', icon: <Instagram size={20} /> },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@curiouslabacademy', icon: <TiktokIcon /> },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/107929771/admin/dashboard/', icon: <Linkedin size={20} /> },
   { label: 'YouTube', href: '#', icon: <Youtube size={20} /> },
 ];
 
