@@ -22,7 +22,9 @@ const quickLinks = [
   { title: 'About Us', href: '/about' },
   { title: 'Courses', href: '/courses' },
   { title: 'Contact', href: '/contact' },
+  { title: 'Terms of Service', href: '/terms-of-service' },
   { title: 'Privacy Policy', href: '/privacy-policy' },
+  
 ];
 
 const socialLinks = [

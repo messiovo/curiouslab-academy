@@ -5,7 +5,7 @@ import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 // Import reusable components
 import Hero from '../components/Hero';
 import CtaSection from '../components/CtaSection';
-import FaqSection from '../components/FaqSection'; // Import the new FAQ component
+import FaqSection from '../components/FaqSection'; 
 
 // Import page-specific images
 import contactHeroImage from '../assets/images/support-team.jpg';

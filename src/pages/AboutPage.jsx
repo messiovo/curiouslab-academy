@@ -52,8 +52,15 @@ const AboutPage = () => {
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2">
               <h2 className="text-xl md:text-3xl font-bold mb-4">Who We Are</h2>
-              <p className="text-text/80">
+              <p className="text-text/80 pb-4">
                 CuriousLabAcademy is an innovative online learning platform that offers interactive, instructor-led live classes for children worldwide. Our mission is to make Science, Mathematics, and Languages engaging and accessible through fun, structured, and expert-led lessons.
+              </p>
+              <p className="text-text/80 pb-4">
+                In addition to our core subjects, we introduce children to the Abacus (Soroban) method, a proven tool for building strong foundations in arithmetic and enhancing mental calculation skills. Through hands-on practice and game-based learning, we aim to develop children’s 
+                cognitive abilities, focus, memory, and problem-solving skills in a way that feels both exciting and rewarding.
+              </p>
+              <p className="text-text/80">
+                Our specially designed Abacus games and activities help learners progress from basic bead movements to advanced mental math, fostering confidence and a lifelong love for learning.
               </p>
             </div>
             <div className="md:w-1/2">
