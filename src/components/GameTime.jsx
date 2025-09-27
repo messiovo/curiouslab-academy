@@ -32,34 +32,34 @@ const GameTime = ({ currentValue, onSetTarget }) => {
   
   const characterMessages = {
     start: [
-  "Beep boop! Hello friend, my name is RoboBuddy! Are you ready to race? Let's see who gets the fruit first!",
-  "Whirrr... hey friend, I'm RoboBuddy! Do you think you can beat me? Ha ha, buzzt!",
-  "Boop! I'm RoboBuddy, and I'm super fast. But maybe... just maybe, you're faster!",
-  "Hello human! RoboBuddy here, beep boop! Let's have some fun! May the best player win!"
+  "Beep boop Hello friend, my name is RoboBuddy! Are you ready to race? Let's see who gets the fruit first!",
+  "Whirrr... hey friend, I'm RoboBuddy! Do you think you can beat me? Ha ha, buzzt",
+  "Boop I'm RoboBuddy, and I'm super fast. But maybe... just maybe, you're faster!",
+  "Hello human! RoboBuddy here, beep boop Let's have some fun! May the best player win!"
 ],
 correct: [
-  "Nice work! Beep boop! You're getting good at this!",
-  "Wow! Whirrr! You're fast!",
-  "bzzt! Impressive! You're keeping up with me, RoboBuddy! ",
-  "Beep beep! Great job! This is exciting"
+  "Nice work! Beep boop You're getting good at this!",
+  "Wow! Whirrr You're fast!",
+  "bzzt Impressive! You're keeping up with me, RoboBuddy! ",
+  "Beep beep Great job! This is exciting"
 ],
 nearEnd: [
-  "Beep beep! Oh no! You're so close to the fruit! ",
-  "This is getting intense! My gears are spinning, whirr whirr!",
-  "You might actually beat me! bzzt bzzt!",
-  "Boop! I can almost taste that fruit... or can you? "
+  "Beep beep Oh no! You're so close to the fruit! ",
+  "This is getting intense! My gears are spinning, whirr whirr",
+  "You might actually beat me! bzzt bzzt",
+  "Boop I can almost taste that fruit... or can you? "
 ],
 playerWin: [
   "Congratulations! You won the {prize}! My sensors say beep boop, you deserved it!",
-  "Amazing! You earned that {prize}! Save me a digital bite, whirr!",
-  "You're too good! Enjoy your {prize}, champion! Bzzt!",
-  "Wow! You really are fast! That {prize} is all yours! Beep!"
+  "Amazing! You earned that {prize}! Save me a digital bite, whirr",
+  "You're too good! Enjoy your {prize}, champion! Bzzt",
+  "Wow! You really are fast! That {prize} is all yours! Beep"
 ],
 characterWin: [
-  "Ha ha! RoboBuddy got the {prize} this time! Whirr!",
-  " beep boop! Better luck next time! This {prize} is delicious... even for a robot",
+  "Ha ha! RoboBuddy got the {prize} this time! Whirr",
+  " beep boop Better luck next time! This {prize} is delicious... even for a robot",
   "Ooh! I win! Want to try again, human friend? ",
-  "boop! Nice try! I'll share this {prize} with you—robots are generous too"
+  "boop Nice try! I'll share this {prize} with you—robots are generous too"
 ]
 
   };
