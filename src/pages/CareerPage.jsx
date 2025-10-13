@@ -129,7 +129,7 @@ const CareersPage = () => {
             Social Media Manager
           </h1>
           <div className="inline-block bg-[var(--color-secondary)] text-gray-900 px-4 py-1 rounded-full text-sm font-semibold mb-4">
-            Part-time (3 days/week) • ₦50,000/month • Remote/Hybrid
+            Intern/ Part-time (4 days/week) • ₦50,000/month • Remote/Hybrid
           </div>
           <p className="text-[var(--color-text)] opacity-80 max-w-2xl mx-auto">
             We're looking for a creative and data-driven Social Media Manager to grow our brand's online presence across YouTube, TikTok, Twitter (X), Facebook, Instagram, and LinkedIn.
@@ -241,7 +241,7 @@ const CareersPage = () => {
                   onChange={handleInputChange}
                   disabled={uploading}
                   className="w-full px-4 py-2 bg-[var(--color-bg)] text-[var(--color-text)] border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] disabled:opacity-50"
-                  placeholder="+234 (70) 30-00-0000"
+                  placeholder="070 30-00-0000"
                   required
                 />
               </div>

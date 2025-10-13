@@ -42,7 +42,7 @@ const socialLinks = [
   { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61576976462758', icon: <Facebook size={20} /> },
   { label: 'X (Twitter)', href: 'https://x.com/curiousLabKids', icon: <XIcon /> },
   { label: 'Instagram', href: 'https://www.instagram.com/curiouslab_academy/', icon: <Instagram size={20} /> },
-  { label: 'TikTok', href: 'https://www.tiktok.com/@curiouslabacademy', icon: <TiktokIcon /> },
+  { label: 'TikTok', href: 'https://www.instagram.com/curiouslab_academy/', icon: <TiktokIcon /> },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/company/107929771/admin/dashboard/', icon: <Linkedin size={20} /> },
   { label: 'YouTube', href: '#', icon: <Youtube size={20} /> },
 ];
