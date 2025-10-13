@@ -18,8 +18,8 @@ const RESUME_BUCKET = 'curiouslab-academy.firebasestorage.app';
 const ADMIN_EMAIL = 'messiovo@gmail.com';
 const COMPANY_NAME = 'CuriousLab Academy';
 const COMPANY_WEBSITE = 'https://curiouslabacademy.com';
-const COMPANY_LOGO = 'https://curiouslabacademy.com/logo.png'; // Update with actual logo URL
-const COMPANY_COLOR = '#2563eb';
+const COMPANY_LOGO = 'https://curiouslabacademy.com/logo.png'; 
+const COMPANY_COLOR = '#2d3748';
 
 // --- Resume Parsing Helpers ---
 
@@ -160,10 +160,10 @@ Please provide the evaluation in JSON format with the following strict schema:
 
 function getEmailHeader() {
   return `
-    <div style="background-color: ${COMPANY_COLOR}; padding: 30px 20px; text-align: center;">
-      <img src="${COMPANY_LOGO}" alt="${COMPANY_NAME}" style="max-width: 180px; height: auto; margin-bottom: 10px;" />
-      <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 600;">${COMPANY_NAME}</h1>
-    </div>
+    <div style="background-color: ${COMPANY_COLOR}; padding: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+        <img src="${COMPANY_LOGO}" alt="${COMPANY_NAME}" style="max-width: 60px; height: auto;" />
+        <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 600;">${COMPANY_NAME}</h1>
+     </div>
   `;
 }
 
@@ -187,8 +187,9 @@ function getEmailFooter() {
                 <td style="padding: 0 10px;">
                   <a href="https://www.instagram.com/curiouslab_academy/" style="color: #6b7280; text-decoration: none; font-size: 14px;">Instagram</a>
                 </td>
+                <td style="padding: 0 10px; color: #d1d5db;">|</td>
                 <td style="padding: 0 10px;">
-                  <a href="https://www.instagram.com/curiouslab_academy/" style="color: #6b7280; text-decoration: none; font-size: 14px;">TikTok</a>
+                  <a href="https://www.tiktok.com/@curiouslabacademy" style="color: #6b7280; text-decoration: none; font-size: 14px;">TikTok</a>
                 </td>
                 <td style="padding: 0 10px; color: #d1d5db;">|</td>
                 <td style="padding: 0 10px;">
@@ -289,7 +290,7 @@ function getEmailTemplate(fitLevel, applicantName, fitScore) {
         </ol>
         
         <div style="text-align: center; margin: 35px 0;">
-          <a href="https://calendly.com/mercy-curiouslabacademy/30min"  
+          <a href="https://calendly.com/mercy-curiouslabacademy/interview-session"  
              style="background-color: ${COMPANY_COLOR}; color: white; padding: 14px 35px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: 600; font-size: 16px; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);">
             Schedule Your Interview →
           </a>

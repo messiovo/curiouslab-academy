@@ -314,12 +314,12 @@ const CareersPage = () => {
 
             <div>
               <label className="block text-[var(--color-text)] font-medium mb-2">
-                Resume (PDF or DOCX) *
+                Resume (PDF) *
               </label>
               <div className="relative">
                 <input
                   type="file"
-                  accept=".pdf,.doc,.docx"
+                  accept=".pdf"
                   onChange={handleFileChange}
                   disabled={uploading}
                   className="hidden"
@@ -336,7 +336,7 @@ const CareersPage = () => {
                       {file ? file.name : 'Click to upload resume'}
                     </p>
                     <p className="text-[var(--color-text)] opacity-60 text-sm mt-1">
-                      PDF or DOCX (max 10MB)
+                      PDF (max 10MB)
                     </p>
                   </div>
                 </label>
