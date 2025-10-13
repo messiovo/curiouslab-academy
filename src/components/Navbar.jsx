@@ -23,6 +23,7 @@ const navLinksData = [
   { title: 'Courses', href: '/courses' },
   { title: 'About', href: '/about' },
   { title: 'Contact', href: '/contact' },
+  { title: 'Career', href: '/careers' },
 ];
 
 const mobileMenuVariants = {

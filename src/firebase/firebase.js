@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage'; // Needed for resume uploads
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCpmYkXQaRWL9DexZ45XRAFc45B18V0oZ4",
@@ -12,6 +13,12 @@ const firebaseConfig = {
   measurementId: "G-WS4LE6JSK6"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+
+// Initialize and export all required services
 export const db = getFirestore(app);
+export const storage = getStorage(app); // Exporting Storage service
+export const auth = getAuth(app);
+
+export default app;

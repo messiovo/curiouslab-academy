@@ -1,39 +1,113 @@
 // src/pages/AbacusPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Abacus from '../components/Abacus';
 import PracticeMode from '../components/PracticeMode';
 import GameTime from '../components/GameTime';
-import { BookOpen, Calculator, Brain, Target, GamepadIcon, ChevronDown, ChevronUp } from 'lucide-react';
+import AuthModal from '../components/AuthModal';
+import { BookOpen, Calculator, Brain, Target, GamepadIcon, ChevronDown, ChevronUp, User, LogOut, Crown } from 'lucide-react';
+import { logout } from '../auth/authService';
 
-const AbacusPage = () => {
+const AbacusPage = ({ user, userProgress, onProgressUpdate }) => {
   const [currentValue, setCurrentValue] = useState(0);
   const [mode, setMode] = useState('free'); // 'free', 'practice', or 'game'
   const [showInstructions, setShowInstructions] = useState(false);
   const [showTips, setShowTips] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
+
+  // Check if user has premium access (logged in)
+  const hasPremiumAccess = !!user;
+
+  // Handle mode change with premium check
+  const handleModeChange = (newMode) => {
+  setMode(newMode);
+};
+
+  // Handle successful authentication
+  const handleAuthSuccess = (authenticatedUser) => {
+    setShowAuthModal(false);
+    setMode('game'); // Automatically switch to game mode after login
+    console.log("User authenticated, switching to game mode");
+  };
+
+  // Handle logout
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setMode('free'); // Reset to free mode when logged out
+      console.log("User logged out, switched to free mode");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
+  // Auto-refresh progress when user changes
+  useEffect(() => {
+    if (user && onProgressUpdate) {
+      onProgressUpdate();
+    }
+  }, [user, onProgressUpdate]);
 
   return (
     <div className="min-h-screen bg-bg text-text">
       {/* Header */}
-      <div className="bg-card-bg shadow-lg">
-        <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
-          <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2">
-              Interactive Abacus
-            </h1>
-            <p className="text-text/70 text-sm sm:text-base lg:text-lg px-2">
-              Learn mental math by moving the beads!{' '}
-              <span className="hidden sm:inline">Click beads to activate them.</span>
-            </p>
-          </div>
-        </div>
+<div className="bg-card-bg shadow-lg">
+  <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+    {/* Main content row - becomes column on mobile */}
+    <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
+      {/* Title and description */}
+      <div className="text-center sm:text-left flex-1 order-2 sm:order-1">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2">
+          Interactive Abacus
+        </h1>
+        <p className="text-text/70 text-sm sm:text-base lg:text-lg px-2 sm:px-0">
+          Learn mental math by moving the beads!{' '}
+          <span className="hidden sm:inline">Click beads to activate them.</span>
+          <span className="sm:hidden">Tap beads to activate them.</span>
+        </p>
       </div>
+      
+      {/* User Status - stacks under on mobile */}
+      <div className="flex items-center justify-center sm:justify-end w-full sm:w-auto order-1 sm:order-2">
+        {user ? (
+          <div className="flex items-center space-x-2 bg-primary/10 rounded-lg px-3 py-2 w-full sm:w-auto justify-between sm:justify-start">
+            <div className="flex items-center space-x-2">
+              <Crown size={16} className="text-yellow-500" />
+              <div className="text-right sm:text-left">
+                <p className="text-xs text-primary font-semibold">Premium User</p>
+                <p className="text-xs text-text/60 truncate max-w-32 sm:max-w-24">
+                  {user.displayName || user.email}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="p-1 hover:bg-red-100 dark:hover:bg-red-900/20 rounded transition-colors"
+              title="Logout"
+            >
+              <LogOut size={14} className="text-red-500" />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => setShowAuthModal(true)}
+            className="flex items-center space-x-2 bg-primary text-white px-3 py-2 rounded-lg hover:bg-primary/80 transition-colors text-sm w-full sm:w-auto justify-center"
+          >
+            <User size={16} />
+            <span>Sign In</span>
+          </button>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* Mode Selection */}
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
         {/* Mobile: Stacked buttons */}
         <div className="flex flex-col sm:hidden space-y-2 mb-6">
           <button
-            onClick={() => setMode('free')}
+            onClick={() => handleModeChange('free')}
             className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-semibold transition-colors touch-manipulation ${
               mode === 'free'
                 ? 'bg-primary text-white'
@@ -44,7 +118,7 @@ const AbacusPage = () => {
             <span>Free Mode</span>
           </button>
           <button
-            onClick={() => setMode('practice')}
+            onClick={() => handleModeChange('practice')}
             className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-semibold transition-colors touch-manipulation ${
               mode === 'practice'
                 ? 'bg-primary text-white'
@@ -55,22 +129,25 @@ const AbacusPage = () => {
             <span>Practice Mode</span>
           </button>
           <button
-            onClick={() => setMode('game')}
-            className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-semibold transition-colors touch-manipulation ${
+            onClick={() => handleModeChange('game')}
+            className={`relative flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-semibold transition-colors touch-manipulation ${
               mode === 'game'
                 ? 'bg-primary text-white'
                 : 'bg-card-bg text-text active:bg-primary/20'
-            }`}
+            } ${!hasPremiumAccess ? 'border-2 border-yellow-400' : ''}`}
           >
             <GamepadIcon size={18} />
             <span>Game Time</span>
+            {!hasPremiumAccess && (
+              <Crown size={16} className="text-yellow-500 absolute -top-1 -right-1" />
+            )}
           </button>
         </div>
 
         {/* Desktop: Horizontal buttons */}
         <div className="hidden sm:flex justify-center space-x-2 lg:space-x-4 mb-6 lg:mb-8">
           <button
-            onClick={() => setMode('free')}
+            onClick={() => handleModeChange('free')}
             className={`flex items-center space-x-2 px-4 lg:px-6 py-2 lg:py-3 rounded-lg font-semibold transition-colors ${
               mode === 'free'
                 ? 'bg-primary text-white'
@@ -81,7 +158,7 @@ const AbacusPage = () => {
             <span className="text-sm lg:text-base">Free Mode</span>
           </button>
           <button
-            onClick={() => setMode('practice')}
+            onClick={() => handleModeChange('practice')}
             className={`flex items-center space-x-2 px-4 lg:px-6 py-2 lg:py-3 rounded-lg font-semibold transition-colors ${
               mode === 'practice'
                 ? 'bg-primary text-white'
@@ -92,24 +169,58 @@ const AbacusPage = () => {
             <span className="text-sm lg:text-base">Practice Mode</span>
           </button>
           <button
-            onClick={() => setMode('game')}
-            className={`flex items-center space-x-2 px-4 lg:px-6 py-2 lg:py-3 rounded-lg font-semibold transition-colors ${
+            onClick={() => handleModeChange('game')}
+            className={`relative flex items-center space-x-2 px-4 lg:px-6 py-2 lg:py-3 rounded-lg font-semibold transition-colors ${
               mode === 'game'
                 ? 'bg-primary text-white'
                 : 'bg-card-bg text-text hover:bg-primary/20'
-            }`}
+            } ${!hasPremiumAccess ? 'border-2 border-yellow-400 ' : ''}`}
           >
             <GamepadIcon size={20} />
             <span className="text-sm lg:text-base">Game Time</span>
+            {!hasPremiumAccess && (
+              <Crown size={16} className="text-yellow-500" />
+            )}
           </button>
         </div>
 
+        {/* User Progress Display */}
+        {user && userProgress && (
+          <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                  <User size={20} className="text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-primary">Welcome back!</h3>
+                  <p className="text-sm text-text/60">
+                    Stage {userProgress.currentStage + 1} • 
+                    {userProgress.earnedPrizes?.length || 0} prizes earned
+                  </p>
+                </div>
+              </div>
+              <div className="text-right">
+                <p className="text-sm text-text/60">Total Score</p>
+                <p className="text-lg font-bold text-primary">
+                  {userProgress.totalScore?.toLocaleString() || 0}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Main Content */}
         <div className="space-y-6">
-          {/* GameTime Component - Displayed above abacus in vertical stack */}
-          {mode === 'game' && (
+          {/* GameTime Component - Only show if user has premium access and is in game mode */}
+          {mode === 'game' && hasPremiumAccess && (
             <div className="w-full">
-              <GameTime currentValue={currentValue} />
+              <GameTime 
+                currentValue={currentValue} 
+                user={user}
+                userProgress={userProgress}
+                onProgressUpdate={onProgressUpdate}
+              />
             </div>
           )}
 
@@ -120,8 +231,8 @@ const AbacusPage = () => {
             </div>
           )}
 
-          {/* Abacus - Always visible at the bottom */}
-          <div className="w-full">
+          {/* Abacus - Always visible */}
+          <div className="w-full pt-0 md:py-6">
             <Abacus onValueChange={setCurrentValue} />
           </div>
 
@@ -259,6 +370,13 @@ const AbacusPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Authentication Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+      />
     </div>
   );
 };
