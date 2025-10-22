@@ -18,16 +18,20 @@ const AbacusPage = ({ user, userProgress, onProgressUpdate }) => {
   // Check if user has premium access (logged in)
   const hasPremiumAccess = !!user;
 
-  // Handle mode change with premium check
+  // Handle mode change - game mode now accessible without login
   const handleModeChange = (newMode) => {
-  setMode(newMode);
-};
+    setMode(newMode);
+  };
 
   // Handle successful authentication
   const handleAuthSuccess = (authenticatedUser) => {
     setShowAuthModal(false);
-    setMode('game'); // Automatically switch to game mode after login
-    console.log("User authenticated, switching to game mode");
+    console.log("User authenticated, staying in current mode");
+  };
+
+  // Handle login required from GameTime component
+  const handleLoginRequired = () => {
+    setShowAuthModal(true);
   };
 
   // Handle logout
@@ -134,12 +138,14 @@ const AbacusPage = ({ user, userProgress, onProgressUpdate }) => {
               mode === 'game'
                 ? 'bg-primary text-white'
                 : 'bg-card-bg text-text active:bg-primary/20'
-            } ${!hasPremiumAccess ? 'border-2 border-yellow-400' : ''}`}
+            }`}
           >
             <GamepadIcon size={18} />
             <span>Game Time</span>
             {!hasPremiumAccess && (
-              <Crown size={16} className="text-yellow-500 absolute -top-1 -right-1" />
+              <span className="text-xs bg-yellow-500 text-white px-2 py-0.5 rounded-full ml-2">
+                2 Free
+              </span>
             )}
           </button>
         </div>
@@ -174,15 +180,34 @@ const AbacusPage = ({ user, userProgress, onProgressUpdate }) => {
               mode === 'game'
                 ? 'bg-primary text-white'
                 : 'bg-card-bg text-text hover:bg-primary/20'
-            } ${!hasPremiumAccess ? 'border-2 border-yellow-400 ' : ''}`}
+            }`}
           >
             <GamepadIcon size={20} />
             <span className="text-sm lg:text-base">Game Time</span>
             {!hasPremiumAccess && (
-              <Crown size={16} className="text-yellow-500" />
+              <span className="text-xs bg-yellow-500 text-white px-2 py-0.5 rounded-full ml-2">
+                2 Free Stages
+              </span>
             )}
           </button>
         </div>
+
+        {/* Free stages info banner for non-authenticated users in game mode */}
+        {!user && mode === 'game' && (
+          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-400 rounded-xl p-4 mb-6">
+            <div className="flex items-start space-x-3">
+              <Crown size={20} className="text-yellow-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="font-semibold text-yellow-800 dark:text-yellow-200 mb-1">
+                  Try 2 Free Stages!
+                </h3>
+                <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                  Play Apple Race and Orange Challenge for free. Sign in to unlock all 5 stages and save your progress!
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* User Progress Display */}
         {user && userProgress && (
@@ -212,14 +237,15 @@ const AbacusPage = ({ user, userProgress, onProgressUpdate }) => {
 
         {/* Main Content */}
         <div className="space-y-6">
-          {/* GameTime Component - Only show if user has premium access and is in game mode */}
-          {mode === 'game' && hasPremiumAccess && (
+          {/* GameTime Component - Now accessible without login */}
+          {mode === 'game' && (
             <div className="w-full">
               <GameTime 
                 currentValue={currentValue} 
                 user={user}
                 userProgress={userProgress}
                 onProgressUpdate={onProgressUpdate}
+                onLoginRequired={handleLoginRequired}
               />
             </div>
           )}

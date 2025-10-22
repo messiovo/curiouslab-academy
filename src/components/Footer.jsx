@@ -1,21 +1,11 @@
 // src/components/Footer.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Linkedin, Youtube, Mail, Phone, ChevronDown } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Youtube, Mail, Phone } from 'lucide-react';
 
 // Import your logo files
 import logoLight from '../assets/images/logo-light.svg';
 import logoDark from '../assets/images/logo-dark.svg';
-
-// CuriousLab programs (same as navbar)
-const curiousLabPrograms = [
-  { title: 'CuriousLab Abacus', href: '/abacus-learning' },
-  { title: 'CuriousLab 11+ Math', href: '/math-11-plus' },
-  { title: 'CuriousLab 13+ Science', href: '/science-13-plus' },
-  { title: 'CuriousLab English Express', href: '/english-express' },
-  { title: 'CuriousLab AI Innovators', href: '/ai-innovators' },
-  { title: 'CuriousLab Yoruba Heritage', href: '/yoruba-heritage' },
-];
 
 const quickLinks = [
   { title: 'About Us', href: '/about' },
@@ -23,6 +13,7 @@ const quickLinks = [
   { title: 'Contact', href: '/contact' },
   { title: 'Terms of Service', href: '/terms-of-service' },
   { title: 'Privacy Policy', href: '/privacy-policy' },
+  { title: 'Ms. Abacus by CuriousLab', href: '/abacus-learning' },
 ];
 
 // Custom SVG icons for X (Twitter) and TikTok
@@ -48,8 +39,6 @@ const socialLinks = [
 ];
 
 const Footer = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   return (
     <footer className="bg-card-bg text-text border-t border-black/10 dark:border-white/10">
       <div className="container mx-auto px-6 py-12">
@@ -80,33 +69,35 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3: CuriousLab Programs */}
+          {/* Column 3: Programs */}
           <div>
-            <button
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center font-bold text-lg mb-4 hover:text-primary dark:hover:text-secondary transition-colors"
-            >
-              CuriousLab Learning Platforms & Games
-              <ChevronDown 
-                size={16} 
-                className={`ml-2 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
-              />
-            </button>
-            
-            <div className={`overflow-hidden transition-all duration-300 ${isDropdownOpen ? 'max-h-96 opacity-100' : 'max-h-20 opacity-70'}`}>
-              <ul className="space-y-2">
-                {curiousLabPrograms.map(program => (
-                  <li key={program.title}>
-                    <Link 
-                      to={program.href} 
-                      className="hover:text-primary dark:hover:text-secondary transition-colors text-sm block"
-                    >
-                      {program.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <h3 className="font-bold text-lg mb-4">Our Products</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link 
+                  to="/abacus-learning" 
+                  className="hover:text-primary dark:hover:text-secondary transition-colors text-sm block"
+                >
+                  Ms. Abacus by CuriousLab
+                </Link>
+              </li>
+              {/* Add other programs here as direct links when needed */}
+              { <li>
+                <Link to="/readlab" className="hover:text-primary dark:hover:text-secondary transition-colors text-sm block">
+                  ReadLab by CuriousLab
+                </Link>
+              </li> }
+              { <li>
+                <Link to="/science-quest" className="hover:text-primary dark:hover:text-secondary transition-colors text-sm block">
+                  Science Quest 
+                </Link>
+              </li> }
+               { <li>
+                <Link to="/thinklab" className="hover:text-primary dark:hover:text-secondary transition-colors text-sm block">
+                  ThinkLab (Critical Thinking & Logic)
+                </Link>
+              </li> }
+            </ul>
           </div>
 
           {/* Column 4: Connect With Us */}

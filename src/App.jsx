@@ -14,6 +14,8 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import CareerPage from './pages/CareerPage';
 import AbacusPage from './pages/AbacusPage';
+import AbacusDashboard from './pages/AbacusDashboard';
+import ComingSoon from './pages/ComingSoon';
 import NotFoundPage from './pages/NotFoundPage';
 import EnrollmentPage from './pages/EnrollmentPage';
 import AdminDashboard from './pages/AdminDashboard';
@@ -144,7 +146,8 @@ function App() {
     return (
       <div className="flex items-center justify-center min-h-screen bg-bg">
         <div className="text-center">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-8 h-8 border-4 border-t-transparent rounded-full animate-spin mx-auto mb-4" 
+            style={{ borderColor: 'var(--color-primary)', borderTopColor: 'transparent' }}></div>
           <p className="text-text/60">Loading application data...</p>
         </div>
       </div>
@@ -173,8 +176,10 @@ function App() {
             } 
           />
             
+          {/* ABACUS LEARNING ROUTES */}
+          <Route path="/abacus-learning" element={<AbacusDashboard />} />
           <Route 
-            path="/abacus-learning" 
+            path="/abacus/place-value" 
             element={
               <AbacusPage 
                 user={user}
@@ -182,7 +187,15 @@ function App() {
                 onProgressUpdate={refreshUserProgress}
               />
             } 
-          /> 
+          />
+          <Route 
+            path="/abacus/1-column-no-friends" 
+            element={<ComingSoon title="1 Column (No Friends)" />} 
+          />
+          <Route 
+            path="/abacus/mind-abacus" 
+            element={<ComingSoon title="Mind Abacus" />} 
+          />
 
           <Route path="/enroll" element={<EnrollmentPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />

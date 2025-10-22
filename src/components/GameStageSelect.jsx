@@ -9,13 +9,11 @@ const GameStageSelect = ({
   onStageSelect, 
   earnedPrizes, 
   user,
-  onLoginRequired 
+  onLoginRequired,
+  freeStagesLimit = 2
 }) => {
-  // Define which stages require premium access (stages 3+ = index 2+)
-  const PREMIUM_STAGE_START = 2;
-
   const handleStageClick = (index) => {
-    const isPremiumStage = index >= PREMIUM_STAGE_START;
+    const isPremiumStage = index >= freeStagesLimit;
     const hasAuth = !!user;
     const isUnlockedByProgress = index <= unlockedStages;
 
@@ -44,20 +42,21 @@ const GameStageSelect = ({
           </div>
         ) : (
           <p className="text-sm text-text/60">
-            Sign in to unlock premium stages (3+) and save your progress
+            Play {freeStagesLimit} free stages! Sign in to unlock all {stages.length} stages and save your progress
           </p>
         )}
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {stages.map((stage, index) => {
-          const isPremiumStage = index >= PREMIUM_STAGE_START;
+          const isPremiumStage = index >= freeStagesLimit;
           const hasAuth = !!user;
           const isUnlockedByProgress = index <= unlockedStages;
           const isUnlocked = isUnlockedByProgress && (isPremiumStage ? hasAuth : true);
           const isCompleted = earnedPrizes.includes(stage.prize);
           const isCurrent = index === currentStage;
           const needsAuth = isPremiumStage && !hasAuth;
+          const isFreeStage = index < freeStagesLimit;
 
           return (
             <button
@@ -86,10 +85,17 @@ const GameStageSelect = ({
                 </div>
               )}
 
+              {/* Free Badge */}
+              {isFreeStage && !user && (
+                <div className="absolute -top-2 -left-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                  FREE
+                </div>
+              )}
+
               {/* Stage Number */}
               <div className="text-sm font-bold text-text/70 mb-2 flex items-center justify-between">
                 <span>Stage {index + 1}</span>
-                {isPremiumStage && (
+                {isPremiumStage && !user && (
                   <span className="text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded-full">
                     Premium
                   </span>
@@ -111,7 +117,7 @@ const GameStageSelect = ({
               {needsAuth && (
                 <div className="text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded mb-2 flex items-center justify-center space-x-1">
                   <User size={12} />
-                  <span>Login Required</span>
+                  <span>Sign In to Unlock</span>
                 </div>
               )}
 
@@ -142,24 +148,24 @@ const GameStageSelect = ({
       {/* Premium Info Footer */}
       {!user && (
         <div className="mt-6 p-4 bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="flex items-center space-x-3">
               <Crown size={24} className="text-yellow-600" />
               <div>
                 <h4 className="font-semibold text-yellow-800 dark:text-yellow-200">
-                  Unlock Premium Stages
+                  Unlock All {stages.length} Stages
                 </h4>
                 <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                  Sign in for free to access stages 3+ and save your progress
+                  Sign in for free to access stages {freeStagesLimit + 1}+ and save your progress
                 </p>
               </div>
             </div>
             <div className="text-right">
               <p className="text-xs text-yellow-600 dark:text-yellow-400">
-                {stages.length - PREMIUM_STAGE_START} Premium Stages
+                {stages.length - freeStagesLimit} Premium Stages
               </p>
               <p className="text-lg font-bold text-yellow-800 dark:text-yellow-200">
-                Free Account
+                Free to Join
               </p>
             </div>
           </div>
@@ -169,7 +175,7 @@ const GameStageSelect = ({
       {/* User Progress Summary for authenticated users */}
       {user && (
         <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
                 <Trophy size={20} className="text-primary" />

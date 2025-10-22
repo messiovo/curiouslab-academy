@@ -1,0 +1,18 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // **RULE 1: PUBLIC WRITE ACCESS FOR APPLICATIONS**
+    // Explicitly grant write access to anyone for the 'artifacts' path
+    match /artifacts/{allApplicantFiles=**} {
+      allow write: if true; 
+    }
+    
+    // **RULE 2: RESTRICTED READ/MANAGE ACCESS (ADMIN ONLY)**
+    // Restrict all other operations (read, delete) across the entire bucket.
+    match /{allPaths=**} {
+      allow read, update, delete: if request.auth != null && 
+                                  request.auth.token.email == "messiovo@gmail.com";
+    }
+  }
+}

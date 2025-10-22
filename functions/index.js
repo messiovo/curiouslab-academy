@@ -160,10 +160,11 @@ Please provide the evaluation in JSON format with the following strict schema:
 
 function getEmailHeader() {
   return `
-    <div style="background-color: ${COMPANY_COLOR}; padding: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-        <img src="${COMPANY_LOGO}" alt="${COMPANY_NAME}" style="max-width: 60px; height: auto;" />
-        <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 600;">${COMPANY_NAME}</h1>
-     </div>
+    <div style="background-color: ${COMPANY_COLOR}; padding: 30px 20px; display: flex; align-items: center; justify-content: center;">
+      <img src="${COMPANY_LOGO}" alt="${COMPANY_NAME}" style="width: 70px; height: auto; margin-right: 10px; vertical-align: middle;" />
+      <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 600; vertical-align: middle;">${COMPANY_NAME}</h1>
+</div>
+
   `;
 }
 

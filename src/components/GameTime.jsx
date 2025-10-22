@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import AnimatedCharacter from './AnimatedCharacter';
 import ProgressRace from './ProgressRace';
 import GameStageSelect from './GameStageSelect';
-import { RefreshCw, Home, Trophy } from 'lucide-react';
+import { RefreshCw, Home, Trophy, Lock } from 'lucide-react';
 import { updateUserStage, completeStage, updateGameStats } from '../auth/userProgress';
 
 const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpdate, onLoginRequired }) => {
+  const FREE_STAGES_LIMIT = 2; // Users can play stages 0 and 1 (Apple Race and Orange Challenge) without login
+
   const [gameStages] = useState([
     { name: "Apple Race", maxValue: 99, prize: "🍎", steps: 10 },
     { name: "Orange Challenge", maxValue: 999, prize: "🍊", steps: 10 },
@@ -22,7 +24,7 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
   const [characterProgress, setCharacterProgress] = useState(0);
   const [characterMood, setCharacterMood] = useState('happy');
   const [characterMessage, setCharacterMessage] = useState('');
-  const [unlockedStages, setUnlockedStages] = useState(1);
+  const [unlockedStages, setUnlockedStages] = useState(user ? 1 : FREE_STAGES_LIMIT);
   const [earnedPrizes, setEarnedPrizes] = useState([]);
   const [isCorrect, setIsCorrect] = useState(null);
   const [isCharacterSpeaking, setIsCharacterSpeaking] = useState(false);
@@ -42,11 +44,11 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
         earnedPrizes: userProgress.earnedPrizes
       });
     } else if (!user) {
-      // Reset to defaults for non-authenticated users
-      setCurrentStage(0);
-      setUnlockedStages(1);
+      // For non-authenticated users, allow first 2 stages
+      setUnlockedStages(FREE_STAGES_LIMIT);
       setEarnedPrizes([]);
       setGameState('stageSelect');
+      console.log("Guest mode: Can play first", FREE_STAGES_LIMIT, "stages");
     }
   }, [user, userProgress]);
 
@@ -101,7 +103,21 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
     if (onSetTarget) onSetTarget(newTarget);
   };
 
+  // Check if a stage is accessible (either free or user is logged in)
+  const isStageAccessible = (stageIndex) => {
+    if (user) return true; // Logged in users can access all stages they've unlocked
+    return stageIndex < FREE_STAGES_LIMIT; // Non-logged in users can only access first 2 stages
+  };
+
   const startStage = async (stageIndex) => {
+    // Check if stage requires login
+    if (!isStageAccessible(stageIndex)) {
+      if (onLoginRequired) {
+        onLoginRequired();
+      }
+      return;
+    }
+
     setCurrentStage(stageIndex);
     setGameState('playing');
     setPlayerProgress(0);
@@ -179,12 +195,20 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
             }
           }
         } else {
-          // For non-authenticated users, only update local state
-          if (currentStage === unlockedStages) {
-            setUnlockedStages(prev => Math.min(prev + 1, gameStages.length - 1));
-          }
-          if (!earnedPrizes.includes(gameStages[currentStage].prize)) {
-            setEarnedPrizes(prev => [...prev, gameStages[currentStage].prize]);
+          // For non-authenticated users completing free stages
+          if (currentStage < FREE_STAGES_LIMIT - 1) {
+            // Can unlock next free stage
+            if (currentStage === unlockedStages - 1) {
+              setUnlockedStages(prev => Math.min(prev + 1, FREE_STAGES_LIMIT));
+            }
+            if (!earnedPrizes.includes(gameStages[currentStage].prize)) {
+              setEarnedPrizes(prev => [...prev, gameStages[currentStage].prize]);
+            }
+          } else {
+            // Completed last free stage
+            if (!earnedPrizes.includes(gameStages[currentStage].prize)) {
+              setEarnedPrizes(prev => [...prev, gameStages[currentStage].prize]);
+            }
           }
         }
         
@@ -240,12 +264,16 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
     setCharacterMessage('');
   };
 
- const handleLoginRequired = (stageNumber) => {
-  console.log(`Login required for stage ${stageNumber}`);
-  if (onLoginRequired) {
-    onLoginRequired();
-  }
-};
+  const handleStageSelectClick = (stageIndex) => {
+    if (!isStageAccessible(stageIndex)) {
+      // Trigger login modal
+      if (onLoginRequired) {
+        onLoginRequired();
+      }
+    } else {
+      startStage(stageIndex);
+    }
+  };
 
   if (gameState === 'stageSelect') {
     return (
@@ -254,10 +282,11 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
           stages={gameStages}
           currentStage={currentStage}
           unlockedStages={unlockedStages}
-          onStageSelect={startStage}
+          onStageSelect={handleStageSelectClick}
           earnedPrizes={earnedPrizes}
           user={user}
-          onLoginRequired={handleLoginRequired}
+          onLoginRequired={onLoginRequired}
+          freeStagesLimit={FREE_STAGES_LIMIT}
         />
         
         {/* Earned Prizes Display */}
@@ -281,6 +310,33 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
                 Best Streak: {userProgress.bestStreak || 0}
               </div>
             )}
+            {!user && (
+              <div className="mt-3 text-sm text-text/60">
+                <p>Sign in to save your progress and unlock all stages!</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Premium upgrade prompt for non-authenticated users */}
+        {!user && (
+          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-2 border-yellow-400 rounded-xl p-6">
+            <div className="text-center">
+              <div className="text-4xl mb-3">🏆</div>
+              <h3 className="text-xl font-bold text-yellow-800 dark:text-yellow-200 mb-2">
+                Unlock All Stages!
+              </h3>
+              <p className="text-yellow-700 dark:text-yellow-300 mb-4">
+                Sign in to access all 5 stages, save your progress, and compete for high scores!
+              </p>
+              <button
+                onClick={onLoginRequired}
+                className="bg-primary hover:bg-primary/80 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center space-x-2"
+              >
+                <Lock size={18} />
+                <span>Sign In to Unlock</span>
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -289,6 +345,8 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
 
   if (gameState === 'completed') {
     const playerWon = playerProgress >= gameStages[currentStage].steps;
+    const isLastFreeStage = !user && currentStage === FREE_STAGES_LIMIT - 1;
+    
     return (
       <div className="text-center space-y-6">
         <div className="text-6xl mb-4">
@@ -330,6 +388,27 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
           position={characterProgress}
           onSpeakComplete={handleSpeakComplete}
         />
+
+        {/* Upgrade prompt for non-authenticated users who completed a free stage */}
+        {!user && playerWon && isLastFreeStage && (
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-400 rounded-xl p-6">
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-green-800 dark:text-green-200 mb-2">
+                🎊 Amazing Job! Ready for More?
+              </h3>
+              <p className="text-green-700 dark:text-green-300 mb-4">
+                You've completed the free stages! Sign in to unlock 3 more challenging stages and save your progress.
+              </p>
+              <button
+                onClick={onLoginRequired}
+                className="bg-primary hover:bg-primary/80 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center space-x-2"
+              >
+                <Lock size={18} />
+                <span>Sign In to Continue</span>
+              </button>
+            </div>
+          </div>
+        )}
         
         <div className="flex justify-center space-x-4">
           <button
@@ -355,38 +434,36 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
   return (
     <div className="space-y-6">
       {/* Score and Stats Bar */}
-      {user && (
-        <div className="bg-primary/5 rounded-xl p-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <div className="text-center">
-                <p className="text-lg font-bold text-primary">{currentScore.toLocaleString()}</p>
-                <p className="text-xs text-text/60">Score</p>
-              </div>
-              <div className="text-center">
-                <p className="text-lg font-bold text-green-600">{currentStreak}</p>
-                <p className="text-xs text-text/60">Streak</p>
-              </div>
+      <div className="bg-primary/5 rounded-xl p-4">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <div className="text-center">
+              <p className="text-lg font-bold text-primary">{currentScore.toLocaleString()}</p>
+              <p className="text-xs text-text/60">Score</p>
             </div>
-            <div className="text-right">
-              <p className="text-sm text-text/60">
-                Stage {currentStage + 1}: {gameStages[currentStage].name}
-              </p>
-              <div className="flex items-center space-x-2">
-                <div className="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div 
-                    className="bg-primary h-2 rounded-full transition-all duration-500"
-                    style={{ width: `${(playerProgress / gameStages[currentStage].steps) * 100}%` }}
-                  ></div>
-                </div>
-                <span className="text-sm text-primary font-bold">
-                  {playerProgress}/{gameStages[currentStage].steps}
-                </span>
+            <div className="text-center">
+              <p className="text-lg font-bold text-green-600">{currentStreak}</p>
+              <p className="text-xs text-text/60">Streak</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-text/60">
+              Stage {currentStage + 1}: {gameStages[currentStage].name}
+            </p>
+            <div className="flex items-center space-x-2">
+              <div className="w-20 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div 
+                  className="bg-primary h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${(playerProgress / gameStages[currentStage].steps) * 100}%` }}
+                ></div>
               </div>
+              <span className="text-sm text-primary font-bold">
+                {playerProgress}/{gameStages[currentStage].steps}
+              </span>
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       {/* Character - Top */}
       <div className="flex justify-center">

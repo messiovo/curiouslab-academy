@@ -1,29 +1,20 @@
 // src/components/Navbar.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, Menu, X, ChevronDown } from 'lucide-react';
+import { Sun, Moon, Menu, X } from 'lucide-react';
 
 // 1. Import your logo files
 import logoLight from '../assets/images/logo-light.svg';
 import logoDark from '../assets/images/logo-dark.svg';
-
-// CuriousLab dropdown items - easily add more here
-const curiousLabPrograms = [
-  { title: 'CuriousLab Abacus', href: '/abacus-learning' },
-  { title: 'CuriousLab 11+ Math', href: '/math-11-plus' },
-  { title: 'CuriousLab 13+ Science', href: '/science-13-plus' },
-  { title: 'CuriousLab English Express', href: '/english-express' },
-  { title: 'CuriousLab AI Innovators', href: '/ai-innovators' },
-  { title: 'CuriousLab Yoruba Heritage', href: '/yoruba-heritage' },
-];
 
 const navLinksData = [
   { title: 'Home', href: '/' },
   { title: 'Courses', href: '/courses' },
   { title: 'About', href: '/about' },
   { title: 'Contact', href: '/contact' },
-  { title: 'Career', href: '/careers' },
+  //{ title: 'Career', href: '/careers' },
+  { title: 'Ms. Abacus by CuriousLab', href: '/abacus-learning' },
 ];
 
 const mobileMenuVariants = {
@@ -36,48 +27,17 @@ const menuItemVariants = {
   closed: { y: 20, opacity: 0, transition: { ease: "easeIn" } },
 };
 
-const dropdownVariants = {
-  open: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: { duration: 0.2, ease: "easeOut" }
-  },
-  closed: { 
-    opacity: 0, 
-    y: -10, 
-    scale: 0.95,
-    transition: { duration: 0.15, ease: "easeIn" }
-  },
-};
-
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
 
   useEffect(() => {
     if (isDarkMode) document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
   }, [isDarkMode]);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-    setIsMobileDropdownOpen(false); // Close mobile dropdown when toggling menu
   };
 
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
@@ -95,95 +55,6 @@ const Navbar = () => {
           </Link>
         </motion.li>
       ))}
-      
-      {/* CuriousLab Dropdown */}
-      {isMobile ? (
-        // Mobile dropdown
-        <motion.li variants={menuItemVariants}>
-          <button
-            onClick={() => setIsMobileDropdownOpen(!isMobileDropdownOpen)}
-            className="flex items-center w-full text-left text-text hover:text-primary dark:hover:text-secondary transition-colors font-medium"
-          >
-            CuriousLab Learning Platform & Games
-            <ChevronDown 
-              size={16} 
-              className={`ml-1 transform transition-transform ${isMobileDropdownOpen ? 'rotate-180' : ''}`}
-            />
-          </button>
-          <AnimatePresence>
-            {isMobileDropdownOpen && (
-              <motion.ul
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="mt-3 ml-4 space-y-3 border-l-2 border-primary/20 pl-4"
-              >
-                {curiousLabPrograms.map(program => (
-                  <motion.li 
-                    key={program.title}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 }}
-                  >
-                    <Link
-                      to={program.href}
-                      onClick={toggleMobileMenu}
-                      className="text-text/80 hover:text-primary dark:hover:text-secondary transition-colors text-sm"
-                    >
-                      {program.title}
-                    </Link>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            )}
-          </AnimatePresence>
-        </motion.li>
-      ) : (
-        // Desktop dropdown
-        <li className="relative" ref={dropdownRef}>
-          <button
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            onMouseEnter={() => setIsDropdownOpen(true)}
-            className="flex items-center text-text hover:text-primary dark:hover:text-secondary transition-colors font-medium"
-          >
-            CuriousLab Learning Platform & Games
-            <ChevronDown 
-              size={16} 
-              className={`ml-1 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
-            />
-          </button>
-          
-          <AnimatePresence>
-            {isDropdownOpen && (
-              <motion.div
-                initial="closed"
-                animate="open"
-                exit="closed"
-                variants={dropdownVariants}
-                onMouseEnter={() => setIsDropdownOpen(true)}
-                onMouseLeave={() => setIsDropdownOpen(false)}
-                className="absolute top-full left-0 mt-2 w-64 bg-bg border border-black/10 dark:border-white/10 rounded-lg shadow-xl z-50"
-              >
-                <ul className="py-2">
-                  {curiousLabPrograms.map((program, index) => (
-                    <li key={program.title}>
-                      <Link
-                        to={program.href}
-                        className="block px-4 py-3 text-text hover:bg-primary/10 dark:hover:bg-secondary/10 hover:text-primary dark:hover:text-secondary transition-colors"
-                      >
-                        {program.title}
-                      </Link>
-                      {index < curiousLabPrograms.length - 1 && (
-                        <hr className="border-black/5 dark:border-white/5" />
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </li>
-      )}
     </>
   );
 
