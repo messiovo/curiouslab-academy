@@ -24,7 +24,7 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
   const [characterProgress, setCharacterProgress] = useState(0);
   const [characterMood, setCharacterMood] = useState('happy');
   const [characterMessage, setCharacterMessage] = useState('');
-  const [unlockedStages, setUnlockedStages] = useState(user ? 1 : FREE_STAGES_LIMIT);
+  const [unlockedStages, setUnlockedStages] = useState(user ? gameStages.length - 1 : FREE_STAGES_LIMIT - 1);
   const [earnedPrizes, setEarnedPrizes] = useState([]);
   const [isCorrect, setIsCorrect] = useState(null);
   const [isCharacterSpeaking, setIsCharacterSpeaking] = useState(false);
@@ -36,21 +36,22 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
   useEffect(() => {
     if (user && userProgress) {
       setCurrentStage(userProgress.currentStage || 0);
-      setUnlockedStages(userProgress.unlockedStages || 0);
+      // For authenticated users, unlock all stages (not just progress-based)
+      setUnlockedStages(gameStages.length - 1);
       setEarnedPrizes(userProgress.earnedPrizes || []);
       console.log("Game state loaded from user progress:", {
         currentStage: userProgress.currentStage,
-        unlockedStages: userProgress.unlockedStages,
+        unlockedStages: gameStages.length - 1,
         earnedPrizes: userProgress.earnedPrizes
       });
     } else if (!user) {
       // For non-authenticated users, allow first 2 stages
-      setUnlockedStages(FREE_STAGES_LIMIT);
+      setUnlockedStages(FREE_STAGES_LIMIT - 1);
       setEarnedPrizes([]);
       setGameState('stageSelect');
       console.log("Guest mode: Can play first", FREE_STAGES_LIMIT, "stages");
     }
-  }, [user, userProgress]);
+  }, [user, userProgress, gameStages.length]);
 
   const handleSpeakComplete = () => {
     setIsCharacterSpeaking(false);
@@ -105,7 +106,7 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
 
   // Check if a stage is accessible (either free or user is logged in)
   const isStageAccessible = (stageIndex) => {
-    if (user) return true; // Logged in users can access all stages they've unlocked
+    if (user) return true; // Logged in users can access all stages
     return stageIndex < FREE_STAGES_LIMIT; // Non-logged in users can only access first 2 stages
   };
 
@@ -166,16 +167,13 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
         // Update progress for authenticated users
         if (user) {
           try {
-            // Complete current stage and unlock next
-            const nextStage = await completeStage(user.uid, currentStage, gameStages[currentStage].prize);
+            // Complete current stage
+            await completeStage(user.uid, currentStage, gameStages[currentStage].prize);
             
             // Update game statistics
             await updateGameStats(user.uid, newScore, newStreak);
             
             // Update local state
-            if (currentStage === unlockedStages) {
-              setUnlockedStages(Math.min(nextStage, gameStages.length - 1));
-            }
             if (!earnedPrizes.includes(gameStages[currentStage].prize)) {
               setEarnedPrizes(prev => [...prev, gameStages[currentStage].prize]);
             }
@@ -187,9 +185,6 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
           } catch (error) {
             console.error("Failed to save stage completion:", error);
             // Still update local state even if save fails
-            if (currentStage === unlockedStages) {
-              setUnlockedStages(prev => Math.min(prev + 1, gameStages.length - 1));
-            }
             if (!earnedPrizes.includes(gameStages[currentStage].prize)) {
               setEarnedPrizes(prev => [...prev, gameStages[currentStage].prize]);
             }
@@ -198,8 +193,8 @@ const GameTime = ({ currentValue, onSetTarget, user, userProgress, onProgressUpd
           // For non-authenticated users completing free stages
           if (currentStage < FREE_STAGES_LIMIT - 1) {
             // Can unlock next free stage
-            if (currentStage === unlockedStages - 1) {
-              setUnlockedStages(prev => Math.min(prev + 1, FREE_STAGES_LIMIT));
+            if (currentStage === unlockedStages) {
+              setUnlockedStages(prev => Math.min(prev + 1, FREE_STAGES_LIMIT - 1));
             }
             if (!earnedPrizes.includes(gameStages[currentStage].prize)) {
               setEarnedPrizes(prev => [...prev, gameStages[currentStage].prize]);

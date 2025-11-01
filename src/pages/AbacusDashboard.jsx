@@ -29,7 +29,7 @@ const AbacusDashboard = () => {
     color:
       'from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20',
     borderColor: 'border-blue-300 dark:border-blue-700',
-    available: false,
+    available: true,
   },
   {
     id: '1-column-small-friends',
@@ -94,7 +94,6 @@ const AbacusDashboard = () => {
   
 ];
 
-
   const handleModuleClick = (module) => {
     if (module.available) {
       navigate(module.route);
@@ -104,17 +103,20 @@ const AbacusDashboard = () => {
   return (
     <div className="min-h-screen bg-bg text-text">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border-b border-primary/20">
+      <div className="border-b" style={{ 
+        background: 'linear-gradient(to right, rgba(74, 144, 226, 0.1), rgba(255, 222, 33, 0.1))',
+        borderColor: 'rgba(74, 144, 226, 0.2)'
+      }}>
         <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex items-center justify-center space-x-3 mb-4">
-              <BookOpen size={40} className="text-primary" />
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary">
+              <BookOpen size={40} style={{ color: 'var(--color-primary)' }} />
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold" style={{ color: 'var(--color-primary)' }}>
                 Abacus Learning Dashboard
               </h1>
             </div>
             <p className="text-text/70 text-base sm:text-lg">
-             Join Ms. Abacus and RoboBuddy on a journey to sharpen your mind, one bead at a time! Start with Place Value to learn the basics!
+              Join Ms. Abacus and RoboBuddy on a journey to sharpen your mind, one bead at a time! Start with Place Value to learn the basics!
             </p>
           </div>
         </div>
@@ -128,8 +130,8 @@ const AbacusDashboard = () => {
               key={module.id}
               onClick={() => handleModuleClick(module)}
               className={`
-                relative bg-gradient-to-br ${module.color} 
-                border-2 ${module.borderColor}
+                relative bg-gradient-to-br ${module.color} ${module.darkColor}
+                border-2 ${module.borderColor} ${module.darkBorderColor}
                 rounded-2xl p-6 shadow-lg
                 transition-all duration-300 transform
                 ${module.available 
@@ -140,7 +142,8 @@ const AbacusDashboard = () => {
             >
               {/* Coming Soon Badge */}
               {!module.available && (
-                <div className="absolute -top-3 -right-3 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+                <div className="absolute -top-3 -right-3 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md"
+                  style={{ backgroundColor: 'var(--color-primary)' }}>
                   Coming Soon
                 </div>
               )}
@@ -167,10 +170,11 @@ const AbacusDashboard = () => {
                   transition-all duration-200
                   flex items-center justify-center space-x-2
                   ${module.available
-                    ? 'bg-primary hover:bg-primary/90 text-white shadow-md hover:shadow-lg'
+                    ? 'text-white shadow-md hover:shadow-lg hover:opacity-90'
                     : 'bg-gray-400 text-gray-200 cursor-not-allowed'
                   }
                 `}
+                style={module.available ? { backgroundColor: 'var(--color-primary)' } : {}}
                 disabled={!module.available}
               >
                 <span>{module.available ? 'Start Learning' : 'Coming Soon'}</span>
@@ -185,16 +189,16 @@ const AbacusDashboard = () => {
           <div className="flex items-start space-x-4">
             <div className="text-4xl">🤖</div>
             <div>
-              <h3 className="text-xl font-bold text-primary mb-2">
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--color-primary)' }}>
                 Learning with RoboBuddy
               </h3>
               <p className="text-text/70 text-sm mb-3">
                 Hi there! I'm RoboBuddy, your guide through the world of abacus learning. 
-                Start with <span className="font-semibold text-primary">Place Value</span> to understand 
+                Start with <span className="font-semibold" style={{ color: 'var(--color-primary)' }}>Place Value</span> to understand 
                 how the abacus represents numbers, then move on to more advanced techniques!
               </p>
-              <div className="bg-primary/10 rounded-lg p-3 text-sm text-text/80">
-                <p className="font-semibold text-primary mb-1">💡 Pro Tip:</p>
+              <div className="rounded-lg p-3 text-sm text-text/80" style={{ backgroundColor: 'rgba(74, 144, 226, 0.1)' }}>
+                <p className="font-semibold mb-1" style={{ color: 'var(--color-primary)' }}>💡 Pro Tip:</p>
                 <p>
                   Practice for 10-15 minutes daily. Consistency is key to building strong mental math skills!
                 </p>
@@ -204,7 +208,9 @@ const AbacusDashboard = () => {
         </div>
 
         {/* Progress Tracker */}
-        <div className="mt-8 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-6 max-w-3xl mx-auto">
+        <div className="mt-8 rounded-xl p-6 max-w-3xl mx-auto" style={{ 
+          background: 'linear-gradient(to right, rgba(74, 144, 226, 0.05), rgba(255, 222, 33, 0.05))'
+        }}>
           <h3 className="text-lg font-bold text-text mb-4 text-center">Your Learning Path</h3>
           <div className="flex items-center justify-between max-w-md mx-auto">
             {modules.map((module, index) => (
@@ -215,10 +221,14 @@ const AbacusDashboard = () => {
                       w-12 h-12 rounded-full flex items-center justify-center
                       border-2 transition-all duration-300
                       ${module.available
-                        ? 'bg-primary border-primary text-white'
+                        ? 'text-white border-transparent'
                         : 'bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-500'
                       }
                     `}
+                    style={module.available ? { 
+                      backgroundColor: 'var(--color-primary)',
+                      borderColor: 'var(--color-primary)'
+                    } : {}}
                   >
                     {module.available ? '✓' : index + 1}
                   </div>

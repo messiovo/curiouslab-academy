@@ -25,8 +25,9 @@ const GameStageSelect = ({
       return;
     }
 
-    // Check if stage is unlocked by game progress
-    if (isUnlockedByProgress) {
+    // For authenticated users, all stages are accessible
+    // For non-authenticated users, check if stage is unlocked by progress
+    if (hasAuth || isUnlockedByProgress) {
       onStageSelect(index);
     }
   };
@@ -38,7 +39,7 @@ const GameStageSelect = ({
         {user ? (
           <div className="flex items-center justify-center space-x-2 text-sm text-primary">
             <Crown size={16} className="text-yellow-500" />
-            <span>Premium Access Unlocked</span>
+            <span>Premium Access Unlocked - All Stages Available!</span>
           </div>
         ) : (
           <p className="text-sm text-text/60">
@@ -52,7 +53,7 @@ const GameStageSelect = ({
           const isPremiumStage = index >= freeStagesLimit;
           const hasAuth = !!user;
           const isUnlockedByProgress = index <= unlockedStages;
-          const isUnlocked = isUnlockedByProgress && (isPremiumStage ? hasAuth : true);
+          const isUnlocked = hasAuth || isUnlockedByProgress;
           const isCompleted = earnedPrizes.includes(stage.prize);
           const isCurrent = index === currentStage;
           const needsAuth = isPremiumStage && !hasAuth;
@@ -75,11 +76,11 @@ const GameStageSelect = ({
                         ? 'border-yellow-400 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 hover:from-yellow-100 hover:to-amber-100 dark:hover:from-yellow-900/30 dark:hover:to-amber-900/30 cursor-pointer'
                         : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 cursor-not-allowed opacity-50'
                 }
-                ${isPremiumStage ? 'ring-1 ring-yellow-200 dark:ring-yellow-800' : ''}
+                ${isPremiumStage && !hasAuth ? 'ring-1 ring-yellow-200 dark:ring-yellow-800' : ''}
               `}
             >
               {/* Premium Badge */}
-              {isPremiumStage && (
+              {isPremiumStage && !hasAuth && (
                 <div className="absolute -top-2 -left-2 w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center">
                   <Crown size={12} className="text-white" />
                 </div>

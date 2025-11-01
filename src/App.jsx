@@ -15,6 +15,7 @@ import ContactPage from './pages/ContactPage';
 import CareerPage from './pages/CareerPage';
 import AbacusPage from './pages/AbacusPage';
 import AbacusDashboard from './pages/AbacusDashboard';
+import OneColumnNoFriends from './pages/OneColumnNoFriends';
 import ComingSoon from './pages/ComingSoon';
 import NotFoundPage from './pages/NotFoundPage';
 import EnrollmentPage from './pages/EnrollmentPage';
@@ -190,7 +191,13 @@ function App() {
           />
           <Route 
             path="/abacus/1-column-no-friends" 
-            element={<ComingSoon title="1 Column (No Friends)" />} 
+            element={
+              <OneColumnNoFriends 
+                user={user}
+                userProgress={userProgress}
+                onProgressUpdate={refreshUserProgress}
+              />
+            } 
           />
           <Route 
             path="/abacus/mind-abacus" 
