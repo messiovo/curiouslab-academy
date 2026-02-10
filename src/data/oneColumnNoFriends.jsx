@@ -16,9 +16,29 @@ export const oneColumnStages = [
       "9-2-1+1-6",
       "3-1+0+5-1",
       "5+1+2-3-5",
-      "2+1+6-2-2"
+      "2+1+6-2-2",
+      "2+2-1-1+1",
+      "5+2+1-3+1",
+      "1+5+2-6+1",
+      "3+1-3+5-2",
+      "4-1-2-1+5",
+      "7+2-6-1-2",
+      "2+1+6-3-5",
+      "8-2-5+3-2",
+      "3-1-1+5-6",
+      "9-2-1+3-7",
+      "1+7+1-4+1",
+      "4-1-2+6-2",
+      "2+1+5-6+2",
+      "5+1+1-2+4",
+      "3-2+3+5-8",
+      "6+2+1-4-5",
+      "1+3-2+5+1",
+      "4-2+1-3+6",
+      "5+2+1-3+2",
+      "7-1+3-2-5"
     ],
-    answers: [0, 2, 4, 6, 4, 5, 1, 6,0,5],
+    answers: [0, 2, 4, 6, 4, 5, 1, 6,0,5,3,6,3,5,5,0,1,2,0,2,6,5,4,9,1,0,8,6,7,2]
   },
   {
     id: 2,
@@ -122,41 +142,41 @@ export const speedSettings = {
 export const feedbackMessages = {
   correct: {
     slow: [
-      "That was awesome! 🎉",
-      "Perfect! You've got this! ⭐",
-      "Excellent work! Keep it up! 👏",
-      "Wow! You're really good at this! 🌟",
-      "Amazing! Your beads are moving beautifully! 🎯"
+      "That was awesome!",
+      "Perfect! You've got this!",
+      "Excellent work! Keep it up!",
+      "Wow! You're really good at this!",
+      "Amazing! Your beads are moving beautifully!"
     ],
     medium: [
-      "Wow! You're quick with those beads! 🚀",
-      "Impressive speed! Great job! ⚡",
-      "You're getting faster! Love it! 🔥",
-      "Speedy and accurate - perfect combo! 💪",
-      "Your fingers are flying! Awesome! 🎊"
+      "Wow! You're quick with those beads!",
+      "Impressive speed! Great job!",
+      "You're getting faster! Love it!",
+      "Speedy and accurate - perfect combo!",
+      "Your fingers are flying! Awesome!"
     ],
     superfast: [
-      "You're faster than my circuits! 🤖⚡",
-      "INCREDIBLE! Lightning speed! ⚡⚡⚡",
-      "WOW! Are you sure you're human? 🚀",
-      "SUPER FAST! You're a math ninja! 🥷",
-      "BLAZING! My processors can barely keep up! 💨"
+      "You're faster than my circuits!",
+      "INCREDIBLE! Lightning speed!",
+      "WOW! Are you sure you're human?",
+      "SUPER FAST! You're a math ninja!",
+      "BLAZING! My processors can barely keep up!"
     ]
   },
   incorrect: [
-    "Oops! Let's try again. You've got this! 💪",
-    "Almost there! Give it another shot! 🎯",
-    "Not quite, but I believe in you! Keep trying! 💙",
-    "Close! Let's move those beads again! 🔄",
-    "Don't worry! Even robots make mistakes. Try once more! 🤖",
-    "Take your time and try again! You can do it! ⭐"
+    "Oops! Let's try again. You've got this!",
+    "Almost there! Give it another shot!",
+    "Not quite, but I believe in you! Keep trying!",
+    "Close! Let's move those beads again!",
+    "Don't worry! Even robots make mistakes. Try once more!",
+    "Take your time and try again! You can do it!"
   ],
   encouragement: [
-    "Beep boop! Let's practice together! 🤖",
-    "I'm here to help you become a math champion! 🏆",
-    "Remember: accuracy first, speed comes naturally! 💡",
-    "Every problem makes you stronger! 💪",
-    "You're doing great! Keep moving those beads! 🎯"
+    "Beep boop! Let's practice together!",
+    "I'm here to help you become a math champion!",
+    "Remember: accuracy first, speed comes naturally!",
+    "Every problem makes you stronger!",
+    "You're doing great! Keep moving those beads!"
   ]
 };
 

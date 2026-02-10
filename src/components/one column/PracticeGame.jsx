@@ -1,11 +1,13 @@
 // src/components/oneColumn/PracticeGame.jsx
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Volume2, Send, RefreshCw, Award } from 'lucide-react';
-import { speedSettings, feedbackMessages, msAbacusIntros } from '../../data/oneColumnNoFriends';
+import { ArrowLeft, Send, RefreshCw, Award, Volume2, VolumeX } from 'lucide-react';
+import { speedSettings, feedbackMessages } from '../../data/oneColumnNoFriends';
 import { saveStageProgress } from '../../auth/oneColumnProgress';
+import AnimatedCharacter from '../AnimatedCharacter';
+import { ttsService } from '../../utils/ttsService'; // Import TTS service
 
-const PracticeGame = ({ stage, speed, user, onBack }) => {
-  const [gameState, setGameState] = useState('intro'); // 'intro', 'calling', 'answering', 'feedback', 'completed'
+const PracticeGame = ({ stage, speed, user, onBack, questions }) => {
+  const [gameState, setGameState] = useState('intro');
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const [currentNumberIndex, setCurrentNumberIndex] = useState(0);
   const [displayedNumbers, setDisplayedNumbers] = useState([]);
@@ -14,27 +16,88 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
   const [score, setScore] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [showRoboBuddy, setShowRoboBuddy] = useState(false);
+  const [roboBuddyMood, setRoboBuddyMood] = useState('happy');
+  const [isMuted, setIsMuted] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const inputRef = useRef(null);
 
-  const currentProblem = stage.problems[currentProblemIndex];
-  const correctAnswer = stage.answers[currentProblemIndex];
+  // USE questions prop instead of stage.problems
+  const currentQuestion = questions[currentProblemIndex];
+  const currentProblem = currentQuestion?.problem || '';
+  const correctAnswer = currentQuestion?.answer || 0;
   const speedDelay = speedSettings[speed].delay;
+
+  // Initialize TTS service
+  useEffect(() => {
+    // Load TTS service on component mount
+    return () => {
+      // Clean up TTS on unmount
+      ttsService.stop();
+    };
+  }, []);
+
+  // Toggle mute function
+  const toggleMute = () => {
+    const newMuteState = !isMuted;
+    setIsMuted(newMuteState);
+    
+    if (newMuteState) {
+      ttsService.mute();
+    } else {
+      ttsService.unmute();
+    }
+  };
+
+  // Convert feedback messages to RoboBuddy format with robot sounds
+  const convertToRoboBuddyMessage = (message) => {
+    const robotSounds = ['Beep boop', 'Whirr', 'bzzt', 'boop'];
+    const randomSound = robotSounds[Math.floor(Math.random() * robotSounds.length)];
+    return `${randomSound} ${message}`;
+  };
+
+  // Speak numbers one by one
+  const speakCurrentNumber = () => {
+    if (!currentProblem || isMuted) return;
+    
+    const numbers = currentProblem.split(/([+\-])/);
+    if (currentNumberIndex < numbers.length) {
+      const currentNumber = numbers[currentNumberIndex];
+      
+      // Speak the number/operator
+      ttsService.speakAbacusSequence([currentNumber], {
+        speed: speed,
+        character: 'teacher', // Ms. Abacus voice
+        onStart: () => setIsSpeaking(true),
+        onEnd: () => setIsSpeaking(false)
+      });
+    }
+  };
 
   // Start game intro
   useEffect(() => {
     if (gameState === 'intro') {
-      const introMessage = msAbacusIntros[Math.floor(Math.random() * msAbacusIntros.length)];
+      const introMessage = "Beep boop Hello! I'm RoboBuddy! Let's practice together and have fun with numbers!Get ready!!! Whirr";
       setFeedbackMessage(introMessage);
       setShowRoboBuddy(true);
+      setRoboBuddyMood('happy');
+      
+      // Speak intro message with RoboBuddy voice
+      if (!isMuted) {
+        ttsService.speakText(introMessage, {
+          speed: speed,
+          character: 'robot',
+          pitch: 0.8
+        });
+      }
       
       const timer = setTimeout(() => {
         setGameState('calling');
         setShowRoboBuddy(false);
-      }, 3000);
+      }, 9000);
       
       return () => clearTimeout(timer);
     }
-  }, [gameState]);
+  }, [gameState, speed, isMuted]);
 
   // Call out numbers one by one
   useEffect(() => {
@@ -43,7 +106,12 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
       
       if (currentNumberIndex < numbers.length) {
         const timer = setTimeout(() => {
-          setDisplayedNumbers(prev => [...prev, numbers[currentNumberIndex]]);
+          const currentNumber = numbers[currentNumberIndex];
+          setDisplayedNumbers(prev => [...prev, currentNumber]);
+          
+          // Speak the number
+          speakCurrentNumber();
+          
           setCurrentNumberIndex(prev => prev + 1);
         }, speedDelay);
         
@@ -56,7 +124,7 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
         }, 500);
       }
     }
-  }, [gameState, currentNumberIndex, currentProblem, speedDelay]);
+  }, [gameState, currentNumberIndex, currentProblem, speedDelay, isMuted, speed]);
 
   // Handle answer submission
   const handleSubmit = () => {
@@ -67,13 +135,34 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
     
     if (correct) {
       setScore(prev => prev + 1);
-      // Get random feedback based on speed
       const speedFeedback = feedbackMessages.correct[speed];
       const randomFeedback = speedFeedback[Math.floor(Math.random() * speedFeedback.length)];
-      setFeedbackMessage(randomFeedback);
+      const robofiedMessage = convertToRoboBuddyMessage(randomFeedback);
+      setFeedbackMessage(robofiedMessage);
+      setRoboBuddyMood('excited');
+      
+      // Speak feedback with RoboBuddy voice
+      if (!isMuted) {
+        ttsService.speakText(robofiedMessage, {
+          speed: speed,
+          character: 'robot',
+          pitch: 0.8
+        });
+      }
     } else {
       const randomFeedback = feedbackMessages.incorrect[Math.floor(Math.random() * feedbackMessages.incorrect.length)];
-      setFeedbackMessage(randomFeedback);
+      const robofiedMessage = convertToRoboBuddyMessage(randomFeedback);
+      setFeedbackMessage(robofiedMessage);
+      setRoboBuddyMood('sad');
+      
+      // Speak feedback with RoboBuddy voice
+      if (!isMuted) {
+        ttsService.speakText(robofiedMessage, {
+          speed: speed,
+          character: 'robot',
+          pitch: 0.7
+        });
+      }
     }
     
     setShowRoboBuddy(true);
@@ -82,26 +171,33 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
     // Auto-advance after feedback
     setTimeout(() => {
       handleNext();
-    }, 2500);
+    }, 3500);
   };
 
   // Handle next problem
   const handleNext = () => {
     setShowRoboBuddy(false);
     
-    if (currentProblemIndex < stage.problems.length - 1) {
-      // Move to next problem
+    if (currentProblemIndex < questions.length - 1) {
       setCurrentProblemIndex(prev => prev + 1);
       setCurrentNumberIndex(0);
       setDisplayedNumbers([]);
       setUserAnswer('');
       setIsCorrect(null);
+      setRoboBuddyMood('happy');
       setGameState('calling');
     } else {
-      // All problems completed
       setGameState('completed');
       saveProgress();
     }
+  };
+
+  // Repeat current problem
+  const handleRepeat = () => {
+    ttsService.stop();
+    setCurrentNumberIndex(0);
+    setDisplayedNumbers([]);
+    setGameState('calling');
   };
 
   // Save progress to Firebase
@@ -113,7 +209,7 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
           stage.id,
           score,
           speed,
-          stage.problems.length
+          questions.length
         );
         console.log('Progress saved:', result);
       } catch (error) {
@@ -124,32 +220,72 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
 
   // Restart stage
   const handleRestart = () => {
+    ttsService.stop();
     setCurrentProblemIndex(0);
     setCurrentNumberIndex(0);
     setDisplayedNumbers([]);
     setUserAnswer('');
     setIsCorrect(null);
     setScore(0);
+    setRoboBuddyMood('happy');
     setGameState('intro');
   };
+
+  // Safety check - if no questions
+  if (!questions || questions.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto text-center">
+        <div className="bg-card-bg rounded-xl p-8 shadow-lg">
+          <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-primary)' }}>
+            No Questions Available
+          </h2>
+          <p className="text-text/70 mb-6">There are no questions for this stage.</p>
+          <button
+            onClick={onBack}
+            className="flex items-center justify-center space-x-2 px-6 py-3 rounded-lg font-semibold text-white transition-all hover:opacity-90 shadow-lg mx-auto"
+            style={{ backgroundColor: 'var(--color-primary)' }}
+          >
+            <ArrowLeft size={20} />
+            <span>Back to Stages</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // Render intro screen
   if (gameState === 'intro') {
     return (
       <div className="max-w-2xl mx-auto text-center">
         <div className="bg-card-bg rounded-xl p-8 shadow-lg">
-          <div className="text-7xl mb-4">👩‍🏫</div>
+          {/* RoboBuddy Intro */}
+          <div className="mb-6">
+            <AnimatedCharacter 
+              mood={roboBuddyMood}
+              message={feedbackMessage}
+              position={0}
+            />
+          </div>
+
           <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-primary)' }}>
             Get Ready!
           </h2>
-          <p className="text-text/70 mb-6">{feedbackMessage}</p>
-          <div className="p-4 rounded-lg" style={{ backgroundColor: 'rgba(74, 144, 226, 0.1)' }}>
+          
+          <div className="p-4 rounded-lg mb-6" style={{ backgroundColor: 'rgba(74, 144, 226, 0.1)' }}>
             <p className="text-sm text-text/70">
               <strong>Stage:</strong> {stage.title}<br />
               <strong>Speed:</strong> {speedSettings[speed].label}<br />
-              <strong>Problems:</strong> {stage.problems.length}
+              <strong>Questions:</strong> {questions.length}
             </p>
           </div>
+
+          <button
+            onClick={() => setGameState('calling')}
+            className="w-full py-3 text-lg font-semibold text-white rounded-lg transition-all hover:opacity-90 shadow-lg"
+            style={{ backgroundColor: 'var(--color-primary)' }}
+          >
+            Start Practice
+          </button>
         </div>
       </div>
     );
@@ -157,7 +293,7 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
 
   // Render completed screen
   if (gameState === 'completed') {
-    const accuracy = Math.round((score / stage.problems.length) * 100);
+    const accuracy = Math.round((score / questions.length) * 100);
     const passed = accuracy >= 80;
 
     return (
@@ -192,19 +328,20 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
             {passed && (
               <div className="flex items-center justify-center space-x-2 text-green-600">
                 <Award size={20} />
-                <span className="font-semibold">Stage Completed! 🎊</span>
+                <span className="font-semibold">Session Completed! 🎊</span>
               </div>
             )}
           </div>
 
           {/* RoboBuddy Message */}
           <div className="mb-6">
-            <div className="text-6xl mb-3">🤖</div>
-            <p className="text-text/70 italic">
-              {passed 
-                ? `"Beep boop! Amazing work! You've mastered this stage at ${speedSettings[speed].label} speed!"`
-                : '"Keep practicing! You\'re getting better with every try. Beep boop!"'}
-            </p>
+            <AnimatedCharacter 
+              mood={passed ? 'winner' : 'happy'}
+              message={passed 
+                ? `Beep boop Amazing work! You've completed ${questions.length} questions at ${speedSettings[speed].label} speed! Whirr You're a math champion!`
+                : `boop Keep practicing! You completed ${questions.length} questions. Beep beep I believe in you!`}
+              position={0}
+            />
           </div>
 
           {/* Action Buttons */}
@@ -236,17 +373,32 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
     <div className="max-w-3xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <button
-          onClick={onBack}
-          className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-card-bg transition-colors"
-        >
-          <ArrowLeft size={20} />
-          <span>Back</span>
-        </button>
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={onBack}
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-card-bg transition-colors"
+          >
+            <ArrowLeft size={20} />
+            <span>Back</span>
+          </button>
+          
+          <button
+            onClick={toggleMute}
+            className="p-2 rounded-full hover:bg-card-bg transition-colors"
+            title={isMuted ? "Unmute voice" : "Mute voice"}
+          >
+            {isMuted ? (
+              <VolumeX size={20} className="text-red-500" />
+            ) : (
+              <Volume2 size={20} className="text-primary" />
+            )}
+          </button>
+        </div>
+        
         <div className="text-right">
-          <p className="text-sm text-text/60">Problem {currentProblemIndex + 1} of {stage.problems.length}</p>
+          <p className="text-sm text-text/60">Question {currentProblemIndex + 1} of {questions.length}</p>
           <p className="text-lg font-bold" style={{ color: 'var(--color-primary)' }}>
-            Score: {score}/{stage.problems.length}
+            Score: {score}/{questions.length}
           </p>
         </div>
       </div>
@@ -280,7 +432,24 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
                 {num}
               </span>
             ))}
+            {isSpeaking && (
+              <span className="text-2xl animate-pulse">🔊</span>
+            )}
           </div>
+        </div>
+
+        {/* Controls */}
+        <div className="flex justify-center space-x-4 mb-6">
+          <button
+            onClick={handleRepeat}
+            className="px-4 py-2 rounded-lg font-semibold transition-all hover:opacity-90"
+            style={{ 
+              backgroundColor: 'rgba(74, 144, 226, 0.1)',
+              color: 'var(--color-primary)'
+            }}
+          >
+            Repeat Numbers
+          </button>
         </div>
 
         {/* Answer Input */}
@@ -314,7 +483,7 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
 
         {/* Feedback */}
         {gameState === 'feedback' && (
-          <div className={`p-6 rounded-xl text-center animate-bounce ${isCorrect ? 'bg-green-100 dark:bg-green-900/20' : 'bg-red-100 dark:bg-red-900/20'}`}>
+          <div className={`p-6 rounded-xl text-center ${isCorrect ? 'bg-green-100 dark:bg-green-900/20' : 'bg-red-100 dark:bg-red-900/20'}`}>
             <p className={`text-2xl font-bold mb-2 ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
               {isCorrect ? '✓ Correct!' : '✗ Not Quite'}
             </p>
@@ -326,13 +495,14 @@ const PracticeGame = ({ stage, speed, user, onBack }) => {
         )}
       </div>
 
-      {/* RoboBuddy Feedback */}
+      {/* RoboBuddy Feedback with AnimatedCharacter */}
       {showRoboBuddy && (
-        <div className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-6 shadow-lg text-center animate-bounce">
-          <div className="text-6xl mb-3">🤖</div>
-          <p className="text-lg font-semibold text-text italic">
-            "{feedbackMessage}"
-          </p>
+        <div className="mb-6">
+          <AnimatedCharacter 
+            mood={roboBuddyMood}
+            message={feedbackMessage}
+            position={0}
+          />
         </div>
       )}
     </div>

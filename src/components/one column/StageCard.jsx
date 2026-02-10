@@ -102,10 +102,7 @@ const StageCard = ({ stage, isLocked, onSelect, userProgress, onLoginRequired })
         <span>{isLocked ? 'Sign In to Start' : 'Start Practice'}</span>
       </button>
 
-      {/* Problem Count */}
-      <div className="mt-3 text-center text-xs text-text/60">
-        {stage.problems.length} problems in this stage
-      </div>
+     
     </div>
   );
 };

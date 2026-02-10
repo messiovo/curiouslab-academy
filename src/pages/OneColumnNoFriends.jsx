@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, LogOut, Crown, ArrowLeft, Lock, Trophy, Target, Zap } from 'lucide-react';
@@ -8,6 +7,7 @@ import StageCard from '../components/one column/StageCard';
 import PracticeGame from '../components/one column/PracticeGame';
 import { oneColumnStages } from '../data/oneColumnNoFriends';
 import { getOneColumnProgress, getProgressSummary } from '../auth/oneColumnProgress';
+import { getRandomQuestionsForStage } from '../utils/questionUtils'; // ADD THIS IMPORT
 
 const OneColumnNoFriends = ({ user, onAuthChange }) => {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ const OneColumnNoFriends = ({ user, onAuthChange }) => {
   const [selectedSpeed, setSelectedSpeed] = useState('medium');
   const [userProgress, setUserProgress] = useState(null);
   const [progressSummary, setProgressSummary] = useState(null);
+  const [stageQuestions, setStageQuestions] = useState([]); // ADD THIS STATE
 
   useEffect(() => {
     const loadProgress = async () => {
@@ -47,14 +48,25 @@ const OneColumnNoFriends = ({ user, onAuthChange }) => {
       setShowAuthModal(true);
       return;
     }
+    
+    // Get 7 random questions for this stage
+    const randomQuestions = getRandomQuestionsForStage(stage.id, 7);
+    
+    if (randomQuestions.length === 0) {
+      alert('No questions available for this stage.');
+      return;
+    }
+    
     setSelectedStage(stage);
     setSelectedSpeed(speed);
+    setStageQuestions(randomQuestions); // Store the random questions
     setCurrentView('practice');
   };
 
   const handleBackToStages = async () => {
     setCurrentView('stages');
     setSelectedStage(null);
+    setStageQuestions([]); // Clear questions when going back
     
     if (user) {
       const progress = await getOneColumnProgress(user.uid);
@@ -181,7 +193,7 @@ const OneColumnNoFriends = ({ user, onAuthChange }) => {
               </h3>
               <p className="text-text/70 max-w-2xl mx-auto">
                 I'll call out number sequences, and you solve them using your physical abacus. 
-                Choose your speed and let's practice together! 🎯
+                Each session shows 7 random questions. Choose your speed and let's practice together! 🎯
               </p>
             </div>
 
@@ -199,6 +211,7 @@ const OneColumnNoFriends = ({ user, onAuthChange }) => {
                     </h4>
                     <p className="text-sm text-text/70">
                       Start with 5 and 6 rows for free. Sign in to unlock all 6 stages and save your progress!
+                      Each session gives you 7 random questions.
                     </p>
                   </div>
                 </div>
@@ -221,8 +234,8 @@ const OneColumnNoFriends = ({ user, onAuthChange }) => {
             <div className="mt-12 bg-card-bg rounded-xl p-6 max-w-2xl mx-auto text-center">
               <div className="text-6xl mb-4">🤖</div>
               <p className="text-text/70 italic">
-                "Beep boop! I'm RoboBuddy, here to cheer you on! Remember: accuracy first, speed comes naturally. 
-                Let's make math fun together!" 💙
+                "Beep boop! I'm RoboBuddy, here to cheer you on! Each session gives you 7 random questions. 
+                Remember: accuracy first, speed comes naturally. Let's make math fun together!" 💙
               </p>
             </div>
           </>
@@ -232,6 +245,7 @@ const OneColumnNoFriends = ({ user, onAuthChange }) => {
             speed={selectedSpeed}
             user={user}
             onBack={handleBackToStages}
+            questions={stageQuestions} // PASS THE RANDOM QUESTIONS HERE
           />
         )}
       </div>
@@ -246,4 +260,3 @@ const OneColumnNoFriends = ({ user, onAuthChange }) => {
 };
 
 export default OneColumnNoFriends;
-
