@@ -12,6 +12,7 @@ import CoursesPage from './pages/CoursesPage';
 import CourseDetailPage from './pages/CourseDetailPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import FreeResourcesPage from './pages/FreeResources';
 import CareerPage from './pages/CareerPage';
 import AbacusPage from './pages/AbacusPage';
 import AbacusDashboard from './pages/AbacusDashboard';
@@ -165,6 +166,7 @@ function App() {
           <Route path="/courses/:courseId" element={<CourseDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/free-resources" element={<FreeResourcesPage />} />
           <Route path="/careers" element={<CareerPage />} />
             
           {/* PROTECTED ADMIN ROUTE */}
