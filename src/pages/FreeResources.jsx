@@ -1,7 +1,9 @@
 import React from 'react';
+
 import { Download, FileText, Sparkles, Calculator } from 'lucide-react';
 
 import Hero from '../components/Hero';
+
 import CtaSection from '../components/CtaSection';
 
 import contactHeroImage from '../assets/images/support-team.jpg';
@@ -17,7 +19,10 @@ const FreeResourcesPage = () => {
         image={contactHeroImage}
       />
 
+      {/* ========================= */}
       {/* Number Friends Resource */}
+      {/* ========================= */}
+
       <section className="py-20">
         <div className="container mx-auto px-6">
 
@@ -49,6 +54,7 @@ const FreeResourcesPage = () => {
                 <div className="p-8 md:p-10">
 
                   <div className="flex items-center gap-3 mb-6">
+
                     <div className="bg-primary/10 p-3 rounded-lg">
                       <Calculator
                         className="text-primary"
@@ -65,6 +71,7 @@ const FreeResourcesPage = () => {
                         Number Friends Worksheet Pack
                       </h3>
                     </div>
+
                   </div>
 
                   <p className="text-text/80 mb-6 leading-relaxed">
@@ -150,13 +157,181 @@ const FreeResourcesPage = () => {
                 </div>
 
               </div>
+
             </div>
           </div>
 
         </div>
       </section>
 
-      {/* More Resources Coming Later */}
+
+      {/* ========================= */}
+      {/* Free Abacus Practice */}
+      {/* ========================= */}
+
+      <section className="pb-20">
+        <div className="container mx-auto px-6">
+
+          {/* Section Heading */}
+          <div className="text-center max-w-3xl mx-auto mb-12">
+
+            <div className="flex justify-center mb-4">
+              <div className="bg-primary/10 p-4 rounded-full">
+                <Calculator
+                  className="text-primary"
+                  size={32}
+                />
+              </div>
+            </div>
+
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Free Abacus Practice
+            </h2>
+
+            <p className="text-text/80 text-lg">
+              Give your child extra practice with simple one-column
+              abacus questions designed to build speed, accuracy,
+              and confidence with numbers.
+            </p>
+
+          </div>
+
+
+          {/* Abacus Resource Card */}
+          <div className="max-w-5xl mx-auto">
+
+            <div className="bg-card-bg rounded-2xl shadow-lg overflow-hidden">
+
+              <div className="grid grid-cols-1 md:grid-cols-2">
+
+                {/* Left Side */}
+                <div className="p-8 md:p-10">
+
+                  <div className="flex items-center gap-3 mb-6">
+
+                    <div className="bg-primary/10 p-3 rounded-lg">
+                      <Calculator
+                        className="text-primary"
+                        size={28}
+                      />
+                    </div>
+
+                    <div>
+
+                      <p className="text-sm text-primary font-semibold">
+                        FREE ABACUS RESOURCE
+                      </p>
+
+                      <h3 className="text-2xl font-bold">
+                        One-Column Abacus Practice Pack
+                      </h3>
+
+                    </div>
+
+                  </div>
+
+
+                  <p className="text-text/80 mb-6 leading-relaxed">
+                    Help your child strengthen their abacus skills with
+                    this printable practice pack. Children can practise
+                    one-column addition and subtraction while developing
+                    speed, accuracy, and confidence.
+                  </p>
+
+
+                  {/* Features */}
+                  <div className="space-y-3 mb-8">
+
+                    <div className="flex items-center gap-3">
+                      <span className="text-primary">✓</span>
+                      <span>One-column abacus practice questions</span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <span className="text-primary">✓</span>
+                      <span>Addition and subtraction practice</span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <span className="text-primary">✓</span>
+                      <span>Builds speed and calculation accuracy</span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <span className="text-primary">✓</span>
+                      <span>Great for home or classroom practice</span>
+                    </div>
+
+                  </div>
+
+
+                  {/* Download Button */}
+                  <a
+                    href="/worksheets/free-abacus-practice.pdf"
+                    download
+                    className="inline-flex items-center justify-center gap-3
+                    w-full md:w-auto
+                    bg-primary text-white
+                    px-7 py-4 rounded-lg
+                    font-semibold
+                    hover:opacity-90
+                    transition-opacity"
+                  >
+                    <Download size={20} />
+                    Download Free Abacus Practice
+                  </a>
+
+                </div>
+
+
+                {/* Right Side */}
+                <div className="bg-primary/5 p-8 md:p-10 flex items-center justify-center">
+
+                  <div className="text-center">
+
+                    <div className="bg-white rounded-2xl shadow-md p-8 mb-5">
+
+                      <FileText
+                        className="mx-auto text-primary mb-4"
+                        size={64}
+                      />
+
+                      <p className="text-sm font-semibold text-primary mb-2">
+                        CURIOUSLAB ACADEMY
+                      </p>
+
+                      <h4 className="text-xl font-bold mb-2">
+                        Free Abacus Practice
+                      </h4>
+
+                      <p className="text-text/70">
+                        One-Column, No Compliment Practice Questions
+                      </p>
+
+                    </div>
+
+                    <p className="text-sm text-text/70">
+                      Printable • Beginner-friendly • Practice-ready
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* ========================= */}
+      {/* More Resources Coming Soon */}
+      {/* ========================= */}
+
       <section className="pb-20">
         <div className="container mx-auto px-6">
 
@@ -181,6 +356,7 @@ const FreeResourcesPage = () => {
 
         </div>
       </section>
+
 
       {/* CTA */}
       <CtaSection
