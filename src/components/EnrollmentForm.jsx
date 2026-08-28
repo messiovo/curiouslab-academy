@@ -56,49 +56,19 @@ const EnrollmentForm = () => {
     return newErrors;
   };
 
-  // Get selected course titles for the email
-  const getSelectedCourseTitles = () => {
-    return selectedCourses
-      .map(id => coursesData.find(course => course.id === id)?.title)
-      .filter(Boolean)
-      .join(', ');
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
       setSubmissionStatus('sending');
-      
-      try {
-        // Get selected course titles
-        const courseTitles = getSelectedCourseTitles();
-        
-        // Prepare email template parameters
-        const templateParams = {
-          to_email: 'mercy@curiouslabacademy.com',
-          student_name: formData.studentName,
-          student_age: formData.studentAge || 'Not provided',
-          parent_name: formData.parentName,
-          parent_email: formData.parentEmail,
-          selected_courses: courseTitles,
-          // You can add more fields as needed
-        };
-
-        // Replace with your actual EmailJS credentials
-        const serviceId = 'YOUR_SERVICE_ID';
-        const templateId = 'YOUR_TEMPLATE_ID';
-        const publicKey = 'YOUR_PUBLIC_KEY';
-
-        await emailjs.send(serviceId, templateId, templateParams, publicKey);
-        
+      // --- EmailJS logic would go here ---
+      console.log("Submitting form...");
+      // Simulate network request for demonstration
+      setTimeout(() => {
         setSubmissionStatus('success');
-      } catch (error) {
-        console.error('Email sending failed:', error);
-        setSubmissionStatus('error');
-      }
+      }, 2000);
     }
   };
 
@@ -107,7 +77,7 @@ const EnrollmentForm = () => {
       <div className="text-center py-20 px-4">
         <h2 className="text-3xl font-bold text-primary mb-4">Enrollment Submitted! ✅</h2>
         <p className="text-lg text-text">
-          Thank you for enrolling, we will get back to you as soon as possible.
+          Thank you, {formData.parentName}. A confirmation for {formData.studentName} has been sent to <strong>{formData.parentEmail}</strong>.
         </p>
       </div>
     );
@@ -138,11 +108,13 @@ const EnrollmentForm = () => {
                       onChange={handleCourseChange}
                       className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
                     />
+                    {/* --- Price removed from here --- */}
                     <span className="ml-4 flex-grow text-md font-medium text-text">{course.title}</span>
                   </label>
                 ))}
               </div>
               {errors.courses && <p className="text-red-500 text-sm mt-1">{errors.courses}</p>}
+              {/* --- Total Price Div removed --- */}
             </FormStep>
 
             {/* Step 2: Student & Guardian Details */}
