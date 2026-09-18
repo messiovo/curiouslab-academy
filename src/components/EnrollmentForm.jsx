@@ -114,7 +114,7 @@ const EnrollmentForm = () => {
                 ))}
               </div>
               {errors.courses && <p className="text-red-500 text-sm mt-1">{errors.courses}</p>}
-              {/* --- Total Price Div removed --- */}
+    
             </FormStep>
 
             {/* Step 2: Student & Guardian Details */}
