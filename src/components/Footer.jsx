@@ -117,7 +117,7 @@ const Footer = () => {
             </div>
             <div className="space-y-2 text-sm">
               <p className="flex items-center">
-                <Mail size={16} className="mr-2 flex-shrink-0" /> info@curiouslabacademy.com
+                <Mail size={16} className="mr-2 flex-shrink-0" /> mercy@curiouslabacademy.com
               </p>
               <p className="flex items-center">
                 <Phone size={16} className="mr-2 flex-shrink-0" /> +234 815-301-0297
@@ -128,7 +128,7 @@ const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="mt-10 pt-6 border-t border-black/10 dark:border-white/10 text-center text-sm">
-          <p>&copy; {new Date().getFullYear()} CuriousLab Academy. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Powered by CuriousLab Ltd. All rights reserved.</p>
         </div>
       </div>
     </footer>

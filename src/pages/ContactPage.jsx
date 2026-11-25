@@ -12,9 +12,9 @@ import contactHeroImage from '../assets/images/support-team.jpg';
 
 // --- Data for the page ---
 const contactDetails = [
-  { icon: <Mail />, title: "Email", lines: ["info@curiouslabacademy.com", "support@curiouslabacademy.com"] },
+  { icon: <Mail />, title: "Email", lines: ["mercy@curiouslabacademy.com"] },
   { icon: <Phone />, title: "Phone", lines: ["+234 815 301 0297", "+1 (555) 123-4567 (Intl)"] },
-  { icon: <MapPin />, title: "Location", lines: ["Lekki Phase 1,", "Lagos, Nigeria"] },
+  { icon: <MapPin />, title: "Location", lines: ["Ibeju-Lekki,", "Lagos, Nigeria"] },
   { icon: <Clock />, title: "Office Hours", lines: ["Mon – Fri: 09:00 – 18:00 (WAT)", "Saturday: 10:00 – 16:00 (WAT)"] },
 ];
 
