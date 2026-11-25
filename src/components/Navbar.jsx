@@ -13,7 +13,9 @@ const navLinksData = [
   { title: 'Courses', href: '/courses' },
   { title: 'About', href: '/about' },
   { title: 'Contact', href: '/contact' },
+   { title: 'Virtual Science Lab', href: '/virtual-science-lab' },
   { title: 'Free Resources', href: '/free-resources' },
+ 
   //{ title: 'Career', href: '/careers' },
   { title: 'Ms. Abacus by CuriousLab', href: '/abacus-learning' },
 ];

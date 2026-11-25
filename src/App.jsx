@@ -21,6 +21,8 @@ import ComingSoon from './pages/ComingSoon';
 import NotFoundPage from './pages/NotFoundPage';
 import EnrollmentPage from './pages/EnrollmentPage';
 import AdminDashboard from './pages/AdminDashboard';
+import VirtualScienceLab from './pages/VirtualScienceLab';
+import VirtualMicroscopePage from './pages/VirtualMicroscopePage';
 
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
@@ -166,8 +168,11 @@ function App() {
           <Route path="/courses/:courseId" element={<CourseDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+           <Route path="/virtual-science-lab" element={<VirtualScienceLab />} />
+           <Route path="/virtual-science-lab/microscope" element={<VirtualMicroscopePage />} />
           <Route path="/free-resources" element={<FreeResourcesPage />} />
           <Route path="/careers" element={<CareerPage />} />
+          
             
           {/* PROTECTED ADMIN ROUTE */}
           <Route 
