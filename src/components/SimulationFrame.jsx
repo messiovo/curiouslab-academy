@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const getTheme = () => (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 
-const SimulationFrame = ({ src, title, initialHeight = 900 }) => {
+const SimulationFrame = ({ src, title, initialHeight = 900, className = '' }) => {
   const frameRef = useRef(null);
   const [height, setHeight] = useState(initialHeight);
   const [startTheme] = useState(getTheme); // fixed on first render so toggling never reloads the frame
@@ -51,7 +51,7 @@ const SimulationFrame = ({ src, title, initialHeight = 900 }) => {
       title={title}
       onLoad={sendTheme}
       style={{ height }}
-      className="block w-full overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-card-bg"
+      className={`block w-full overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-card-bg ${className}`}
     />
   );
 };

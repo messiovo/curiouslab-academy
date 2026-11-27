@@ -78,18 +78,18 @@ const Footer = () => {
                   to="/abacus-learning" 
                   className="hover:text-primary dark:hover:text-secondary transition-colors text-sm block"
                 >
-                  Ms. Abacus by CuriousLab
+                  Ms. Abacus
                 </Link>
               </li>
               {/* Add other programs here as direct links when needed */}
               { <li>
                 <Link to="/readlab" className="hover:text-primary dark:hover:text-secondary transition-colors text-sm block">
-                  ReadLab by CuriousLab
+                  ReadLab
                 </Link>
               </li> }
               { <li>
-                <Link to="/science-quest" className="hover:text-primary dark:hover:text-secondary transition-colors text-sm block">
-                  Science Quest 
+                <Link to="/science-hub" className="hover:text-primary dark:hover:text-secondary transition-colors text-sm block">
+                  Science Hub
                 </Link>
               </li> }
                { <li>

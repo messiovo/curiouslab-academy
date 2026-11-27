@@ -1,0 +1,90 @@
+/* Virtual Science Lab branding. Import once from VirtualScienceLab.jsx and VirtualMicroscopePage.jsx.
+   Theme: primary #4A90E2, secondary #FFDE21 and the bg / text / card-bg tokens from index.css. */
+.vsl {
+  /* Uses the tokens from src/index.css (--color-primary, --color-secondary, --color-bg, --color-text, --color-card-bg),
+     so the light/dark toggle works with no extra code. The fallbacks are the same values. */
+  --ink: #1a202c;
+  --yellow: var(--color-secondary, #FFDE21);
+  --blue: var(--color-primary, #4A90E2);
+  --blue-deep: color-mix(in srgb, var(--blue) 68%, #1a202c);   /* readable on white */
+  --vsl-card: var(--color-card-bg, #f7fafc);
+  --vsl-text: var(--color-text, #2d3748);
+  --vsl-bg-base: var(--color-bg, #ffffff);
+  --vsl-muted: color-mix(in srgb, var(--vsl-text) 78%, var(--vsl-bg-base));
+  --vsl-line: color-mix(in srgb, var(--blue) 28%, var(--vsl-bg-base));
+  --vsl-bg: linear-gradient(180deg, color-mix(in srgb, var(--blue) 22%, var(--vsl-bg-base)) 0%, color-mix(in srgb, var(--blue) 8%, var(--vsl-bg-base)) 40%, var(--vsl-bg-base) 100%);
+  background: var(--vsl-bg); color: var(--vsl-text); font-family: 'Nunito', system-ui, sans-serif; position: relative; overflow: hidden;
+}
+.vsl h1, .vsl h2, .vsl h3 { font-family: 'Fredoka', 'Nunito', system-ui, sans-serif; }
+.vsl-wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 1; }
+
+/* hero: the lab picture with the title on its empty blue wall */
+.vsl-hero-img { position: relative; container-type: inline-size; line-height: 0; }
+.vsl-hero-img > img { display: block; width: 100%; aspect-ratio: 2 / 1; object-fit: cover; object-position: 14% 40%; }
+.vsl-hero-title { position: static; line-height: 1.1; text-align: center; padding: 14px 16px 0; background: linear-gradient(180deg, #2f7be0, #3f8ae6); margin-top: -1px; order: -1; }
+.vsl-hero-img { display: flex; flex-direction: column; }
+.vsl-hero-title h1 { margin: 0; font-weight: 600; font-size: clamp(2rem, 9vw, 3rem); line-height: 1; color: #fff; text-shadow: 0 3px 0 rgba(26,32,44,.55), 0 6px 14px rgba(26,32,44,.35); }
+.vsl-hero-title h1 span { display: block; color: var(--yellow); }
+.vsl-tagline { display: inline-block; margin: 12px 0 14px; background: var(--vsl-card); color: var(--vsl-text); font-weight: 800; font-size: .95rem; line-height: 1.3; border-radius: 999px; padding: 6px 18px; border: 3px solid var(--ink); }
+@media (min-width: 760px) {
+  .vsl-hero-img { display: block; }
+  .vsl-hero-img > img { aspect-ratio: 3 / 1; max-height: 420px; object-position: 50% 39%; }
+  .vsl-hero-title { position: absolute; left: 32%; top: 5%; width: 32%; background: none; padding: 0; order: 0; display: flex; flex-direction: column; align-items: center; }
+  .vsl-hero-title h1 { font-size: 4.4cqw; }
+  .vsl-tagline { font-size: clamp(.75rem, 1.5cqw, 1.05rem); margin: 1.2cqw 0 0; padding: 4px 16px; white-space: nowrap; }
+}
+
+/* welcome */
+.vsl-welcome { display: flex; align-items: flex-end; gap: 14px; margin: 18px 0 10px; }
+.vsl-guide { height: clamp(150px, 24vw, 230px); width: auto; transform-origin: 50% 100%; flex: none; animation: vsl-bob 4.4s ease-in-out infinite; transform-origin: 50% 100%; }
+.vsl-say {
+  position: relative; background: var(--vsl-card); border: 3px solid var(--blue); border-radius: 24px; padding: 14px 18px; margin-bottom: 18px;
+  font-weight: 700; font-size: clamp(1rem, 2.4vw, 1.2rem); max-width: 520px; box-shadow: 0 6px 0 rgba(74,144,226,.18);
+}
+.vsl-say::before { content: ""; position: absolute; left: -12px; bottom: 22px; width: 18px; height: 18px; background: var(--vsl-card); border-left: 3px solid var(--blue); border-bottom: 3px solid var(--blue); transform: rotate(45deg); border-radius: 0 0 0 5px; }
+
+/* cards */
+.vsl-cards { display: grid; gap: 20px; grid-template-columns: 1fr; padding: 10px 0 56px; }
+@media (min-width: 800px) { .vsl-cards { grid-template-columns: 1.35fr 1fr; } }
+.vsl-cards > * { min-width: 0; }
+.vsl-cardwrap { display: flex; }
+.vsl-cardwrap > .vsl-card { flex: 1; }
+.vsl-card {
+  display: flex; flex-direction: column; gap: 10px; background: var(--vsl-card); border: 3px solid var(--vsl-line);
+  border-radius: 32px; padding: 22px; text-decoration: none; color: inherit; position: relative; overflow: hidden;
+  box-shadow: 0 10px 24px rgba(26,32,44,.1); transition: transform .2s, box-shadow .2s;
+}
+.vsl-card.featured { border-color: var(--yellow); border-width: 4px; }
+a.vsl-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(74,144,226,.25); }
+a.vsl-card:focus-visible { outline: 4px solid #7C4DEB; outline-offset: 3px; }
+.vsl-card-body { display: grid; grid-template-columns: 1fr; gap: 12px; align-items: center; flex: 1; }
+@media (min-width: 560px) { .vsl-card.featured .vsl-card-body { grid-template-columns: 170px 1fr; } }
+.vsl-card-art { display: grid; place-items: center; }
+.vsl-card h3 { margin: 0 0 6px; font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 600; line-height: 1.1; color: var(--vsl-text); }
+.vsl-card p { margin: 0 0 12px; color: var(--vsl-muted); font-weight: 600; }
+.vsl-tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0 0 14px; padding: 0; }
+.vsl-tags li { background: var(--yellow); color: var(--ink); font-weight: 800; font-size: .85rem; border-radius: 999px; padding: 4px 12px; border: 2px solid var(--ink); }
+.vsl-cta {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; background: var(--yellow); color: var(--ink); font-weight: 800;
+  font-size: 1.1rem; border-radius: 16px; padding: 12px 22px; border: 3px solid var(--ink); box-shadow: 0 5px 0 var(--ink); transition: transform .15s, box-shadow .15s;
+}
+a.vsl-card:hover .vsl-cta { transform: translateY(2px); box-shadow: 0 3px 0 var(--ink); }
+.vsl-soon { align-items: center; justify-content: center; text-align: center; border-style: dashed; border-color: var(--blue); background: color-mix(in srgb, var(--vsl-card) 70%, transparent); }
+
+.vsl-soon h3 { color: var(--vsl-text); }
+
+/* microscope page */
+.vsl-page { padding: 18px 0 40px; }
+.vsl-back { display: inline-flex; align-items: center; gap: 8px; background: var(--vsl-card); color: var(--blue-deep); font-weight: 800; border: 2px solid var(--blue); border-radius: 999px; padding: 6px 16px 6px 12px; text-decoration: none; font-size: .9rem; }
+
+.vsl-back:hover { background: var(--blue); color: var(--ink); }
+.vsl-pagehead { display: flex; align-items: center; gap: 14px; margin: 16px 0 4px; }
+.vsl-badge { flex: none; width: 60px; height: 60px; border-radius: 50%; background: var(--blue); display: grid; place-items: center; border: 4px solid var(--vsl-card); box-shadow: 0 4px 10px rgba(74,144,226,.4); }
+.vsl-pagehead h1 { margin: 0; font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 600; line-height: 1.1; color: var(--vsl-text); }
+.vsl-sub { margin: 0 0 14px 74px; color: var(--vsl-muted); font-weight: 600; }
+@media (max-width: 520px) { .vsl-sub { margin-left: 0; } .vsl-badge { width: 48px; height: 48px; } }
+.vsl-frame { border: 0 !important; background: transparent !important; border-radius: 0 !important; }
+
+.vsl-bubble { position: absolute; border-radius: 50%; background: rgba(74,144,226,.1); pointer-events: none; }
+@keyframes vsl-bob { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1.5deg); } }
+@media (prefers-reduced-motion: reduce) { .vsl-guide { animation: none; } .vsl-card { transition: none; } }
