@@ -81,3 +81,15 @@ export const SmallMicroscopeIcon = ({ size = 34 }) => (
     <rect x="17" y="3" width="7" height="16" rx="2.5" transform="rotate(26 20 11)" fill="#FFDE21" />
   </svg>
 );
+
+export const HeartArt = ({ size = 160 }) => (
+  <svg width={size} height={size} viewBox="0 0 160 160" aria-hidden="true">
+    <path d="M80 142C34 106 12 80 12 52a34 34 0 0 1 68-12 34 34 0 0 1 68 12c0 28-22 54-68 90z" fill="#F0554F" stroke="#1a202c" strokeWidth="6" strokeLinejoin="round" />
+    <path d="M30 40a26 26 0 0 1 26-14" fill="none" stroke="#fff" strokeWidth="6" strokeLinecap="round" opacity=".6" />
+    <path d="M6 84h40l10-22 18 50 14-62 12 34h54" fill="none" stroke="#1a202c" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M6 84h40l10-22 18 50 14-62 12 34h54" fill="none" stroke="#fff" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="128" cy="128" r="22" fill="#FFDE21" stroke="#1a202c" strokeWidth="5" />
+    <path d="M128 114v14l9 6" fill="none" stroke="#1a202c" strokeWidth="5" strokeLinecap="round" />
+    <rect x="122" y="100" width="12" height="7" rx="2" fill="#1a202c" />
+  </svg>
+);

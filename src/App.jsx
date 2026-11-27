@@ -25,6 +25,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import ScienceHub from './pages/ScienceHub';
 import VirtualScienceLab from './pages/VirtualScienceLab';
 import VirtualMicroscopePage from './pages/VirtualMicroscopePage';
+import VirtualHeartRatePage from './pages/VirtualHeartRatePage';
 
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
@@ -174,6 +175,7 @@ function App() {
           <Route path="/science-playground" element={<SciencePlaygroundPage />} />
            <Route path="/virtual-science-lab" element={<VirtualScienceLab />} />
            <Route path="/virtual-science-lab/microscope" element={<VirtualMicroscopePage />} />
+           <Route path="/virtual-science-lab/heart-rate" element={<VirtualHeartRatePage />} />
           <Route path="/free-resources" element={<FreeResourcesPage />} />
           <Route path="/careers" element={<CareerPage />} />
           

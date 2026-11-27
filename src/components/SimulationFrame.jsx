@@ -29,8 +29,10 @@ const SimulationFrame = ({ src, title, initialHeight = 900, className = '' }) =>
         setHeight(data.height);
       }
       if (data.type === 'curiouslab-scroll-top') {
-        const top = frameRef.current.getBoundingClientRect().top;
-        if (top < 0) window.scrollTo({ top: Math.max(0, window.scrollY + top - 90), behavior: 'smooth' });
+        // optional data.y = a point inside the simulation to bring to the top of the screen (used on phones)
+        const y = Number.isFinite(data.y) ? data.y : 0;
+        const top = frameRef.current.getBoundingClientRect().top + y;
+        if (top < 0 || y > 0) window.scrollTo({ top: Math.max(0, window.scrollY + top - 90), behavior: 'smooth' });
       }
     };
     window.addEventListener('message', onMessage);

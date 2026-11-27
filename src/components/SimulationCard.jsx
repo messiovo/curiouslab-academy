@@ -3,9 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { MicroscopeArt, FlaskArt } from './LabArt';
+import { MicroscopeArt, FlaskArt, HeartArt } from './LabArt';
 
-const ART = { microscope: MicroscopeArt, flask: FlaskArt };
+const ART = { microscope: MicroscopeArt, heart: HeartArt, flask: FlaskArt };
 
 const SimulationCard = ({ title, description, href, art = 'flask', featured = false, tags = [] }) => {
   const Art = ART[art] || FlaskArt;
@@ -19,7 +19,7 @@ const SimulationCard = ({ title, description, href, art = 'flask', featured = fa
     >
       <Link to={href} className={`vsl-card ${featured ? 'featured' : ''}`}>
         <div className="vsl-card-body">
-          <div className="vsl-card-art"><Art /></div>
+          <div className="vsl-card-art"><Art size={130} /></div>
           <div>
             <h3>{title}</h3>
             <p>{description}</p>

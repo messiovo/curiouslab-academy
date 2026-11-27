@@ -117,7 +117,7 @@ h2 { font-size: 1.25rem; }
   .grid > .col > * { order: 5; }
   .grid > .col > .scope { order: 1; }
   .grid > .col > .pick { order: 2; }
-  .grid > .col > .notice { order: 3; }
+  .grid > .col > .tabs-area { order: 3; }
   .grid > .col > details { order: 4; }
   .grid { gap: 16px; }
 }
@@ -256,6 +256,74 @@ details li { margin-bottom: 4px; }
   .spec .thumb { width: 42px; height: 42px; }
   .spec b { font-size: .92rem; }
 }
+
+/* ---------- v2: investigation panel, missions, notebook ---------- */
+.sub { font-family: var(--font-display); font-size: .95rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--brand); margin: 16px 0 6px; }
+.invhead { display: flex; gap: 12px; align-items: center; }
+.invhead h2 { font-size: 1.35rem; line-height: 1.15; }
+.invkick { margin: 0; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.invthumb { position: relative; overflow: hidden; flex: none; width: 64px; height: 64px; border-radius: 16px; background-size: cover; background-position: center; border: 3px solid var(--primary); }
+.invthumb svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tag { display: inline-block; margin-top: 4px; padding: 2px 10px; border-radius: 999px; background: var(--sel-bg); color: var(--brand); font-weight: 800; font-size: .82rem; }
+.notice .sub:first-of-type { margin-top: 14px; }
+.notice .try { margin: 8px 0 0; font-weight: 700; color: var(--muted); }
+.think { margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: var(--surface2); border-left: 6px solid var(--primary); }
+.think b { color: var(--brand); }
+.think p { margin: 4px 0 0; font-weight: 700; }
+.qtext { font-weight: 800; margin: 0 0 8px; }
+.lock { margin: 0 0 8px; padding: 8px 12px; border-radius: 12px; background: var(--secondary); color: var(--ink); font-weight: 800; border: 2px solid var(--ink); }
+.lock:empty { display: none; }
+.opts { display: grid; gap: 8px; }
+.opt { display: flex; gap: 10px; align-items: center; text-align: left; width: 100%; min-height: 48px; padding: 8px 12px; border-radius: 14px; border: 3px solid var(--line); background: var(--surface); color: var(--fg); font-weight: 700; }
+.opt::before { content: ""; flex: none; width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--brand); background: var(--surface); }
+.opt:hover:not(:disabled) { border-color: var(--primary); }
+.opt:disabled { opacity: .6; cursor: not-allowed; }
+.opt.right { border-color: var(--leaf); background: var(--sel-bg); opacity: 1; }
+.opt.right::before { background: var(--leaf); border-color: var(--leaf); }
+.opt.wrong { border-color: var(--coral); opacity: .75; }
+.opt.wrong::before { background: var(--coral); border-color: var(--coral); }
+.opt[aria-pressed="true"]:not(.right):not(.wrong) { border-color: var(--primary); background: var(--sel-bg); }
+.opt[aria-pressed="true"]:not(.right):not(.wrong)::before { background: var(--brand); box-shadow: inset 0 0 0 3px var(--surface); }
+.fb { margin: 10px 0 0; font-weight: 700; }
+.fb:empty { display: none; }
+.fb.good { padding: 10px 12px; border-radius: 14px; background: var(--sel-bg); border: 2px solid var(--leaf); }
+.stage-h { margin: 14px 0 6px; font-family: var(--font-display); font-weight: 600; font-size: 1rem; color: var(--fg); display: flex; gap: 8px; align-items: center; }
+.stage-h span { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--secondary); border: 2px solid var(--ink); font-size: .9rem; }
+.stage-h:first-child { margin-top: 10px; }
+.missions .t b { display: block; font-size: 1rem; }
+.missions .t small { display: block; color: var(--muted); font-weight: 600; font-size: .88rem; line-height: 1.3; }
+.missions li.done .t b { text-decoration: line-through; text-decoration-thickness: 2px; }
+.missions li.done span.t { text-decoration: none; }
+.nbq { display: block; margin: 14px 0 6px; font-weight: 800; }
+.nbview { border-radius: 16px; overflow: hidden; border: 3px solid var(--line); background: var(--scope); max-height: 150px; }
+.nbview img { display: block; width: 100%; height: 150px; object-fit: cover; }
+.nbgroup { margin: 4px 0 10px; padding-bottom: 10px; border-bottom: 2px solid var(--line); }
+.nbgroup:last-child { border-bottom: 0; }
+.nbgroup > p { margin: 0 0 6px; color: var(--muted); font-weight: 800; font-size: .92rem; }
+.nbgroup .opts { gap: 6px; }
+.nbgroup .opt { min-height: 44px; }
+#nbStatus.ok { color: var(--leaf); }
+.entries li { grid-template-columns: 1fr; }
+.entries .ehead { display: flex; justify-content: space-between; gap: 8px; align-items: center; flex-wrap: wrap; }
+.entries .ehead b { font-size: .95rem; }
+.entries .eact { display: flex; gap: 6px; }
+.entries .eact button { border: 2px solid var(--line); background: var(--surface); color: var(--brand); font-weight: 800; border-radius: 10px; min-height: 40px; padding: 2px 12px; }
+.entries .eact button.del { color: var(--coral); }
+.entries p { margin: 4px 0 0; font-size: .95rem; }
+.entries p i { font-style: normal; font-weight: 800; color: var(--muted); }
+
+/* ---------- v2.1: tabs ---------- */
+.tabs-area { display: grid; gap: 12px; min-width: 0; }
+.tablist { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.tab { position: relative; display: grid; justify-items: center; gap: 0; padding: 8px 4px 7px; min-height: 66px; border-radius: 18px; border: 3px solid var(--line); background: var(--surface); color: var(--fg); transition: transform .15s; }
+.tab:hover { transform: translateY(-2px); }
+.tab .ti { font-size: 1.35rem; line-height: 1.1; }
+.tab .tl { font-family: var(--font-display); font-weight: 600; font-size: 1rem; line-height: 1.2; }
+.tab em { position: absolute; top: -9px; right: -5px; min-width: 26px; padding: 1px 7px; border-radius: 999px; background: var(--secondary); color: var(--ink); border: 2px solid var(--ink); font-style: normal; font-weight: 800; font-size: .78rem; line-height: 1.4; text-align: center; }
+.tab[aria-selected="true"] { background: var(--brand); border-color: var(--ink); color: var(--on-brand); box-shadow: 0 4px 0 var(--ink); }
+.recbtn { margin-top: 10px; }
+@media (max-width: 480px) { .tab .tl { font-size: .9rem; } .tab { min-height: 60px; } }
+@media (prefers-reduced-motion: reduce) { .tab { transition: none; } }
 </style>
 </head>
 <body>
@@ -318,6 +386,8 @@ details li { margin-bottom: 4px; }
           <li>Turn the focus until the picture is sharp.</li>
           <li>Move the slide to look around.</li>
           <li>Swimmers? Focus first, then tap one to find out its name.</li>
+          <li>Get a sharp picture at 100× or 400× to unlock the discovery question.</li>
+          <li>Record what you found in your notebook.</li>
           <li>Change to a stronger lens, then focus again.</li>
         </ol>
       </details>
@@ -340,39 +410,69 @@ details li { margin-bottom: 4px; }
         <p class="tip" style="margin-top:10px;max-width:none">The eyepiece always magnifies 10×. Total = eyepiece × lens.</p>
       </section>
 
-      <section class="panel notice" aria-live="polite">
-        <h2><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4a11 11 0 0 0-6 20.2V29h12v-4.8A11 11 0 0 0 20 4z" fill="#FFDE21" stroke="#1a202c" stroke-width="2.4" stroke-linejoin="round"/><path d="M15 33h10M17 37h6" stroke="#1a202c" stroke-width="2.6" stroke-linecap="round"/><path d="M20 9v5M12 14l3 2M28 14l-3 2" stroke="#1a202c" stroke-width="2" stroke-linecap="round"/></svg>What to notice</h2>
-        <p id="noticeLead" style="color:var(--muted);margin-top:6px"></p>
-        <ul id="noticeList"></ul>
+      <div class="tabs-area" id="tabsArea">
+        <div class="tablist" role="tablist" aria-label="Investigation tools">
+          <button type="button" class="tab" role="tab" id="tab-inv" aria-controls="tp-inv" aria-selected="true"><span class="ti" aria-hidden="true">🔍</span><span class="tl">Investigate</span></button>
+          <button type="button" class="tab" role="tab" id="tab-missions" aria-controls="tp-missions" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true">🎯</span><span class="tl">Missions</span><em id="tbMissions">0/6</em></button>
+          <button type="button" class="tab" role="tab" id="tab-nb" aria-controls="tp-nb" aria-selected="false" tabindex="-1"><span class="ti" aria-hidden="true">📓</span><span class="tl">Notebook</span><em id="tbNb">0</em></button>
+        </div>
+        <section id="tp-inv" role="tabpanel" aria-labelledby="tab-inv" class="panel notice inv" aria-label="Your investigation" aria-live="polite">
+        <div class="invhead">
+          <span class="invthumb" id="invThumb" aria-hidden="true"></span>
+          <div><p class="invkick">Your investigation</p><h2 id="invTitle">Onion skin</h2><span class="tag" id="invTag"></span></div>
+        </div>
+        <h3 class="sub">Detective mission</h3>
         <div class="mission" id="noticeMission"></div>
+        <h3 class="sub">Look carefully for</h3>
+        <p id="noticeLead" style="color:var(--muted)"></p>
+        <ul id="noticeList"></ul>
+        <p class="try" id="noticeTry"></p>
+        <div class="think"><b>Think like a scientist</b><p id="invThink"></p></div>
+        <h3 class="sub">Your discovery question</h3>
+        <p class="qtext" id="invQ"></p>
+        <p class="lock" id="invLock"></p>
+        <div class="opts" id="invOpts" role="group" aria-labelledby="invQ"></div>
+        <p class="fb" id="invFb" role="status"></p>
       </section>
-
-      <section class="panel">
-        <h2>Lab missions <span id="mcount" style="color:var(--muted);font-weight:700;font-size:.95rem"></span></h2>
-        <ol class="missions" id="missions" style="margin-top:10px"></ol>
+        <section id="tp-missions" role="tabpanel" aria-labelledby="tab-missions" hidden class="panel">
+        <h2>CuriousLab Scientist Missions <span id="mcount" style="color:var(--muted);font-weight:700;font-size:.95rem"></span></h2>
+        <p class="tip" style="max-width:none;margin-top:4px">Complete each mission as you explore the specimens.</p>
+        <div id="stages"></div>
         <div class="progress" aria-hidden="true"><i id="bar"></i></div>
         <div class="master" id="master" hidden>
           <svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="var(--ink)"/><path d="M24 8l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L24 31.6l-9.3 4.9 1.8-10.3L9 18.9l10.4-1.5z" fill="var(--secondary)"/></svg>
-          <span>Microscope Master! You finished all the missions.</span>
+          <span>Microscope Master! You finished all six missions.</span>
         </div>
+        <h3 class="sub" style="margin-top:16px">Bonus investigations</h3>
+        <ol class="missions" id="bonus"></ol>
       </section>
-
-      <section class="panel">
-        <h2>My lab notebook</h2>
-        <label class="sr" for="note">What do you see?</label>
-        <textarea id="note" placeholder="What do you see? Write one thing you notice, like the shape of a cell." style="margin-top:10px"></textarea>
+        <section id="tp-nb" role="tabpanel" aria-labelledby="tab-nb" hidden class="panel nb">
+        <h2>My CuriousLab Scientist’s Notebook</h2>
+        <p class="which" id="which" style="margin:2px 0 8px">Onion skin · 40×</p>
+        <p class="nbq">1. What did I observe?</p>
+        <div class="nbview"><img id="nbImg" alt="The view I am recording" draggable="false"></div>
+        <p class="nbq">2. Describe what you saw.</p>
+        <div id="nbChoices"></div>
+        <label class="nbq" for="noticed">3. Write one interesting thing you noticed.</label>
+        <textarea id="noticed" placeholder="I noticed that…"></textarea>
+        <label class="nbq" for="discovered">4. What did I discover?</label>
+        <textarea id="discovered" placeholder="I discovered that…"></textarea>
         <div class="noterow">
-          <span class="which" id="which">Onion skin · 40×</span>
-          <button class="btn fill" id="saveNote">Save note</button>
+          <span class="which" id="nbStatus" role="status"></span>
+          <button class="btn fill" id="saveNote">Save entry</button>
         </div>
+        <h3 class="sub" style="margin-top:18px">My entries</h3>
         <ul class="entries" id="entries"></ul>
-        <p class="empty" id="noEntries">Your saved notes will appear here.</p>
+        <p class="empty" id="noEntries">Your saved entries will appear here. You get one entry for each specimen.</p>
         <div class="noterow">
           <button class="btn" id="copyNb">Copy my notebook</button>
           <span class="which" id="copyMsg" role="status"></span>
         </div>
         <textarea id="exportBox" readonly hidden aria-label="Notebook text to copy"></textarea>
       </section>
+      </div>
+
+
     </div>
   </div>
 </div>
@@ -388,6 +488,40 @@ details li { margin-bottom: 4px; }
     { id: 'larvae', name: 'Mosquito wrigglers', sub: 'Baby mosquitoes', live: true },
     { id: 'pond', name: 'Pond water', sub: 'Tiny swimmers', live: true }
   ];
+  var INV = {
+    onion: { tag: 'Plant cells', mission: 'Can you find the boundaries of the tiny cells?',
+      think: 'Why do you think onion cells have walls around them?',
+      q: 'Why do plant cells have cell walls?', opts: ['They help the cell hear sounds.', 'They help support and protect the cell.', 'They help the cell swim.'], ans: 1,
+      why: 'Cell walls make plant cells strong and give them their box-like shape.' },
+    cheek: { tag: 'Animal cells', mission: 'Can you find the dark spot in the middle of a cell?',
+      think: 'Cheek cells have no thick wall like the onion. How does that change their shape?',
+      q: 'What is the dark purple spot inside each cheek cell?', opts: ['A cell wall', 'A bud', 'The nucleus, the cell’s control centre'], ans: 2,
+      why: 'The nucleus controls the cell. Animal cells have no cell wall, so they are soft and rounded.' },
+    yeast: { tag: 'Tiny living cells', mission: 'Can you find a cell with a small bump growing on it?',
+      think: 'Yeast is only one cell. How might a single cell make more yeast?',
+      q: 'What is the small bump on a yeast cell doing?', opts: ['Eating the cell next to it', 'Growing into a new yeast cell', 'Making the cell wall'], ans: 1,
+      why: 'This is called budding. In puff-puff dough, the yeast also makes gas that puffs the dough up.' },
+    garri: { tag: 'Starch grains', mission: 'Can you see how iodine changes the grains?',
+      think: 'Garri comes from cassava. What do you think the plant stores inside these grains?',
+      q: 'What colour does iodine turn when starch is present?', opts: ['Bright red', 'Blue-black', 'Nothing changes'], ans: 1,
+      why: 'Iodine turns blue-black when starch is present. That is how scientists test for starch.' },
+    larvae: { tag: 'Baby mosquitoes', mission: 'Tap a wriggler to meet it. Can you find its breathing tube?',
+      think: 'Why do you think the wrigglers keep coming up to the surface of the water?',
+      q: 'Why do mosquito larvae come up to the water surface?', opts: ['To find food on the roof', 'To sunbathe', 'To breathe air through a tube'], ans: 2,
+      why: 'Larvae breathe air at the surface. Covering water containers and clearing gutters stops them growing into mosquitoes.' },
+    pond: { tag: 'Tiny pond swimmers', mission: 'Tap a paramecium, a euglena and an amoeba.',
+      think: 'The euglena is green like a plant but swims like an animal. What do you think its green colour is for?',
+      q: 'Which pond swimmer has a whip-like tail?', opts: ['Paramecium', 'Amoeba', 'Euglena'], ans: 2,
+      why: 'The euglena uses its flagellum, a whip-like tail, to pull itself along. It is green because it makes food from sunlight.' }
+  };
+  var NB = {
+    onion: [{ q: 'What shape were the cells?', o: ['Box-like', 'Round', 'Irregular'] }, { q: 'How were they arranged?', o: ['Arranged in rows', 'Scattered', 'Grouped together'] }],
+    cheek: [{ q: 'What shape were the cells?', o: ['Box-like', 'Flat and rounded', 'Long and thin'] }, { q: 'What did you see inside each cell?', o: ['A dark spot (nucleus)', 'A thick wall', 'Nothing'] }],
+    yeast: [{ q: 'What shape were the cells?', o: ['Round or oval', 'Square', 'Long and thin'] }, { q: 'How were they arranged?', o: ['In clumps', 'In neat rows', 'One on its own'] }],
+    garri: [{ q: 'What shape were the grains?', o: ['Oval grains', 'Long threads', 'Square boxes'] }, { q: 'What did the iodine do?', o: ['Turned the grains blue-black', 'Turned the grains red', 'I have not tried iodine yet'] }],
+    larvae: [{ q: 'What did the body look like?', o: ['Long, in sections', 'Round and smooth', 'It had wings'] }, { q: 'How did it move?', o: ['It wriggled', 'It walked', 'It stayed still'] }],
+    pond: [{ q: 'How did the swimmers move?', o: ['Gliding smoothly', 'Wriggling', 'Stretching and changing shape'] }, { q: 'What colour were most of them?', o: ['Clear or pale', 'Green', 'Brown'] }]
+  };
   var NAMES = {}, LIVE = {};
   SPECS.forEach(function (s) { NAMES[s.id] = s.name; LIVE[s.id] = !!s.live; });
   var INFO = {
@@ -423,9 +557,18 @@ details li { margin-bottom: 4px; }
   var $ = function (id) { return document.getElementById(id); };
   var ep = $('eyepiece'), field = $('field'), slide = $('slide'), focus = $('focus'), svg = $('crit');
   var st = { spec: 'onion', mag: 40, focus: 10, sweet: 60, px: 0, py: 0, iodine: false };
-  var KEY = 'curiouslab-microscope-v2';
-  var saved = { notes: [], done: {}, seen: {} };
-  try { var raw = localStorage.getItem(KEY); if (raw) { var p = JSON.parse(raw); if (p && p.notes) { saved = p; saved.done = saved.done || {}; saved.seen = saved.seen || {}; } } } catch (e) {}
+  var KEY = 'curiouslab-microscope-v3';
+  var saved = { entries: [], done: {}, seen: {}, inv: {} };
+  try {
+    var raw = localStorage.getItem(KEY);
+    if (raw) { var p = JSON.parse(raw); if (p && p.entries) { saved = p; saved.done = saved.done || {}; saved.seen = saved.seen || {}; saved.inv = saved.inv || {}; } }
+    else {   // bring over notes written in the first version, one entry per specimen
+      var old = localStorage.getItem('curiouslab-microscope-v2');
+      if (old) { var po = JSON.parse(old); (po.notes || []).forEach(function (n) {
+        if (n && n.spec && !saved.entries.some(function (e) { return e.spec === n.spec; })) saved.entries.push({ spec: n.spec, mag: n.mag, iodine: false, a: [null, null], noticed: String(n.text || ''), discovered: '' });
+      }); saved.seen = po.seen || {}; }
+    }
+  } catch (e) {}
   function persist() { try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
   var reduce = false;
   try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
@@ -609,45 +752,106 @@ details li { margin-bottom: 4px; }
     var inf = INFO[key];
     $('noticeLead').textContent = inf[0];
     $('noticeList').innerHTML = inf[1].map(function (t) { return '<li>' + t + '</li>'; }).join('');
-    $('noticeMission').textContent = inf[2];
+    $('noticeTry').textContent = 'Try this: ' + inf[2].replace(/^Mission:\s*/, '');
+    renderInv();
+    nbSync(key);
     updateMissions();
     roboUpdate(key, sharp, inf);
   }
 
-  // ---------- missions ----------
+  // ---------- investigation panel (changes with the specimen) ----------
+  var inv = { spec: null, wrong: {}, fb: '' };
+  function invUnlocked() { return isSharp() && st.mag >= 100 && (st.spec !== 'garri' || st.iodine); }
+  function lockText() {
+    if (st.spec === 'garri' && !st.iodine) return 'Add a drop of iodine, then get a sharp picture at 100× or 400× to unlock this question.';
+    return 'Get a sharp picture at 100× or 400× to unlock this question.';
+  }
+  function buildInv() {
+    var d = INV[st.spec], box = $('invOpts'), done = !!saved.inv[st.spec];
+    box.innerHTML = '';
+    d.opts.forEach(function (txt, i) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.textContent = txt; b.setAttribute('data-i', i);
+      if (done && i === d.ans) b.classList.add('right');
+      if (!done && inv.wrong[i]) b.classList.add('wrong');
+      b.addEventListener('click', function () { answerInv(i); });
+      box.appendChild(b);
+    });
+    var fb = $('invFb'); fb.className = 'fb';
+    if (done) {
+      fb.className = 'fb good'; fb.textContent = '✓ Discovery complete! ' + d.why;
+      var rb = document.createElement('button'); rb.type = 'button'; rb.className = 'btn fill recbtn'; rb.textContent = '📓 Record it in my notebook →';
+      rb.addEventListener('click', function () { setTab('nb', true); });
+      fb.appendChild(document.createElement('br')); fb.appendChild(rb);
+    }
+    else fb.textContent = inv.fb || '';
+  }
+  function renderInv() {
+    var d = INV[st.spec];
+    if (inv.spec !== st.spec) {
+      inv.spec = st.spec; inv.wrong = {}; inv.fb = '';
+      $('invTitle').textContent = NAMES[st.spec]; $('invTag').textContent = d.tag;
+      var th = $('invThumb'); th.style.backgroundImage = 'url(' + IMGS[st.spec + '100'] + ')'; th.innerHTML = THUMB[st.spec] || '';
+      $('noticeMission').textContent = d.mission; $('invThink').textContent = d.think; $('invQ').textContent = d.q;
+      buildInv();
+    }
+    var done = !!saved.inv[st.spec], open = invUnlocked() || done;
+    $('invLock').textContent = open ? '' : lockText();
+    $('invOpts').querySelectorAll('.opt').forEach(function (b) { b.disabled = !open || done || b.classList.contains('wrong'); });
+  }
+  function answerInv(i) {
+    var d = INV[st.spec];
+    if (!invUnlocked() || saved.inv[st.spec]) return;
+    if (i === d.ans) {
+      saved.inv[st.spec] = 1; persist(); inv.fb = ''; buildInv(); renderInv(); updateMissions();
+      roboSay('Yes! ' + d.why);
+    } else {
+      inv.wrong[i] = 1; inv.fb = 'Not quite. Look at the picture again, then try another answer.'; buildInv(); renderInv();
+      roboSay('Not quite. Look at the picture again, then try another answer.');
+    }
+  }
+
+  // ---------- missions (three stages + bonus) ----------
   function seenAll(a) { return a.every(function (k) { return saved.seen[k]; }); }
-  var MISSIONS = [
-    { id: 'm1', text: 'Find a sharp picture at 40×', auto: function () { return st.mag === 40 && isSharp(); } },
-    { id: 'm2', text: 'Zoom in to 400× and focus again', auto: function () { return st.mag === 400 && isSharp(); } },
-    { id: 'm3', text: 'Onion: find a thick cell wall', can: function () { return st.spec === 'onion' && st.mag >= 100 && isSharp(); }, hint: 'Use the onion at 100× or 400×, sharp.' },
-    { id: 'm4', text: 'Cheek cells: find a nucleus', can: function () { return st.spec === 'cheek' && st.mag >= 100 && isSharp(); }, hint: 'Use the cheek cells at 100× or 400×, sharp.' },
-    { id: 'm5', text: 'Yeast: find a cell with a bud', can: function () { return st.spec === 'yeast' && st.mag >= 100 && isSharp(); }, hint: 'Use the yeast at 100× or 400×, sharp.' },
-    { id: 'm6', text: 'Garri: add iodine and see blue-black', auto: function () { return st.spec === 'garri' && st.iodine && isSharp(); } },
-    { id: 'm7', text: 'Tap a mosquito wriggler to meet it', auto: function () { return !!saved.seen.larva; } },
-    { id: 'm8', text: 'Pond: tap a paramecium, a euglena and an amoeba', auto: function () { return seenAll(['paramecium', 'euglena', 'amoeba']); } },
-    { id: 'm9', text: 'Save notes for 3 different specimens', auto: function () {
-      var s = {}, n = 0; saved.notes.forEach(function (x) { if (!s[x.spec]) { s[x.spec] = 1; n++; } }); return n >= 3; } }
+  function entrySpecs() { var s = {}, n = 0; saved.entries.forEach(function (x) { if (!s[x.spec]) { s[x.spec] = 1; n++; } }); return n; }
+  var STAGES = [
+    { name: 'Learn the microscope', items: [
+      { id: 'm1', title: 'Master the microscope', text: 'Find a clear picture at 40× magnification.', auto: function () { return st.mag === 40 && isSharp(); } },
+      { id: 'm2', title: 'Become a zoom expert', text: 'Increase to 400× and focus again. What new details can you see?', auto: function () { return st.mag === 400 && isSharp(); } } ] },
+    { name: 'Look at living things', items: [
+      { id: 'm3', title: 'Investigate onion skin', text: 'Find a cell wall. What shape are the onion cells?', auto: function () { return !!saved.inv.onion; } },
+      { id: 'm4', title: 'Explore cheek cells', text: 'Find a nucleus. How are these cells different from onion cells?', auto: function () { return !!saved.inv.cheek; } },
+      { id: 'm5', title: 'Discover yeast', text: 'Find a yeast cell with a bud. What might the bud be doing?', auto: function () { return !!saved.inv.yeast; } } ] },
+    { name: 'Be a scientist', items: [
+      { id: 'm6', title: 'Complete your scientist’s notebook', text: 'Save entries for at least three different specimens.', auto: function () { return entrySpecs() >= 3; } } ] }
   ];
-  var mList = $('missions');
-  MISSIONS.forEach(function (m) {
+  var BONUS = [
+    { id: 'b1', title: 'Test garri starch', text: 'Add iodine and see the colour change.', auto: function () { return st.spec === 'garri' && st.iodine && isSharp(); } },
+    { id: 'b2', title: 'Meet a mosquito wriggler', text: 'Tap one to find out how it moves.', auto: function () { return !!saved.seen.larva; } },
+    { id: 'b3', title: 'Explore pond water', text: 'Tap a paramecium, a euglena and an amoeba.', auto: function () { return seenAll(['paramecium', 'euglena', 'amoeba']); } }
+  ];
+  var MISSIONS = [];
+  function mkLi(m) {
     var li = document.createElement('li'); li.id = 'li-' + m.id;
-    li.innerHTML = '<span class="tick" aria-hidden="true">✓</span><span class="t">' + m.text + '</span>';
-    if (m.can) {
-      var b = document.createElement('button'); b.className = 'btn'; b.textContent = 'I found it!'; b.id = 'b-' + m.id;
-      b.addEventListener('click', function () { if (m.can()) { saved.done[m.id] = 1; persist(); updateMissions(); } });
-      li.appendChild(b);
-    } else { li.appendChild(document.createElement('span')); }
-    mList.appendChild(li);
+    li.innerHTML = '<span class="tick" aria-hidden="true">✓</span><span class="t"><b></b><small></small></span><span></span>';
+    li.querySelector('b').textContent = m.title; li.querySelector('small').textContent = m.text; return li;
+  }
+  var stBox = $('stages'), n0 = 0;
+  STAGES.forEach(function (s, si) {
+    var h = document.createElement('p'); h.className = 'stage-h'; h.innerHTML = '<span>' + (si + 1) + '</span>'; h.appendChild(document.createTextNode('Stage ' + (si + 1) + ' · ' + s.name));
+    stBox.appendChild(h);
+    var ol = document.createElement('ol'); ol.className = 'missions';
+    s.items.forEach(function (m) { ol.appendChild(mkLi(m)); MISSIONS.push(m); });
+    stBox.appendChild(ol);
   });
+  BONUS.forEach(function (m) { $('bonus').appendChild(mkLi(m)); });
   function updateMissions() {
     var n = 0;
-    MISSIONS.forEach(function (m) {
-      if (m.auto && m.auto()) { if (!saved.done[m.id]) { saved.done[m.id] = 1; persist(); } }
-      var done = !!saved.done[m.id]; if (done) n++;
-      var li = $('li-' + m.id); li.className = done ? 'done' : '';
-      if (m.can) { var b = $('b-' + m.id); b.hidden = done; b.disabled = !m.can(); b.title = b.disabled ? m.hint : ''; }
+    MISSIONS.concat(BONUS).forEach(function (m) {
+      if (m.auto && m.auto() && !saved.done[m.id]) { saved.done[m.id] = 1; persist(); }
+      var done = !!saved.done[m.id]; if (done && m.id.charAt(0) === 'm') n++;
+      $('li-' + m.id).className = done ? 'done' : '';
     });
-    $('mcount').textContent = '(' + n + ' of ' + MISSIONS.length + ')';
+    $('mcount').textContent = '(' + n + ' of ' + MISSIONS.length + ')'; $('tbMissions').textContent = n + '/' + MISSIONS.length;
     $('bar').style.width = (n / MISSIONS.length * 100) + '%';
     $('master').hidden = n < MISSIONS.length;
   }
@@ -688,32 +892,110 @@ details li { margin-bottom: 4px; }
   });
   window.addEventListener('resize', render);
 
-  // ---------- notebook ----------
-  function noteLabel(n) { return NAMES[n.spec] + ' · ' + n.mag + '×'; }
+  // ---------- notebook (one entry per specimen, saved on this device) ----------
+  function specNo(id) { for (var i = 0; i < SPECS.length; i++) if (SPECS[i].id === id) return ('0' + (i + 1)).slice(-2); return '00'; }
+  function entryOf(spec) { for (var i = 0; i < saved.entries.length; i++) if (saved.entries[i].spec === spec) return saved.entries[i]; return null; }
+  function entryLabel(e) { return 'Investigation ' + specNo(e.spec) + ' · ' + NAMES[e.spec] + ' · ' + e.mag + '×' + (e.iodine ? ' · iodine' : ''); }
+  var nbSpec = null, nbA = [null, null];
+  function buildNbChoices() {
+    var box = $('nbChoices'); box.innerHTML = '';
+    NB[nbSpec].forEach(function (g, gi) {
+      var div = document.createElement('div'); div.className = 'nbgroup';
+      var p = document.createElement('p'); p.textContent = g.q; div.appendChild(p);
+      var opts = document.createElement('div'); opts.className = 'opts'; opts.setAttribute('role', 'group'); opts.setAttribute('aria-label', g.q);
+      g.o.forEach(function (txt, oi) {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.textContent = txt;
+        b.setAttribute('aria-pressed', String(nbA[gi] === oi));
+        b.addEventListener('click', function () {
+          nbA[gi] = oi; opts.querySelectorAll('.opt').forEach(function (x, k) { x.setAttribute('aria-pressed', String(k === oi)); });
+          $('nbStatus').textContent = ''; $('nbStatus').className = 'which';
+        });
+        opts.appendChild(b);
+      });
+      div.appendChild(opts); box.appendChild(div);
+    });
+  }
+  function nbLoad(spec) {
+    nbSpec = spec; var e = entryOf(spec);
+    nbA = e ? [e.a[0], e.a[1]] : [null, null];
+    $('noticed').value = e ? e.noticed : ''; $('discovered').value = e ? e.discovered : '';
+    buildNbChoices();
+    $('saveNote').textContent = e ? 'Update entry' : 'Save entry';
+    $('nbStatus').textContent = e ? 'Saved at ' + e.mag + '×' : ''; $('nbStatus').className = 'which';
+  }
+  function nbSync(key) {
+    if (nbSpec !== st.spec) nbLoad(st.spec);
+    var img = $('nbImg'); if (img.getAttribute('data-key') !== key) { img.src = IMGS[key]; img.setAttribute('data-key', key); }
+  }
   function renderNotes() {
     var ul = $('entries'); ul.innerHTML = '';
-    saved.notes.slice().reverse().forEach(function (n, i) {
-      var idx = saved.notes.length - 1 - i;
+    saved.entries.forEach(function (e) {
       var li = document.createElement('li');
-      var d = document.createElement('div'); var b = document.createElement('b'); b.textContent = noteLabel(n);
-      var t = document.createElement('span'); t.textContent = n.text; d.appendChild(b); d.appendChild(t);
-      var x = document.createElement('button'); x.className = 'x'; x.textContent = '✕'; x.setAttribute('aria-label', 'Delete this note');
-      x.addEventListener('click', function () { saved.notes.splice(idx, 1); persist(); renderNotes(); updateMissions(); });
-      li.appendChild(d); li.appendChild(x); ul.appendChild(li);
+      var head = document.createElement('div'); head.className = 'ehead';
+      var b = document.createElement('b'); b.textContent = entryLabel(e);
+      var act = document.createElement('div'); act.className = 'eact';
+      var ed = document.createElement('button'); ed.type = 'button'; ed.textContent = 'Edit'; ed.setAttribute('aria-label', 'Edit my ' + NAMES[e.spec] + ' entry');
+      ed.addEventListener('click', function () { setView(e.spec, e.mag); nbLoad(e.spec); $('noticed').focus(); });
+      var del = document.createElement('button'); del.type = 'button'; del.className = 'del'; del.textContent = 'Delete'; del.setAttribute('aria-label', 'Delete my ' + NAMES[e.spec] + ' entry');
+      var armed = 0;
+      del.addEventListener('click', function () {
+        if (!armed) { armed = 1; del.textContent = 'Sure?'; setTimeout(function () { armed = 0; del.textContent = 'Delete'; }, 3000); return; }
+        saved.entries = saved.entries.filter(function (x) { return x !== e; }); persist(); renderNotes(); updateMissions();
+        if (nbSpec === e.spec) nbLoad(e.spec);
+      });
+      act.appendChild(ed); act.appendChild(del); head.appendChild(b); head.appendChild(act); li.appendChild(head);
+      function line(lab, val) { if (!val) return; var p = document.createElement('p'); var i = document.createElement('i'); i.textContent = lab + ' '; p.appendChild(i); p.appendChild(document.createTextNode(val)); li.appendChild(p); }
+      NB[e.spec].forEach(function (g, gi) { if (e.a[gi] !== null && e.a[gi] !== undefined) line(g.q, g.o[e.a[gi]]); });
+      line('I noticed:', e.noticed); line('I discovered:', e.discovered);
+      ul.appendChild(li);
     });
-    $('noEntries').hidden = saved.notes.length > 0;
+    $('noEntries').hidden = saved.entries.length > 0; $('tbNb').textContent = saved.entries.length;
   }
   $('saveNote').addEventListener('click', function () {
-    var t = $('note').value.trim(); if (t.length < 3) { $('note').focus(); return; }
-    saved.notes.push({ spec: st.spec, mag: st.mag, text: t }); persist(); $('note').value = ''; renderNotes(); updateMissions();
+    var s = $('nbStatus'), nt = $('noticed').value.trim(), ds = $('discovered').value.trim();
+    if (nbA[0] === null || nbA[1] === null || nt.length < 3) {
+      s.className = 'which'; s.textContent = 'Pick an answer for each question and write what you noticed.'; return;
+    }
+    var e = { spec: st.spec, mag: st.mag, iodine: !!(st.spec === 'garri' && st.iodine), a: [nbA[0], nbA[1]], noticed: nt, discovered: ds };
+    var old = entryOf(st.spec);
+    if (old) saved.entries[saved.entries.indexOf(old)] = e; else saved.entries.push(e);
+    persist(); renderNotes(); updateMissions();
+    $('saveNote').textContent = 'Update entry'; s.className = 'which ok'; s.textContent = '✓ Saved! (' + st.mag + '×)';
+    roboSay('Great scientist’s notes! Now try another specimen.');
   });
   $('copyNb').addEventListener('click', function () {
-    var txt = 'My lab notebook\n' + saved.notes.map(function (n) { return '- ' + noteLabel(n) + ': ' + n.text; }).join('\n');
+    var txt = 'My CuriousLab Scientist’s Notebook\n' + saved.entries.map(function (e) {
+      var l = ['', entryLabel(e)];
+      NB[e.spec].forEach(function (g, gi) { if (e.a[gi] !== null && e.a[gi] !== undefined) l.push('- ' + g.q + ' ' + g.o[e.a[gi]]); });
+      if (e.noticed) l.push('- I noticed: ' + e.noticed); if (e.discovered) l.push('- I discovered: ' + e.discovered);
+      return l.join('\n');
+    }).join('\n');
     var msg = $('copyMsg'), box = $('exportBox');
     function fallback() { box.hidden = false; box.value = txt; box.focus(); box.select(); msg.textContent = 'Select and copy the text below.'; }
     try { navigator.clipboard.writeText(txt).then(function () { msg.textContent = 'Copied!'; setTimeout(function () { msg.textContent = ''; }, 2000); }, fallback); } catch (e) { fallback(); }
   });
 
+  // ---------- tabs: Investigate / Missions / Notebook ----------
+  var TABS = ['inv', 'missions', 'nb'];
+  function setTab(id, scroll) {
+    TABS.forEach(function (k) {
+      var on = k === id;
+      $('tp-' + k).hidden = !on;
+      $('tab-' + k).setAttribute('aria-selected', String(on)); $('tab-' + k).tabIndex = on ? 0 : -1;
+    });
+    if (scroll && window.innerWidth <= 860 && window.parent !== window) {   // phones: bring the panel to the top of the screen
+      try { window.parent.postMessage({ type: 'curiouslab-scroll-top', y: $('tabsArea').offsetTop - 8 }, location.origin); } catch (e) {}
+    }
+    if (id === 'nb') { var img = $('nbImg'); nbSync(curKey()); }
+  }
+  TABS.forEach(function (k, i) {
+    var b = $('tab-' + k);
+    b.addEventListener('click', function () { setTab(k, true); });
+    b.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+      e.preventDefault(); var n = TABS[(i + d + TABS.length) % TABS.length]; setTab(n, false); $('tab-' + n).focus();
+    });
+  });
 
   // ---------- RoboBuddy: speech bubble + voice guidance ----------
   var roboEl = $('roboText'), roboBtn = $('roboSpeak'), roboLast = null, voiceOn = false, voiceTimer = 0;

@@ -38,15 +38,19 @@ const VirtualScienceLab = () => (
           <SimulationCard key={sim.slug} {...sim} />
         ))}
 
-        <div className="vsl-cardwrap"><div className="vsl-card vsl-soon">
-          <FlaskArt size={96} />
-          <h3>More experiments coming soon!</h3>
-          <p>New simulations and hands-on experiments are on the way.</p>
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }} aria-hidden="true">
-            <AtomArt size={54} />
-            <BooksArt size={96} />
+        <div className="vsl-cardwrap vsl-wide">
+          <div className="vsl-card vsl-soon">
+            <FlaskArt size={80} />
+            <div className="vsl-soon-text">
+              <h3>More experiments coming soon!</h3>
+              <p>New simulations and hands-on experiments are on the way.</p>
+            </div>
+            <div className="vsl-soon-art" aria-hidden="true">
+              <AtomArt size={54} />
+              <BooksArt size={96} />
+            </div>
           </div>
-        </div></div>
+        </div>
       </section>
     </div>
   </main>

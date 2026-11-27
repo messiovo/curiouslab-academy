@@ -12,4 +12,14 @@ export const simulations = [
     featured: true,
     tags: ['Grades 5–6', 'Cells', '6 specimens'],
   },
+  {
+    slug: 'heart-rate',
+    title: 'Heart Rate Investigation',
+    description:
+      'Predict, count Isio’s pulse, compare resting, walking and running, then graph what happens to a heartbeat.',
+    href: '/virtual-science-lab/heart-rate',
+    art: 'heart',
+    featured: true,
+    tags: ['Grades 5–6', 'Human body', '3 activities'],
+  },
 ];
