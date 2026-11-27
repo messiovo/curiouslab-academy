@@ -172,6 +172,62 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
 @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
 @keyframes wig { 50% { transform: rotate(-3deg) scale(1.04); } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ---------- Unit 2 ---------- */
+.mapwrap.wide { aspect-ratio: auto; background: none; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+.mapin { position: relative; width: max(100%, 940px); aspect-ratio: 1672 / 463; background: var(--bg) center / 100% 100% no-repeat; }
+.swipe { display: none; font-weight: 800; }
+.mapwrap.wide .robopt { width: clamp(44px, 6%, 66px); }
+@media (max-width: 719px) { .swipe:not([hidden]) { display: block; } }
+.spot.soon .bub { filter: grayscale(.55); opacity: .88; border-color: #B9C3CE; }
+.spot.soon .lbl::after { content: " · soon"; color: var(--muted); }
+.obj { display: block; margin: 0 auto; height: clamp(120px, 30vw, 190px); width: auto; max-width: 100%; filter: drop-shadow(0 6px 4px rgba(0, 0, 0, .2)); }
+.opts.two .opt { flex: 1 1 140px; max-width: 240px; min-height: 104px; }
+.opts.two .oe { font-size: 2.4rem; }
+.chk { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 12px 0 0; min-height: 40px; }
+.chk > * { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 99px; font: 800 .98rem var(--body); background: var(--good-bg); border: 3px solid var(--good); color: var(--ink); }
+.chk .no { background: var(--bad-bg); border-color: var(--bad); }
+.chk button { cursor: pointer; background: #F3FAFF; border-color: #BBD9F2; min-height: 46px; }
+.chk > span, .chk .pop { animation: popin .25s ease-out; }
+.checker { display: flex; align-items: center; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.checker img { height: clamp(120px, 30vw, 170px); width: auto; }
+.hunt { position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 20px; overflow: hidden; background: #8CCB5A url("../images/unit2/garden.webp") center / cover no-repeat; border: 4px solid #fff; box-shadow: var(--shadow); touch-action: manipulation; }
+.hitem { position: absolute; transform: translate(-50%, -100%); border: 0; background: none; padding: 0; z-index: 2; }
+.hitem img { width: 100%; display: block; pointer-events: none; filter: drop-shadow(0 3px 2px rgba(0, 0, 0, .3)); }
+.hitem.fly img { animation: bob 2.2s ease-in-out infinite; }
+.hitem.found img { filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 9px #2FA36B); }
+.hitem.found::after { content: "✓"; position: absolute; top: -4px; right: -4px; width: 26px; height: 26px; border-radius: 50%; background: var(--good); color: #fff; display: grid; place-items: center; font-weight: 900; border: 2px solid #fff; }
+.hitem.bad { animation: shake .4s; }
+.hitem.hint { animation: wig .7s infinite; }
+.hitem.hint img { filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px #FFB703); }
+.hide { position: absolute; transform: translate(-50%, -100%); z-index: 3; pointer-events: none; }
+.hide img { width: 100%; display: block; filter: drop-shadow(0 4px 3px rgba(0, 0, 0, .3)); }
+.huntbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin: 0 0 8px; }
+.huntbar .q { margin: 0; text-align: left; }
+.huntbar .cnt { font-size: 1.6rem; color: var(--hint); letter-spacing: 2px; white-space: nowrap; }
+.needs { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: center; min-height: 72px; background: #F3FAFF; border: 3px dashed #BBD9F2; border-radius: 18px; padding: 8px 12px; margin-top: 10px; text-align: left; font-weight: 700; }
+.needs .t { height: 52px; width: auto; }
+.needs .n { display: flex; gap: 10px; }
+.needs .nd { display: grid; justify-items: center; font-size: .78rem; font-weight: 800; line-height: 1.1; }
+.needs .nd img { height: 36px; width: auto; }
+@keyframes popin { 0% { transform: scale(.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+.oi { height: 56px; width: auto; max-width: 90px; object-fit: contain; display: block; }
+.opt.good { background: var(--good-bg); border-color: var(--good); }
+.tray { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0; }
+.tile { position: relative; width: 92px; min-height: 92px; border: 3px solid #BBD9F2; border-radius: 16px; background: #fff; padding: 4px; display: grid; place-items: center; cursor: pointer; font: 800 .75rem var(--body); color: var(--ink); }
+.tile img { width: 100%; height: 76px; object-fit: contain; }
+.tile.sel { border-color: var(--hint); box-shadow: 0 0 0 4px #FFE8A3; }
+.tile.hint { animation: wig .7s infinite; border-color: var(--hint); }
+.tile.bad { animation: shake .4s; }
+.baskets { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.basket { border: 4px dashed; border-radius: 18px; min-height: 120px; padding: 8px; background: #F3FAFF; font: 800 1rem var(--body); color: var(--ink); cursor: pointer; }
+.basket.live { border-color: var(--good); } .basket.non { border-color: #7A8CA0; }
+.basket .in { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 6px; }
+.basket .in img { height: 46px; width: auto; animation: popin .25s ease-out; }
+.slots { display: flex; gap: 6px; justify-content: center; margin: 8px 0; }
+.slot { width: 17%; max-width: 76px; aspect-ratio: 1; border: 3px dashed #BBD9F2; border-radius: 14px; display: grid; place-items: center; color: var(--muted); font-weight: 900; background: #F3FAFF; }
+.slot.full { border-style: solid; border-color: var(--good); background: #fff; }
+.slot img { width: 100%; height: 100%; object-fit: contain; }
 </style>
 <div class="scenebg" aria-hidden="true"></div>
 <div class="app" id="app">
@@ -198,6 +254,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
 
     <section id="map" hidden>
       <div class="mapwrap" id="mapwrap"></div>
+      <p class="note swipe" id="swipe" hidden>👉 Slide the picture sideways to see every mission.</p>
       <div class="mapbar">
         <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="6" id="pbar"><i id="pfill"></i></div>
         <div class="note" id="pnote" style="margin:0"></div>
@@ -232,11 +289,11 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
     <section id="cert" hidden>
       <div class="certbox">
         <div class="trio" id="trio" aria-hidden="true"></div>
-        <h2>Super Senses Explorer</h2>
+        <h2 id="certTitle">Super Senses Explorer</h2>
         <p>This certificate is for</p>
         <div class="certname" id="certName">Explorer</div>
-        <div class="stickers" aria-hidden="true">👁️ 👂 👃 👅 🖐️</div>
-        <p><b>You found out how your body senses the world and you built an amazing body!</b></p>
+        <div class="stickers" id="certStick" aria-hidden="true">👁️ 👂 👃 👅 🖐️</div>
+        <p><b id="certMsg">You found out how your body senses the world and you built an amazing body!</b></p>
         <p class="note">Take a picture of this page and show your teacher and your family.</p>
         <label for="certIn"><b>Change your name:</b></label><br>
         <input class="nameIn" id="certIn" maxlength="20" autocomplete="off" placeholder="Type your name">
@@ -367,11 +424,11 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
       setSay(R.say, 'happy');
       var tries = 0, locked = false;
       var ctl = {
-        ok: function (el, msg) {
+        ok: function (el, msg, delay) {
           if (locked) return; locked = true;
           sfx('ok'); if (el) el.classList.add('good'); robo('cheer');
           var m = msg || pick(PRAISE); setMsg(m); speak(m);
-          roundsTimer = setTimeout(function () { i++; next(); }, 1500);
+          roundsTimer = setTimeout(function () { i++; next(); }, delay || 1500);
         },
         no: function (el, hint) {
           if (locked) return;
@@ -599,6 +656,275 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
     });
   }
 
+
+  /* ================= Unit 2: Living and Non-living Things ================= */
+  var U2 = '../images/unit2/';
+  function im(n) { return U2 + n + '.webp'; }
+  var CHECK = [['grows', '🌱', 'Grows'], ['eats', '🍽️', 'Eats and drinks'], ['breathes', '💨', 'Breathes'], ['babies', '🐣', 'Has babies']];
+  function chkRow(alive) {
+    return CHECK.map(function (c) { return '<span class="' + (alive ? '' : 'no') + '"><span aria-hidden="true">' + (alive ? '✅' : '❌') + '</span>' + c[2] + '</span>'; }).join('');
+  }
+  var LIFE = [
+    { id: 'hen', name: 'hen', art: 'hen', alive: true, yes: 'Yes! A hen is alive. It grows, eats and breathes!', no: 'Look again! The hen grows, eats and breathes. It is alive!' },
+    { id: 'stone', name: 'stone', art: 'stone', alive: false, yes: 'Right! A stone is not alive. It does not grow, eat or breathe.', no: 'Hmm, let us check. Does a stone grow? Does it eat or breathe?' },
+    { id: 'flower', name: 'flower', art: 'flower', alive: true, yes: 'Yes! A flower is alive. It grows and drinks water!', no: 'Look again! A flower grows and drinks water. It is alive!' },
+    { id: 'danfo', name: 'danfo bus', art: 'danfo', alive: false, yes: 'Right! The danfo moves, but it does not grow, eat or breathe. Moving is not enough!', no: 'The danfo can move. But does it grow? Does it eat or breathe?' },
+    { id: 'goat', name: 'goat', art: 'goat', alive: true, yes: 'Yes! A goat is alive. It eats grass and has baby goats!', no: 'Look again! A goat eats, breathes and has babies. It is alive!' },
+    { id: 'ball', name: 'ball', art: 'ball', alive: false, yes: 'Right! A ball is not alive. It only moves when we kick it.', no: 'Hmm, let us check. Does a ball grow? Does it eat or breathe?' },
+    { id: 'seed', name: 'seed', art: 'seed', alive: true, yes: 'Yes! A seed is alive. It is resting, and it will grow into a plant!', no: 'Tricky one! A seed is alive. It can grow into a plant!' },
+    { id: 'robo', name: 'RoboBuddy', art: 'robobuddy', alive: false, yes: 'Right! RoboBuddy can talk and move, but he does not grow, eat or breathe.', no: 'RoboBuddy can move and talk. But does he grow, eat or breathe?' }
+  ];
+  function lifeIntro() {
+    return {
+      say: 'I am the Alive Checker! Living things can do four things. Tap each one!',
+      render: function (box, ctl) {
+        var seen = {}, left = CHECK.length;
+        box.appendChild(h('div', { class: 'art' }, '<div class="checker"><img src="' + im('isio-detective') + '" alt="Isio with a magnifying glass"></div><p class="q">Living things do these four things. Tap each one!</p>'));
+        var row = h('div', { class: 'chk' }); box.appendChild(row);
+        var SAY = { grows: 'Living things grow bigger.', eats: 'Living things eat and drink.', breathes: 'Living things breathe air.', babies: 'Living things make babies.' };
+        CHECK.forEach(function (c) {
+          var b = h('button', { class: 'pop', type: 'button' }, '<span aria-hidden="true">' + c[1] + '</span>' + c[2]);
+          b.addEventListener('click', function () {
+            sfx('pop'); setMsg(SAY[c[0]]); speak(SAY[c[0]]);
+            if (!seen[c[0]]) { seen[c[0]] = 1; left--; b.style.background = 'var(--good-bg)'; b.style.borderColor = 'var(--good)'; b.firstChild.textContent = '✅'; }
+            if (left === 0) { var go = h('div', { class: 'row' }, '<button class="btn sun" type="button">Let’s check things! ▶</button>'); box.appendChild(go); go.firstChild.addEventListener('click', function () { ctl.ok(null, 'Now you are an Alive Checker!', 900); }); sfx('ok'); go.firstChild.focus(); }
+          });
+          row.appendChild(b);
+        });
+      }
+    };
+  }
+  function lifeRound(it) {
+    var q = 'Is the ' + it.name + ' alive?';
+    return {
+      say: q,
+      render: function (box, ctl) {
+        box.appendChild(h('div', { class: 'art' }, '<img class="obj" src="' + im(it.art) + '" alt="' + it.name + '"><p class="q">' + q + '</p>'));
+        var chk = h('div', { class: 'chk', 'aria-live': 'polite' }); 
+        var grid = h('div', { class: 'opts two' });
+        [[true, 'Alive', '🌱'], [false, 'Not alive', '🪨']].forEach(function (o) {
+          var b = h('button', { class: 'opt', type: 'button' }, '<span class="oe" aria-hidden="true">' + o[2] + '</span><span class="ol">' + o[1] + '</span>');
+          if (o[0] === it.alive) b.setAttribute('data-ok', '1');
+          b.addEventListener('click', function () {
+            chk.innerHTML = chkRow(it.alive);
+            if (o[0] === it.alive) ctl.ok(b, it.yes, 3200); else ctl.no(b, it.no);
+          });
+          grid.appendChild(b);
+        });
+        box.appendChild(grid); box.appendChild(chk);
+      },
+      reveal: function (box) { var b = box.querySelector('[data-ok]'); if (b) b.classList.add('hint'); }
+    };
+  }
+  function roundsAlive() { return [lifeIntro()].concat(shuffle(LIFE).map(lifeRound)); }
+
+  /* ----- Nature Detective: find the hidden living things in the garden ----- */
+  var NEED = { food: ['food', 'food'], water: ['water', 'water'], sun: ['sun', 'sunlight'], wind: ['wind', 'air'] };
+  var NEEDS = { animal: ['food', 'water', 'wind'], plant: ['water', 'sun', 'wind'] };
+  // x = centre across the picture (%), y = where its feet touch the ground (%), w = width (%)
+  var HUNT = [
+    { id: 'hen', name: 'hen', kind: 'animal', x: 47, y: 76, w: 16 },
+    { id: 'lizard', name: 'lizard', kind: 'animal', x: 76, y: 60, w: 14 },
+    { id: 'butterfly', name: 'butterfly', kind: 'animal', fly: true, x: 35, y: 69, w: 12 },
+    { id: 'bird', name: 'bird', kind: 'animal', fly: true, x: 28, y: 33, w: 13 },
+    { id: 'ant', name: 'ant', kind: 'animal', x: 31, y: 93, w: 12 },
+    { id: 'caterpillar', name: 'caterpillar', kind: 'animal', x: 89, y: 90, w: 14 },
+    { id: 'potplant', name: 'plant in a pot', kind: 'plant', x: 60, y: 60, w: 11 },
+    { id: 'maize', name: 'maize plant', kind: 'plant', x: 39, y: 60, w: 9 },
+    { id: 'flower', name: 'flower', kind: 'plant', x: 62, y: 96, w: 10 },
+    { id: 'ball', name: 'ball', kind: 'thing', x: 45, y: 97, w: 10 },
+    { id: 'bucket', name: 'bucket', kind: 'thing', x: 74, y: 82, w: 11 },
+    { id: 'claypot', name: 'clay pot', kind: 'thing', x: 17, y: 61, w: 10 }
+  ];
+  var HIDE = [{ img: 'bush', x: 45, y: 80, w: 21 }, { img: 'grass', x: 91, y: 98, w: 17 }];
+  var HMISSIONS = [
+    { title: 'Find 3 animals!', say: 'Detective! Three animals are hiding in the garden. Find them and tap them!', n: 3, test: function (t) { return t.kind === 'animal'; },
+      wrong: function (t) { return t.kind === 'plant' ? 'That is a ' + t.name + '. It is alive, but it is a plant. Look for an animal!' : 'That is a ' + t.name + '. It is not alive. Look for an animal!'; }, done: 'Brilliant! You found three animals!' },
+    { title: 'Find 2 plants!', say: 'Now find two plants. Plants are living things that grow in soil!', n: 2, test: function (t) { return t.kind === 'plant'; },
+      wrong: function (t) { return t.kind === 'animal' ? 'That is a ' + t.name + '. It is an animal. Look for a plant!' : 'That is a ' + t.name + '. It is not alive. Look for a plant!'; }, done: 'Super! You found two plants!' },
+    { title: 'Find something that can fly!', say: 'Find a living thing that can fly. Look for wings!', n: 1, test: function (t) { return !!t.fly; },
+      wrong: function (t) { return t.kind === 'thing' ? 'That is a ' + t.name + '. It is not alive, so it cannot fly by itself.' : 'The ' + t.name + ' is alive, but it cannot fly. Look for wings!'; }, done: 'Yes! Wings help it fly!' },
+    { title: 'Find something NOT alive!', say: 'Last mission! Find something that is not alive.', n: 1, test: function (t) { return t.kind === 'thing'; },
+      wrong: function (t) { return 'The ' + t.name + ' is alive. It needs ' + (t.kind === 'plant' ? 'water and sunlight' : 'food and water') + '. Find something that is not alive!'; }, done: 'You are a Nature Detective!' }
+  ];
+  function needsHTML(t) {
+    if (t.kind === 'thing') return '<img class="t" src="' + im(t.id) + '" alt=""><div><b>The ' + t.name + ' is not alive.</b><br>It does not need food, water or air.</div>';
+    return '<img class="t" src="' + im(t.id) + '" alt=""><div><b>The ' + t.name + ' is alive!</b><br>It needs:</div><div class="n">' +
+      NEEDS[t.kind].map(function (k) { return '<span class="nd"><img src="' + im(NEED[k][0]) + '" alt=""><span>' + NEED[k][1] + '</span></span>'; }).join('') + '</div>';
+  }
+  function foundSay(t) {
+    if (t.kind === 'thing') return 'The ' + t.name + ' is not alive. It does not need food, water or air.';
+    return 'The ' + t.name + ' is alive! It needs ' + (t.kind === 'plant' ? 'water, sunlight and air.' : 'food, water and air.');
+  }
+  function huntRound(M) {
+    return {
+      say: M.say,
+      render: function (box, ctl) {
+        var found = 0, picked = {};
+        var bar = h('div', { class: 'huntbar' }, '<p class="q">' + M.title + '</p><span class="cnt" aria-live="polite"></span>'); box.appendChild(bar);
+        function cnt() { bar.querySelector('.cnt').textContent = '★★★★'.slice(0, found) + '☆☆☆☆'.slice(0, M.n - found); }
+        cnt();
+        var scene = h('div', { class: 'hunt' }), need = h('div', { class: 'needs', 'aria-live': 'polite' }, '<span>Tap things in the garden. Is it alive?</span>');
+        HUNT.forEach(function (t) {
+          var b = h('button', { class: 'hitem' + (t.fly ? ' fly' : ''), type: 'button', style: 'left:' + t.x + '%;top:' + t.y + '%;width:max(' + t.w + '%,42px)', 'aria-label': t.name }, '<img src="' + im(t.id) + '" alt="">');
+          if (M.test(t)) b.setAttribute('data-ok', '1');
+          b.addEventListener('click', function () {
+            if (picked[t.id]) return;
+            need.innerHTML = needsHTML(t);
+            if (M.test(t)) {
+              picked[t.id] = 1; found++; b.classList.add('found'); b.classList.remove('hint'); cnt();
+              if (found >= M.n) ctl.ok(null, M.done, 3200);
+              else { sfx('ok'); robo('cheer'); var m = foundSay(t) + ' ' + (M.n - found) + ' more to find!'; setMsg(m); speak(m); }
+            } else ctl.no(b, M.wrong(t));
+          });
+          scene.appendChild(b);
+        });
+        HIDE.forEach(function (p) { scene.appendChild(h('div', { class: 'hide', 'aria-hidden': 'true', style: 'left:' + p.x + '%;top:' + p.y + '%;width:' + p.w + '%' }, '<img src="' + im(p.img) + '" alt="">')); });
+        box.appendChild(scene); box.appendChild(need);
+      },
+      reveal: function (box) { var b = box.querySelector('.hitem[data-ok]:not(.found)'); if (b) b.classList.add('hint'); }
+    };
+  }
+  function roundsHunt() { return HMISSIONS.map(huntRound); }
+
+
+  /* ----- Feed the Farm ----- */
+  function optBtn(img, label, ok) {
+    var b = h('button', { class: 'opt', type: 'button' }, '<span class="oe" aria-hidden="true">' + (img ? '<img class="oi" src="' + im(img) + '" alt="">' : '🚫') + '</span><span class="ol">' + label + '</span>');
+    if (ok) b.setAttribute('data-ok', '1');
+    return b;
+  }
+  var FEED = [
+    { art: 'hen', q: 'The hen is hungry! What does it need?', a: ['food', 'Food'], bad: [['water', 'Water'], ['sun', 'Sunlight']], yes: 'Yes! Animals need food to grow and have energy.', no: 'The hen is hungry. What do animals eat?' },
+    { art: 'goat', q: 'The goat is thirsty! What does it need?', a: ['water', 'Water'], bad: [['food', 'Food'], ['sun', 'Sunlight']], yes: 'Yes! All animals need water to drink.', no: 'The goat is thirsty. What do we drink?' },
+    { art: 'maize', q: 'The maize plant wants light to grow. What does it need?', a: ['sun', 'Sunlight'], bad: [['food', 'Food'], ['wind', 'Air']], yes: 'Yes! Plants need sunlight to grow strong.', no: 'Plants like to be in the light. Look for the sun!' },
+    { art: 'potplant', q: 'The plant in the pot has dry soil. What does it need?', a: ['water', 'Water'], bad: [['food', 'Food'], ['sun', 'Sunlight']], yes: 'Yes! Plants drink water through their roots.', no: 'The soil is dry. What do plants drink?' },
+    { art: 'dog', q: 'The dog is hungry and thirsty. Tap what it needs!', multi: true, a: [['food', 'Food'], ['water', 'Water']], bad: [['sun', 'Sunlight']], yes: 'Yes! Animals need food and water.', no: 'Dogs eat food and drink water. Sunlight is not what they eat!' },
+    { art: 'stone', q: 'What does the stone need?', a: [null, 'Nothing! It is not alive'], bad: [['food', 'Food'], ['water', 'Water']], yes: 'Right! A stone is not alive, so it needs nothing.', no: 'A stone does not eat or drink. It is not alive!' }
+  ];
+  function feedRound(it) {
+    return {
+      say: it.q,
+      render: function (box, ctl) {
+        box.appendChild(h('div', { class: 'art' }, '<img class="obj" src="' + im(it.art) + '" alt="' + it.art + '"><p class="q">' + it.q + '</p>'));
+        var grid = h('div', { class: 'opts' }), need = it.multi ? it.a.length : 1, got = 0;
+        var all = it.multi ? it.a.map(function (x) { return [x, 1]; }) : [[it.a, 1]];
+        all = all.concat(it.bad.map(function (x) { return [x, 0]; }));
+        shuffle(all).forEach(function (o) {
+          var b = optBtn(o[0][0], o[0][1], o[1]);
+          b.addEventListener('click', function () {
+            if (b.disabled) return;
+            if (!o[1]) { ctl.no(b, it.no); return; }
+            if (it.multi) { b.disabled = true; b.classList.add('good'); sfx('ok'); got++; if (got < need) { var m = 'Great! One more!'; setMsg(m); speak(m); return; } }
+            ctl.ok(b, it.yes, 3200);
+          });
+          grid.appendChild(b);
+        });
+        box.appendChild(grid);
+      },
+      reveal: function (box) { var b = box.querySelector('.opt[data-ok]:not(:disabled)'); if (b) b.classList.add('hint'); }
+    };
+  }
+  function roundsFeed() { return shuffle(FEED.slice(0, 5)).concat([FEED[5]]).map(feedRound); }
+
+  /* ----- Sort It Out ----- */
+  var SORT = [
+    ['dog', 'dog', 1], ['fish', 'fish', 1], ['flower', 'flower', 1], ['pawpaw', 'pawpaw tree', 1], ['caterpillar', 'caterpillar', 1],
+    ['bicycle', 'bicycle', 0], ['chair', 'chair', 0], ['toycar', 'toy car', 0], ['bucket', 'bucket', 0], ['claypot', 'clay pot', 0]
+  ];
+  function sortRound() {
+    return {
+      say: 'Tap a picture. Then tap the right basket!',
+      render: function (box, ctl) {
+        box.appendChild(h('p', { class: 'q' }, 'Tap a picture, then tap its basket!'));
+        var sel = null, left = SORT.length;
+        var tray = h('div', { class: 'tray' });
+        var bl = h('button', { class: 'basket live', type: 'button' }, '<b>🌱 Living</b><div class="in"></div>');
+        var bn = h('button', { class: 'basket non', type: 'button' }, '<b>🪨 Not living</b><div class="in"></div>');
+        function put(basket) {
+          if (!sel) { setMsg('First tap a picture!'); speak('First tap a picture!'); return; }
+          var it = sel.it, want = it[2] ? bl : bn;
+          if (basket === want) {
+            var s0 = sel; sel = null; s0.b.remove();
+            var im2 = h('img', { src: im(it[0]), alt: it[1] }); basket.querySelector('.in').appendChild(im2); left--;
+            var m = it[2] ? 'The ' + it[1] + ' is alive. It grows, eats and breathes.' : 'The ' + it[1] + ' is not alive. It does not grow, eat or breathe.';
+            if (left === 0) ctl.ok(null, 'You sorted everything! Living things in one basket, non-living in the other!', 3200);
+            else { sfx('ok'); robo('cheer'); setMsg(m + ' ' + left + ' left!'); speak(m); }
+          } else {
+            var b0 = sel.b; b0.classList.remove('sel'); sel = null;
+            ctl.no(b0, it[2] ? 'The ' + it[1] + ' is alive. It goes in the Living basket!' : 'The ' + it[1] + ' is not alive. It goes in the Not living basket!');
+          }
+        }
+        bl.addEventListener('click', function () { put(bl); }); bn.addEventListener('click', function () { put(bn); });
+        shuffle(SORT).forEach(function (it) {
+          var b = h('button', { class: 'tile', type: 'button', 'aria-label': it[1] }, '<img src="' + im(it[0]) + '" alt="">');
+          b.addEventListener('click', function () {
+            tray.querySelectorAll('.sel').forEach(function (x) { x.classList.remove('sel'); });
+            b.classList.add('sel'); sel = { it: it, b: b }; sfx('pop'); setMsg('Is the ' + it[1] + ' alive?'); speak('Is the ' + it[1] + ' alive?');
+          });
+          tray.appendChild(b);
+        });
+        box.appendChild(tray);
+        box.appendChild(h('div', { class: 'baskets' })); var bs = box.lastChild; bs.appendChild(bl); bs.appendChild(bn);
+      }
+    };
+  }
+  function roundsSort() { return [sortRound()]; }
+
+  /* ----- Watch It Grow ----- */
+  var STAGES = [['g1seed', 'Seed'], ['g2sprout', 'Sprout'], ['g3small', 'Small plant'], ['g4big', 'Big plant'], ['g5fruit', 'Fruit']];
+  function orderRound() {
+    return {
+      say: 'Put the pictures in order! What happens first?',
+      render: function (box, ctl) {
+        box.appendChild(h('p', { class: 'q' }, 'How does a plant grow? Tap the pictures in order!'));
+        var slots = h('div', { class: 'slots' }), tray = h('div', { class: 'tray' }), step = 0;
+        STAGES.forEach(function (st, i) { slots.appendChild(h('div', { class: 'slot' }, '<span>' + (i + 1) + '</span>')); });
+        var tiles = shuffle(STAGES.map(function (st, i) { return i; }));
+        if (tiles.join() === '0,1,2,3,4') tiles.reverse();
+        tiles.forEach(function (i) {
+          var b = h('button', { class: 'tile', type: 'button', 'aria-label': STAGES[i][1] }, '<img src="' + im(STAGES[i][0]) + '" alt=""><small>' + STAGES[i][1] + '</small>');
+          if (i === 0) b.setAttribute('data-ok', '1');
+          b.addEventListener('click', function () {
+            if (i !== step) { ctl.no(b, step === 0 ? 'Start with the seed! A plant begins as a seed.' : 'Not yet! What comes after the ' + STAGES[step - 1][1].toLowerCase() + '?'); return; }
+            var sl = slots.children[step]; sl.innerHTML = '<img src="' + im(STAGES[i][0]) + '" alt="">'; sl.classList.add('full');
+            b.remove(); step++;
+            var nx = tray.querySelector('.tile'); tray.querySelectorAll('.tile').forEach(function (t) { t.removeAttribute('data-ok'); });
+            tray.querySelectorAll('.tile').forEach(function (t) { if (t.getAttribute('aria-label') === (STAGES[step] || [0, ''])[1]) t.setAttribute('data-ok', '1'); });
+            if (step === STAGES.length) ctl.ok(null, 'A seed grows into a sprout, a small plant, a big plant, then fruit!', 3600);
+            else { sfx('ok'); robo('cheer'); setMsg(STAGES[i][1] + '! What comes next?'); speak(STAGES[i][1] + '! What comes next?'); }
+          });
+          tray.appendChild(b);
+        });
+        box.appendChild(slots); box.appendChild(tray);
+      },
+      reveal: function (box) { var b = box.querySelector('.tile[data-ok]'); if (b) b.classList.add('hint'); }
+    };
+  }
+  function saveRound() {
+    var q = 'Oh no! The plant is drooping and the soil is dry. What can save it?';
+    return {
+      say: q,
+      render: function (box, ctl) {
+        var pic = h('img', { class: 'obj', src: im('potwilted'), alt: 'A drooping plant in dry soil' });
+        box.appendChild(h('div', { class: 'art' })); box.lastChild.appendChild(pic); box.lastChild.appendChild(h('p', { class: 'q' }, q));
+        var grid = h('div', { class: 'opts' });
+        shuffle([['water', 'Water', 1], ['ball', 'A ball', 0], ['chair', 'A chair', 0]]).forEach(function (o) {
+          var b = optBtn(o[0], o[1], o[2]);
+          b.addEventListener('click', function () {
+            if (!o[2]) { ctl.no(b, 'A ' + o[1].toLowerCase().replace('a ', '') + ' cannot help a plant. What do plants drink?'); return; }
+            pic.src = im('potplant'); pic.alt = 'A happy plant';
+            ctl.ok(b, 'Water saved the plant! Plants need water, sunlight and air to grow.', 3600);
+          });
+          grid.appendChild(b);
+        });
+        box.appendChild(grid);
+      },
+      reveal: function (box) { var b = box.querySelector('.opt[data-ok]'); if (b) b.classList.add('hint'); }
+    };
+  }
+  function roundsGrow() { return [orderRound(), saveRound()]; }
+
   /* ---------- activity list ---------- */
   var ACTS = {
     a1: { n: 1, title: 'Which Sense?', place: 'Senses Garden', lesson: 'Lesson 1 · Meet My Five Senses', icon: '🌟', badge: 'Sense Spotter', bicon: '🔍', tip: 'Ask a grown-up to name one thing you can see, hear, smell, taste and touch right now.', p: [53, 91], l: [33, 90], rb: [74, 96], rl: [22, 93], start: function () { runRounds(this, rounds1()); } },
@@ -608,6 +934,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
     a5: { n: 5, title: 'Make My Amazing Body', place: 'Body Builder', lesson: 'Lesson 5 · Make “My Amazing Body”', icon: '🧩', badge: 'Creative Scientist', bicon: '🎨', tip: 'Draw your own amazing body on paper and write the names of the parts.', p: [81, 36], l: [92, 46], rb: [67, 31], rl: [84, 53], start: function () { puzzle(this); } }
   };
   var ORDER = ['a1', 'a2', 'a3', 'a4', 'a5'];
+  ACTS.a5.askName = true;
   var CERT = { n: 6, place: 'Show and Tell', icon: '🏅', badge: 'Little Scientist', p: [58, 22], l: [29, 36], rb: [73, 17], rl: [39, 40] };
   var DECO = [
     { who: 'maya', p: [13, 66], l: [45, 75], pw: [12, 7] },
@@ -617,7 +944,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
   function start(id) {
     cur = id; var A = ACTS[id]; S.who = 'robo'; show('act'); $('ttl').textContent = A.title; A.start();
   }
-  function allDone() { return ORDER.every(function (k) { return S.done[k]; }); }
+  function allDone() { return ORDER.filter(function (k) { return !ACTS[k].soon; }).every(function (k) { return S.done[k]; }); }
   function finish(A, mistakes) {
     var id = cur, stars = mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1;
     S.done[id] = Math.max(S.done[id] || 0, stars); save();
@@ -627,71 +954,108 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
     $('stars').textContent = '★★★'.slice(0, stars) + '☆☆☆'.slice(0, 3 - stars); $('stars').setAttribute('aria-label', stars + ' out of 3 stars');
     $('newbadge').innerHTML = '<span aria-hidden="true">' + A.bicon + '</span> You collected the ' + A.badge + ' badge!';
     $('tip').textContent = A.tip; $('tipImg').src = IMG.isio.face;
-    $('nameBox').hidden = id !== 'a5'; $('nameIn').value = S.name;
+    $('nameBox').hidden = !A.askName; $('nameIn').value = S.name;
     $('again').onclick = function () { start(id); };
     var all = allDone();
     $('back').textContent = all ? 'Get my certificate' : 'Back to the map';
-    $('back').onclick = function () { if (id === 'a5') { S.name = $('nameIn').value.trim(); save(); } if (all) showCert(); else toMap(); };
+    $('back').onclick = function () { if (A.askName) { S.name = $('nameIn').value.trim(); save(); } if (all) showCert(); else toMap(); };
     S.who = 'robo'; speak(stars === 3 ? 'Super star! You did it! You collected a new badge!' : 'Great job! You collected a new badge!', 'robo');
   }
 
   /* ---------- units, map, certificate ---------- */
+  var ACTS2 = {
+    b1: { n: 1, title: 'Is It Alive?', place: 'Alive or Not?', lesson: 'Lesson 1 · Is It Alive?', icon: '🌱', badge: 'Life Checker', bicon: '✅', tip: 'Go on a little walk with a grown-up. Can you find three living things and one thing that is not alive?', p: [23, 59], l: [23, 59], rb: [27.5, 47], rl: [27.5, 47], start: function () { runRounds(this, roundsAlive()); } },
+    b2: { n: 2, title: 'What Living Things Need', place: 'Feed the Farm', lesson: 'Lesson 2 · What Living Things Need', icon: '💧', badge: 'Care Taker', bicon: '💧', tip: 'Help at home! What does your pet or a plant at home need each day? Show a grown-up.', p: [34, 74], l: [34, 74], rb: [38.5, 62], rl: [38.5, 62], start: function () { runRounds(this, roundsFeed()); } },
+    b3: { n: 3, title: 'Sort It Out', place: 'Sort It Out', lesson: 'Lesson 3 · The Sorting Game', icon: '🧺', badge: 'Sorting Star', bicon: '🧺', tip: 'Sort things at home: find 3 living things and 3 things that are not alive. Tell a grown-up why!', p: [41, 54], l: [41, 54], rb: [46, 42], rl: [46, 42], start: function () { runRounds(this, roundsSort()); } },
+    b4: { n: 4, title: 'Nature Detective', place: 'Nature Detective', lesson: 'Lesson 4 · Living Things Hunt', icon: '🔍', badge: 'Nature Detective', bicon: '🕵️', tip: 'Look around your compound or school with a grown-up. How many living things can you spot? Do not touch animals or plants you do not know.', p: [52, 73], l: [52, 73], rb: [57, 61], rl: [57, 61], start: function () { runRounds(this, roundsHunt()); } },
+    b5: { n: 5, title: 'Watch It Grow', place: 'Watch It Grow', lesson: 'Lesson 5 · Watch It Grow', icon: '🌻', badge: 'Green Thumb', bicon: '🌻', tip: 'Plant a bean or maize seed in a cup of soil. Water it and watch it grow! Tell us what you see each day.', p: [72, 69], l: [72, 69], rb: [76.5, 57], rl: [76.5, 57], start: function () { runRounds(this, roundsGrow()); } }
+  };
+  var UNITS = {
+    u1: { id: 'u1', title: 'My 5 Senses', acts: ACTS, order: ORDER, cert: CERT, deco: DECO, certKey: 'cert', wide: false,
+      intro: 'Welcome to the meadow! Follow the path. Tap the glowing spot to start.', done: 'You finished every game! Tap the telescope house for your certificate!',
+      locked: 'Finish all five missions first. Then the telescope house opens!',
+      certTitle: 'Super Senses Explorer', certStick: '👁️ 👂 👃 👅 🖐️', certMsg: 'You found out how your body senses the world and you built an amazing body!',
+      certSay: 'Congratulations! You are a Super Senses Explorer! You are now a Little Scientist!' },
+    u2: { id: 'u2', title: 'Living and Non-living Things', acts: ACTS2, order: ['b1', 'b2', 'b3', 'b4', 'b5'],
+      cert: { n: 6, place: 'Show and Tell', icon: '🏅', badge: 'Little Nature Detective', p: [89, 76], l: [89, 76], rb: [93.5, 64], rl: [93.5, 64] },
+      deco: [{ who: 'maya', p: [5, 101], l: [5, 101], pw: [6.5, 6.5] }, { who: 'isio', p: [11.5, 101], l: [11.5, 101], pw: [6.5, 6.5] }],
+      certKey: 'cert2', wide: true, map: '../images/unit2/map.webp', scene: '../images/unit2/garden.webp',
+      intro: 'Welcome to the farm! Follow the path. Tap the glowing spot to start.', done: 'You finished every game! Tap the last spot for your certificate!',
+      locked: 'Finish all the missions first. Then your certificate is ready!',
+      certTitle: 'Little Nature Detective', certStick: '🐔 🌳 🦋 🌻 🪨', certMsg: 'You found out what is alive and what is not alive!',
+      certSay: 'Congratulations! You are a Little Nature Detective! You know what is alive and what is not!' }
+  };
+  var UN = UNITS.u1;
+  function setUnit(id) { UN = UNITS[id]; ACTS = UN.acts; ORDER = UN.order; CERT = UN.cert; DECO = UN.deco; }
+  function unitCount(U) { return U.order.filter(function (k) { return S.done[k]; }).length + (S.done[U.certKey] ? 1 : 0); }
   function doneCount() { return ORDER.filter(function (k) { return S.done[k]; }).length; }
+  function sceneFor(U) { document.querySelector('.scenebg').style.backgroundImage = U && U.scene ? 'url(' + U.scene + ')' : ''; }
 
   function toUnits() {
-    show('units'); $('ttl').textContent = 'CuriousLab Play Zone'; cur = null;
-    var n = doneCount() + (S.done.cert ? 1 : 0), list = $('ulist'); list.innerHTML = '';
-    var u1 = h('button', { class: 'ucard open' }, '<span class="uico" aria-hidden="true">👁️👂👃</span><span class="un">Unit 1</span><h3>Me and My Senses</h3><small>' + n + ' of 6 missions finished</small><span class="go">Play ▶</span>');
-    u1.addEventListener('click', function () { sfx('pop'); toMap(); });
-    list.appendChild(u1);
-    [['Unit 2', 'Living and Non-living Things', '🐶🪨'], ['Unit 3', 'Plants', '🌱🌻']].forEach(function (u) {
-      list.appendChild(h('div', { class: 'ucard soon', 'aria-label': u[0] + ' ' + u[1] + ', coming soon' }, '<span class="uico" aria-hidden="true">' + u[2] + '</span><span class="un">' + u[0] + '</span><h3>' + u[1] + '</h3><small>🔒 Coming soon</small><span class="go">Soon</span>'));
+    show('units'); $('ttl').textContent = 'CuriousLab Play Zone'; cur = null; sceneFor(null);
+    var list = $('ulist'); list.innerHTML = '';
+    [['u1', '👁️👂👃', 'Unit 1', 'Me and My Senses'], ['u2', '🐔🌳🪨', 'Unit 2', 'Living and Non-living Things']].forEach(function (u) {
+      var c = h('button', { class: 'ucard open' }, '<span class="uico" aria-hidden="true">' + u[1] + '</span><span class="un">' + u[2] + '</span><h3>' + u[3] + '</h3><small>' + unitCount(UNITS[u[0]]) + ' of 6 missions finished</small><span class="go">Play ▶</span>');
+      c.addEventListener('click', function () { sfx('pop'); toMap(u[0]); });
+      list.appendChild(c);
     });
-    setSay('Hi, explorer! I am Maya. Tap Unit 1 to start your adventure!', 'happy', 'maya');
+    list.appendChild(h('div', { class: 'ucard soon', 'aria-label': 'Unit 3 Plants, coming soon' }, '<span class="uico" aria-hidden="true">🌱🌻</span><span class="un">Unit 3</span><h3>Plants</h3><small>🔒 Coming soon</small><span class="go">Soon</span>'));
+    setSay('Hi, explorer! I am Maya. Pick a unit to start your adventure!', 'happy', 'maya');
   }
 
   function spotHTML(A, id, st, extra) {
-    var b = h('button', { class: 'spot ' + st, style: '--px:' + A.p[0] + '%;--py:' + A.p[1] + '%;--lx:' + A.l[0] + '%;--ly:' + A.l[1] + '%', 'data-id': id, 'aria-label': 'Mission ' + A.n + ': ' + A.place + (st === 'done' ? ', finished' : st === 'locked' ? ', locked' : '') },
+    var b = h('button', { class: 'spot ' + st, style: '--px:' + A.p[0] + '%;--py:' + A.p[1] + '%;--lx:' + A.l[0] + '%;--ly:' + A.l[1] + '%', 'data-id': id, 'aria-label': 'Mission ' + A.n + ': ' + A.place + (st === 'done' ? ', finished' : st === 'locked' ? ', locked' : st === 'soon' ? ', coming soon' : '') },
       '<span class="bub"><span class="num" aria-hidden="true">' + (st === 'done' ? '✓' : A.n) + '</span><span aria-hidden="true">' + (st === 'locked' ? '🔒' : A.icon) + '</span></span><span class="lbl">' + A.place + '</span>');
     return b;
   }
-  function toMap() {
-    show('map'); $('ttl').textContent = 'My 5 Senses'; cur = null;
-    var wrap = $('mapwrap'); wrap.innerHTML = '';
+  function toMap(uid) {
+    if (typeof uid === 'string') setUnit(uid);
+    show('map'); $('ttl').textContent = UN.title; cur = null; sceneFor(UN);
+    var wrap = $('mapwrap'); wrap.innerHTML = ''; wrap.className = 'mapwrap' + (UN.wide ? ' wide' : '');
+    var host = wrap;
+    if (UN.wide) { host = h('div', { class: 'mapin' }); host.style.backgroundImage = 'url(' + UN.map + ')'; wrap.appendChild(host); }
+    $('swipe').hidden = !UN.wide;
     DECO.forEach(function (d) {
       var e = h('div', { class: 'deco', style: '--px:' + d.p[0] + '%;--py:' + d.p[1] + '%;--lx:' + d.l[0] + '%;--ly:' + d.l[1] + '%;--pw:' + d.pw[0] + '%;--pwl:' + d.pw[1] + '%' }, '<img src="' + IMG[d.who].full + '" alt="">');
-      wrap.appendChild(e);
+      host.appendChild(e);
     });
-    var next = null, n = doneCount(), all = n === ORDER.length;
+    var next = null, n = doneCount(), all = allDone(), anySoon = false;
     ORDER.forEach(function (id) {
       var A = ACTS[id], st = S.done[id] ? 'done' : '';
-      if (!st && !next) { next = A; st = 'next'; }
+      if (A.soon) { st = 'soon'; anySoon = true; }
+      else if (!st && !next) { next = A; st = 'next'; }
       var b = spotHTML(A, id, st);
-      b.addEventListener('click', function () { sfx('pop'); start(id); });
-      wrap.appendChild(b);
+      b.addEventListener('click', function () {
+        if (A.soon) { sfx('no'); setSay('This mission is coming soon! Try another one.', 'think', 'maya'); return; }
+        sfx('pop'); start(id);
+      });
+      host.appendChild(b);
     });
-    var cst = S.done.cert ? 'done' : all ? 'next' : 'locked';
-    if (all && !S.done.cert) next = CERT;
+    var cst = S.done[UN.certKey] ? 'done' : all ? 'next' : 'locked';
+    if (all && !S.done[UN.certKey]) next = CERT;
     var cb = spotHTML(CERT, 'cert', cst);
-    cb.addEventListener('click', function () { if (all) { sfx('win'); showCert(); } else { S.who = 'maya'; setSay('Finish all five missions first. Then the telescope house opens!', 'think', 'maya'); sfx('no'); } });
-    wrap.appendChild(cb);
+    cb.addEventListener('click', function () { if (all) { sfx('win'); showCert(); } else { S.who = 'maya'; setSay(UN.locked, 'think', 'maya'); sfx('no'); } });
+    host.appendChild(cb);
     if (next) {
       var rp = h('div', { class: 'robopt', style: '--px:' + next.rb[0] + '%;--py:' + next.rb[1] + '%;--lx:' + next.rl[0] + '%;--ly:' + next.rl[1] + '%', 'aria-hidden': 'true' }, '<img src="' + IMG.robo.full + '" alt="">');
-      wrap.appendChild(rp);
+      host.appendChild(rp);
     }
-    $('pfill').style.width = ((n + (S.done.cert ? 1 : 0)) / 6 * 100) + '%'; $('pbar').setAttribute('aria-valuenow', String(n + (S.done.cert ? 1 : 0)));
-    $('pnote').innerHTML = '<b>' + (n + (S.done.cert ? 1 : 0)) + ' of 6 missions finished</b>';
+    var tot = unitCount(UN);
+    $('pfill').style.width = (tot / 6 * 100) + '%'; $('pbar').setAttribute('aria-valuenow', String(tot));
+    $('pnote').innerHTML = '<b>' + tot + ' of 6 missions finished</b>' + (anySoon ? '<br><small>More missions are coming soon!</small>' : '');
     var bd = $('badges'); bd.innerHTML = '';
     ORDER.forEach(function (id) { var A = ACTS[id]; bd.appendChild(h('div', { class: 'badge' + (S.done[id] ? '' : ' off') }, '<i aria-hidden="true">' + A.bicon + '</i>' + A.badge)); });
-    bd.appendChild(h('div', { class: 'badge' + (S.done.cert ? '' : ' off') }, '<i aria-hidden="true">' + CERT.icon + '</i>' + CERT.badge));
-    if (!toMap.keep) setSay(all ? 'You finished every game! Tap the telescope house for your certificate!' : n === 0 ? 'Welcome to the meadow! Follow the path. Tap the glowing spot to start.' : 'Well done! Follow RoboBuddy to your next mission.', 'happy', 'maya');
+    bd.appendChild(h('div', { class: 'badge' + (S.done[UN.certKey] ? '' : ' off') }, '<i aria-hidden="true">' + CERT.icon + '</i>' + CERT.badge));
+    if (UN.wide && next) { var el = host.querySelector('.spot.next') || host.querySelector('.spot.next'); setTimeout(function () { var sp = host.querySelector('.spot.next'); if (sp) wrap.scrollLeft = sp.offsetLeft - wrap.clientWidth / 2; }, 40); }
+    if (!toMap.keep) setSay(all ? UN.done : n === 0 ? UN.intro : 'Well done! Follow RoboBuddy to your next mission.', 'happy', 'maya');
     toMap.keep = false;
   }
   function showCert() {
     show('cert'); $('ttl').textContent = 'My Certificate';
-    S.done.cert = 1; save();
+    S.done[UN.certKey] = 1; save();
+    $('certTitle').textContent = UN.certTitle; $('certStick').textContent = UN.certStick; $('certMsg').textContent = UN.certMsg;
     $('trio').innerHTML = '<img src="' + IMG.maya.full + '" alt=""><img class="r" src="' + IMG.robo.full + '" alt=""><img src="' + IMG.isio.full + '" alt="">';
-    $('certName').textContent = S.name || 'Explorer'; $('certIn').value = S.name; sfx('win'); speak('Congratulations! You are a Super Senses Explorer! You are now a Little Scientist!', 'maya');
+    $('certName').textContent = S.name || 'Explorer'; $('certIn').value = S.name; sfx('win'); speak(UN.certSay, 'maya');
   }
   $('certIn').addEventListener('input', function () { S.name = $('certIn').value.trim(); save(); $('certName').textContent = S.name || 'Explorer'; });
   $('certBack').addEventListener('click', toMap);
