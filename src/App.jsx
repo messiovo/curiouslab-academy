@@ -21,6 +21,7 @@ import ComingSoon from './pages/ComingSoon';
 import NotFoundPage from './pages/NotFoundPage';
 import EnrollmentPage from './pages/EnrollmentPage';
 import AdminDashboard from './pages/AdminDashboard';
+import ScienceHub from './pages/ScienceHub';
 import VirtualScienceLab from './pages/VirtualScienceLab';
 import VirtualMicroscopePage from './pages/VirtualMicroscopePage';
 
@@ -168,6 +169,7 @@ function App() {
           <Route path="/courses/:courseId" element={<CourseDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/science-hub" element={<ScienceHub />} />
            <Route path="/virtual-science-lab" element={<VirtualScienceLab />} />
            <Route path="/virtual-science-lab/microscope" element={<VirtualMicroscopePage />} />
           <Route path="/free-resources" element={<FreeResourcesPage />} />
