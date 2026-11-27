@@ -335,7 +335,7 @@ textarea { min-height: 110px; resize: vertical; }
   if (!synth || typeof SpeechSynthesisUtterance === 'undefined') { synth = null; roboBtn.hidden = true; }
   function pickVoice() {
     if (!synth) return null;
-    var vs = synth.getVoices() || [], i, order = ['en-NG', 'en-GB', 'en-ZA', 'en-US', 'en'];
+    var vs = synth.getVoices() || [], i, order = ['en-GB', 'en-US', 'en-AU', 'en'];
     for (var o = 0; o < order.length; o++) for (i = 0; i < vs.length; i++) if ((vs[i].lang || '').replace('_', '-').indexOf(order[o]) === 0) return vs[i];
     return null;
   }

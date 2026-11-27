@@ -1004,7 +1004,7 @@ details li { margin-bottom: 4px; }
   function pickVoice() {
     if (!synth) return null;
     var vs = synth.getVoices() || [], i;
-    var order = ['en-NG', 'en-GB', 'en-ZA', 'en-US', 'en'];
+    var order = ['en-GB', 'en-US', 'en-AU', 'en'];
     for (var o = 0; o < order.length; o++) for (i = 0; i < vs.length; i++) if ((vs[i].lang || '').replace('_', '-').indexOf(order[o]) === 0) return vs[i];
     return null;
   }
