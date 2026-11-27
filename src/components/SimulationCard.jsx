@@ -3,9 +3,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { MicroscopeArt, FlaskArt, HeartArt } from './LabArt';
+import { MicroscopeArt, FlaskArt, HeartArt, FoodWebArt } from './LabArt';
 
-const ART = { microscope: MicroscopeArt, heart: HeartArt, flask: FlaskArt };
+const ART = { microscope: MicroscopeArt, heart: HeartArt, web: FoodWebArt, flask: FlaskArt };
 
 const SimulationCard = ({ title, description, href, art = 'flask', featured = false, tags = [] }) => {
   const Art = ART[art] || FlaskArt;

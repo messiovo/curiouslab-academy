@@ -22,4 +22,14 @@ export const simulations = [
     featured: true,
     tags: ['Grades 5–6', 'Human body', '3 activities'],
   },
+  {
+    slug: 'food-web',
+    title: 'Food Web Lab',
+    description:
+      'Build two food webs yourself, one in a Nigerian savanna and one in a woodland, then remove an organism and see who is affected.',
+    href: '/virtual-science-lab/food-web',
+    art: 'web',
+    featured: true,
+    tags: ['Grades 5–6', 'Ecosystems', '2 food webs'],
+  },
 ];

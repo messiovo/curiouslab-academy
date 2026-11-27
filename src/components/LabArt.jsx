@@ -93,3 +93,18 @@ export const HeartArt = ({ size = 160 }) => (
     <rect x="122" y="100" width="12" height="7" rx="2" fill="#1a202c" />
   </svg>
 );
+
+export const FoodWebArt = ({ size = 160 }) => (
+  <svg width={size} height={size} viewBox="0 0 160 160" role="img" aria-label="A food web: grass, grasshopper, snake and eagle joined by arrows">
+    <defs><marker id="fwa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1E7A4A" /></marker></defs>
+    <g stroke="#1E7A4A" strokeWidth="5" strokeLinecap="round" markerEnd="url(#fwa)">
+      <line x1="40" y1="124" x2="62" y2="92" /><line x1="76" y1="72" x2="96" y2="48" /><line x1="108" y1="38" x2="124" y2="30" />
+      <line x1="48" y1="130" x2="112" y2="130" />
+    </g>
+    <circle cx="34" cy="132" r="22" fill="#7BD66B" stroke="#1a202c" strokeWidth="4" />
+    <circle cx="70" cy="82" r="20" fill="#FFDE21" stroke="#1a202c" strokeWidth="4" />
+    <circle cx="102" cy="42" r="18" fill="#F0554F" stroke="#1a202c" strokeWidth="4" />
+    <circle cx="132" cy="24" r="16" fill="#4A90E2" stroke="#1a202c" strokeWidth="4" />
+    <circle cx="126" cy="132" r="18" fill="#C9A66B" stroke="#1a202c" strokeWidth="4" />
+  </svg>
+);
