@@ -176,7 +176,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
 /* ---------- Unit 2 ---------- */
 .mapwrap.wide { aspect-ratio: auto; background: none; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
 .mapin { position: relative; width: max(100%, 940px); aspect-ratio: 1672 / 463; background: var(--bg) center / 100% 100% no-repeat; }
-.swipe { display: none; font-weight: 800; }
+.swipe { display: none; font-weight: 800; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
 .mapwrap.wide .robopt { width: clamp(44px, 6%, 66px); }
 @media (max-width: 719px) { .swipe:not([hidden]) { display: block; } }
 .spot.soon .bub { filter: grayscale(.55); opacity: .88; border-color: #B9C3CE; }
@@ -228,6 +228,31 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
 .slot { width: 17%; max-width: 76px; aspect-ratio: 1; border: 3px dashed #BBD9F2; border-radius: 14px; display: grid; place-items: center; color: var(--muted); font-weight: 900; background: #F3FAFF; }
 .slot.full { border-style: solid; border-color: var(--good); background: #fff; }
 .slot img { width: 100%; height: 100%; object-fit: contain; }
+.hsw { position: relative; width: min(100%, 330px); margin: 8px auto 10px; padding: 8px; border-radius: 22px; background: rgba(255,255,255,.78); border: 3px solid rgba(255,255,255,.9); box-shadow: 0 5px 0 rgba(0,0,0,.12); }
+.hsw.nopad { padding: 0; overflow: hidden; }
+.hsw > img { width: 100%; display: block; pointer-events: none; }
+.hsw.pop > img { animation: popin .4s ease-out; }
+.hs { position: absolute; border: 0; background: transparent; border-radius: 14px; cursor: pointer; padding: 0; }
+.hs.found { outline: 4px solid #1E9E5A; background: rgba(30,158,90,.2); }
+.hs .tag { position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%); background: #1E9E5A; color: #fff; border-radius: 99px; padding: 2px 12px; font: 800 .85rem var(--body, inherit); white-space: nowrap; }
+.hs.hint { outline: 4px dashed #FFB300; animation: hspulse .8s ease-in-out infinite; }
+@keyframes hspulse { 0%, 100% { background: rgba(255,179,0,.05); } 50% { background: rgba(255,179,0,.35); } }
+.pnl { position: relative; width: min(60%, 240px); margin: 8px auto; border-radius: 20px; overflow: hidden; border: 4px solid #1a202c; background: #fff; box-shadow: 0 5px 0 rgba(0,0,0,.2); }
+.pnl img { width: 100%; display: block; }
+.pnl .cap { position: absolute; left: 6px; right: 6px; bottom: 6px; background: rgba(255,255,255,.92); border-radius: 12px; padding: 4px 8px; font-weight: 800; text-align: center; font-size: .9rem; color: #1a202c; }
+.soilbox { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center; max-width: 440px; margin: 8px auto; }
+.soilbox > button { min-height: 150px; border-radius: 22px; border: 4px solid #1a202c; font-weight: 800; font-size: 1rem; cursor: pointer; display: grid; place-items: center; align-content: center; gap: 4px; padding: 8px; box-shadow: 0 5px 0 rgba(0,0,0,.25); }
+.soilbox .seedb { background: #FFF7E0; color: #1a202c; }
+.soilbox .seedb img { width: 84px; }
+.soilbox .seedb.sel { outline: 5px solid #7C4DEB; }
+.soilbox .soilb { background: linear-gradient(#8B5A2B, #5C3A1B); color: #fff; }
+.soilbox .soilb img { width: 64px; animation: popin .4s ease-out; }
+.big-btn { display: block; margin: 10px auto; min-height: 56px; padding: 10px 22px; font: 800 1.1rem inherit; border-radius: 18px; border: 4px solid #1a202c; background: #FFDE21; color: #1a202c; cursor: pointer; box-shadow: 0 5px 0 #1a202c; }
+.big-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #1a202c; }
+.drops { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.drops span { position: absolute; top: -10%; font-size: 1.5rem; animation: fall 1s ease-in forwards; }
+@keyframes fall { to { top: 90%; opacity: .2; } }
+@media (prefers-reduced-motion: reduce) { .hs.hint, .hsw.pop > img, .soilbox .soilb img, .drops span { animation: none; } }
 </style>
 <div class="scenebg" aria-hidden="true"></div>
 <div class="app" id="app">
@@ -925,6 +950,143 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
   }
   function roundsGrow() { return [orderRound(), saveRound()]; }
 
+
+  /* ================= Unit 3: Plants ================= */
+  var U3 = '../images/unit3/';
+  function im3(n) { return U3 + n + '.webp'; }
+  // spots: [{id, x, y, w, h, label}] in % of the picture. Any tap that is not on the target is a wrong tap.
+  function hotRound(sayTxt, imgName, alt, spots, target, okMsg, hintFor, opts) {
+    opts = opts || {};
+    return {
+      say: sayTxt,
+      render: function (box, ctl) {
+        box.appendChild(h('p', { class: 'q' }, sayTxt));
+        var w = h('div', { class: 'hsw' }); w.appendChild(h('img', { src: im3(imgName), alt: alt }));
+        var found = false;
+        spots.forEach(function (sp) {
+          var b = h('button', { type: 'button', class: 'hs', 'data-part': sp.id, style: 'left:' + sp.x + '%;top:' + sp.y + '%;width:' + sp.w + '%;height:' + sp.h + '%', 'aria-label': sp.label });
+          b.addEventListener('click', function (e) {
+            e.stopPropagation(); if (found) return;
+            if (sp.id === target) {
+              found = true; w.querySelectorAll('[data-part="' + target + '"]').forEach(function (x) { x.classList.add('found'); });
+              b.appendChild(h('span', { class: 'tag' }, opts.tag || sp.label)); ctl.ok(null, okMsg, opts.delay || 2400);
+            } else ctl.no(b, hintFor(sp.id));
+          });
+          w.appendChild(b);
+        });
+        w.addEventListener('click', function () { if (!found) ctl.no(null, opts.miss || 'Not quite. Look again!'); });
+        box.appendChild(w);
+      },
+      reveal: function (box) { box.querySelectorAll('[data-part="' + target + '"]').forEach(function (x) { x.classList.add('hint'); }); }
+    };
+  }
+
+  /* ---------- Lesson 1: Inside a Seed ---------- */
+  var SEEDSP = [{ id: 'baby', x: 15, y: 8, w: 33, h: 88, label: 'Baby plant' }, { id: 'food', x: 52, y: 6, w: 46, h: 90, label: 'Food store' }];
+  function roundsSeed() {
+    var r1 = {
+      say: 'This is a bean seed! Tap it to open it and look inside.',
+      render: function (box, ctl) {
+        box.appendChild(h('p', { class: 'q' }, 'Tap the seed to open it! 🫘'));
+        var w = h('div', { class: 'hsw' }), pic = h('img', { src: im3('bean-seed'), alt: 'A red bean seed' }); w.appendChild(pic);
+        var b = h('button', { type: 'button', class: 'hs', style: 'left:0;top:0;width:100%;height:100%', 'aria-label': 'Open the seed' }); w.appendChild(b);
+        b.addEventListener('click', function () {
+          pic.src = im3('bean-open'); pic.alt = 'The bean seed, opened'; b.remove(); w.classList.add('pop');
+          ctl.ok(null, 'Wow! Look inside! Every seed has a baby plant inside it!', 3000);
+        });
+        box.appendChild(w);
+      }
+    };
+    var r2 = hotRound('Where is the baby plant? Tap it!', 'bean-open', 'The opened bean seed', SEEDSP, 'baby', 'Yes! That is the tiny baby plant, with a root and little leaves.', function (id) { return 'That is the seed\'s food. Look for the tiny green leaves!'; }, { tag: 'Baby plant' });
+    var r3 = hotRound('The baby plant needs food to grow. Where is the seed\'s food? Tap it!', 'bean-open', 'The opened bean seed', SEEDSP, 'food', 'Yes! The big pale part is food. It feeds the baby plant until it can make its own.', function (id) { return 'That is the baby plant. The food is the big pale part!'; }, { tag: 'Food store', delay: 3000 });
+    var opts = shuffle([{ id: 'safe', emoji: '🛡️', label: 'Keeps the seed safe' }, { id: 'fly', emoji: '🪁', label: 'Makes it fly' }, { id: 'music', emoji: '🎵', label: 'Makes music' }]);
+    var r4 = choice('The hard skin outside the seed is the seed coat. What does it do?', '<img class="obj" src="' + im3('bean-seed') + '" alt="A bean seed"><p class="q">The seed coat is like a coat for the seed. What does it do?</p>', opts, 'safe', { hint: 'A coat keeps you safe. What does the seed coat do?', okMsg: 'Yes! The seed coat keeps the baby plant safe.' });
+    return [r1, r2, r3, r4];
+  }
+
+  /* ---------- Lesson 2: Parts of a Plant ---------- */
+  var PSP = [
+    { id: 'flower', x: 29, y: 10, w: 17, h: 14, label: 'Flower' },
+    { id: 'leaf', x: 0, y: 17, w: 33, h: 29, label: 'Leaf' }, { id: 'leaf', x: 71, y: 21, w: 29, h: 21, label: 'Leaf' }, { id: 'leaf', x: 21, y: 0, w: 31, h: 10, label: 'Leaf' }, { id: 'leaf', x: 22, y: 39, w: 24, h: 20, label: 'Leaf' },
+    { id: 'stem', x: 41, y: 24, w: 17, h: 42, label: 'Stem' },
+    { id: 'roots', x: 13, y: 68, w: 74, h: 32, label: 'Roots' }
+  ];
+  var PNAME = { flower: 'flower', leaf: 'leaves', stem: 'stem', roots: 'roots' };
+  var PWHICH = { roots: 'Those are the roots.', stem: 'That is the stem.', leaf: 'That is a leaf.', flower: 'That is the flower.' };
+  var PHINT = { roots: 'Roots grow under the soil. Look underground!', stem: 'The stem is the tall green part in the middle.', leaf: 'Leaves are the flat green parts.', flower: 'The flower is the pretty pink part at the top.' };
+  function partRound(part, sayTxt, ok) {
+    return hotRound(sayTxt, 'plant-full', 'A bean plant with roots, stem, leaves and a flower', PSP, part, ok, function (id) { return PWHICH[id] + ' ' + PHINT[part]; }, { tag: cap(PNAME[part]) });
+  }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function roundsParts() {
+    var four = shuffle([
+      partRound('roots', 'Find the ROOTS! Tap them.', 'Yes! Roots grow under the soil.'),
+      partRound('stem', 'Find the STEM! Tap it.', 'Yes! The stem holds the plant up.'),
+      partRound('leaf', 'Find a LEAF! Tap one.', 'Yes! Leaves catch the sunlight.'),
+      partRound('flower', 'Find the FLOWER! Tap it.', 'Yes! The flower makes seeds.')
+    ]);
+    var q = choice('Which part drinks water from the soil?', '<img class="obj" src="' + im3('plant-full') + '" alt="A bean plant"><p class="q">Which part drinks water from the soil?</p>',
+      shuffle([{ id: 'roots', emoji: '🟤', label: 'Roots' }, { id: 'leaf', emoji: '🍃', label: 'Leaves' }, { id: 'flower', emoji: '🌸', label: 'Flower' }]), 'roots', { hint: 'The water is in the soil. Which part is in the soil?', okMsg: 'Yes! Roots drink water from the soil.' });
+    return four.concat([q]);
+  }
+
+  /* ---------- Lesson 3: Plant a Bean ---------- */
+  function panel(name, alt, capTxt) {
+    var p = h('div', { class: 'pnl' }); p.appendChild(h('img', { src: im3(name), alt: alt })); if (capTxt) p.appendChild(h('div', { class: 'cap' }, capTxt)); return p;
+  }
+  function roundsPlant() {
+    var r1 = {
+      say: 'Put the seed in the soil. Tap the seed, then tap the soil!',
+      render: function (box, ctl) {
+        box.appendChild(h('p', { class: 'q' }, 'Tap the seed. Then tap the soil! 🌱'));
+        var g = h('div', { class: 'soilbox' }), sb = h('button', { type: 'button', class: 'seedb', 'aria-label': 'Bean seed' }, '<img src="' + im3('bean-seed') + '" alt=""><span>Bean seed</span>');
+        var so = h('button', { type: 'button', class: 'soilb', 'aria-label': 'Soil' }, '<span aria-hidden="true">🟫</span><span>Soil</span>');
+        var sel = false;
+        sb.addEventListener('click', function () { sel = !sel; sb.classList.toggle('sel', sel); sfx('pop'); if (sel) { setMsg('Now tap the soil!'); } });
+        so.addEventListener('click', function () {
+          if (!sel) { ctl.no(so, 'First pick up the seed! Tap the bean seed.'); return; }
+          so.innerHTML = '<img src="' + im3('bean-seed') + '" alt="Seed in the soil"><span>Seed is in the soil!</span>'; sb.style.visibility = 'hidden';
+          ctl.ok(so, 'In it goes! The seed will sleep in the soil.', 2000);
+        });
+        g.appendChild(sb); g.appendChild(so); box.appendChild(g);
+      },
+      reveal: function (box) { var b = box.querySelector('.seedb'); if (b) b.classList.add('sel'); }
+    };
+    var r2 = choice('The seed is in the soil. What do we do next?', '', shuffle([{ id: 'cover', emoji: '🟫', label: 'Cover it with soil' }, { id: 'stone', emoji: '🪨', label: 'Put a stone on top' }, { id: 'dig', emoji: '⛏️', label: 'Dig it up again' }]), 'cover',
+      { hint: 'The seed needs a warm, dark bed of soil. What can cover it?', okMsg: 'Yes! Soil covers the seed like a blanket.', after: function (art) { art.appendChild(panel('stage1', 'A seed buried in the soil', 'The seed is in the soil')); art.appendChild(h('p', { class: 'q' }, 'The seed is in the soil. What do we do next?')); } });
+    var r3 = choice('The seed is covered. What does it need to wake up?', '', shuffle([{ id: 'water', emoji: '💧', label: 'Water' }, { id: 'sweets', emoji: '🍬', label: 'Sweets' }, { id: 'paint', emoji: '🎨', label: 'Paint' }]), 'water',
+      { hint: 'What do plants drink?', okMsg: 'Yes! Water helps the seed wake up and grow.', after: function (art) { art.appendChild(h('img', { class: 'obj', src: im3('wateringcan'), alt: 'A watering can' })); art.appendChild(h('p', { class: 'q' }, 'The seed is covered. What does it need to wake up?')); } });
+    var days = [
+      { img: 'stage1', cap: 'Day 1: the seed is in the soil', say: 'Day 1. The seed is asleep in the soil. Tap to wait and watch!' },
+      { img: 'stage2', cap: 'Day 3: the seed gets fat and a root grows down', say: 'Day 3! The seed gets fat. A root grows down!' },
+      { img: 'stage3', cap: 'Day 6: a sprout pushes up', say: 'Day 6! A sprout pushes up into the light!' },
+      { img: 'stage4', cap: 'Day 10: leaves open and roots grow longer', say: 'Day 10! Leaves open and the roots grow longer!' }
+    ];
+    var r4 = {
+      say: days[0].say,
+      render: function (box, ctl) {
+        box.appendChild(h('p', { class: 'q' }, 'Wait and watch your bean grow! ⏳'));
+        var k = 0, holder = h('div'), btn = h('button', { type: 'button', class: 'big-btn' }, 'Wait a few days ⏩');
+        function draw() { holder.innerHTML = ''; holder.appendChild(panel(days[k].img, days[k].cap, days[k].cap)); }
+        draw();
+        btn.addEventListener('click', function () {
+          k++; draw(); sfx('pop'); setMsg(days[k].say); speak(days[k].say);
+          if (k === days.length - 1) { btn.remove(); ctl.ok(null, 'Your bean is growing! The roots go down and the stem goes up!', 3600); }
+        });
+        box.appendChild(holder); box.appendChild(btn);
+      }
+    };
+    var r5 = {
+      say: 'Now plant a real bean at home! Ask a grown-up to help you.',
+      render: function (box, ctl) {
+        box.appendChild(h('p', { class: 'q' }, 'Plant a real bean at home! 🫘'));
+        var w = h('div', { class: 'hsw' }); w.appendChild(h('img', { src: im3('cup-bean'), alt: 'A clear cup with soil and a growing bean' })); box.appendChild(w);
+        box.appendChild(h('p', { class: 'q' }, 'Use a clear cup, some soil, a bean and a little water. You can see the roots grow!'));
+        var b = h('button', { type: 'button', class: 'big-btn' }, 'I will try it! ✔'); b.addEventListener('click', function () { ctl.ok(b, 'Super! Take a picture each day to see how it grows!', 2000); }); box.appendChild(b);
+      }
+    };
+    return [r1, r2, r3, r4, r5];
+  }
   /* ---------- activity list ---------- */
   var ACTS = {
     a1: { n: 1, title: 'Which Sense?', place: 'Senses Garden', lesson: 'Lesson 1 · Meet My Five Senses', icon: '🌟', badge: 'Sense Spotter', bicon: '🔍', tip: 'Ask a grown-up to name one thing you can see, hear, smell, taste and touch right now.', p: [53, 91], l: [33, 90], rb: [74, 96], rl: [22, 93], start: function () { runRounds(this, rounds1()); } },
@@ -970,6 +1132,13 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
     b4: { n: 4, title: 'Nature Detective', place: 'Nature Detective', lesson: 'Lesson 4 · Living Things Hunt', icon: '🔍', badge: 'Nature Detective', bicon: '🕵️', tip: 'Look around your compound or school with a grown-up. How many living things can you spot? Do not touch animals or plants you do not know.', p: [52, 73], l: [52, 73], rb: [57, 61], rl: [57, 61], start: function () { runRounds(this, roundsHunt()); } },
     b5: { n: 5, title: 'Watch It Grow', place: 'Watch It Grow', lesson: 'Lesson 5 · Watch It Grow', icon: '🌻', badge: 'Green Thumb', bicon: '🌻', tip: 'Plant a bean or maize seed in a cup of soil. Water it and watch it grow! Tell us what you see each day.', p: [72, 69], l: [72, 69], rb: [76.5, 57], rl: [76.5, 57], start: function () { runRounds(this, roundsGrow()); } }
   };
+  var ACTS3 = {
+    c1: { n: 1, title: 'Inside a Seed', place: 'Inside a Seed', lesson: 'Lesson 1 · Inside a Seed', icon: '🫘', badge: 'Seed Explorer', bicon: '🫘', tip: 'Ask a grown-up for a soaked bean. Gently open it and find the baby plant inside!', p: [29.7, 33], l: [29.7, 33], rb: [34.2, 21], rl: [34.2, 21], start: function () { runRounds(this, roundsSeed()); } },
+    c2: { n: 2, title: 'Parts of a Plant', place: 'Parts of a Plant', lesson: 'Lesson 2 · Parts of a Plant', icon: '🌿', badge: 'Plant Parts Pro', bicon: '🌿', tip: 'Look at a plant at home or at school. Can you point to its roots, stem, leaves and flower?', p: [55.3, 33], l: [55.3, 33], rb: [59.8, 21], rl: [59.8, 21], start: function () { runRounds(this, roundsParts()); } },
+    c3: { n: 3, title: 'Plant a Bean', place: 'Plant a Bean', lesson: 'Lesson 3 · Plant a Bean', icon: '🌱', badge: 'Bean Planter', bicon: '🌱', tip: 'Plant a real bean in a clear cup with soil. Water it a little and take a picture each day!', p: [82.3, 33], l: [82.3, 33], rb: [77.8, 21], rl: [77.8, 21], start: function () { runRounds(this, roundsPlant()); } },
+    c4: { n: 4, title: 'What Plants Need', place: 'What Plants Need', lesson: 'Lesson 4 · What Plants Need', icon: '☀️', badge: 'Plant Carer', bicon: '☀️', tip: '', p: [82.8, 72], l: [82.8, 72], rb: [78.3, 60], rl: [78.3, 60], soon: true },
+    c5: { n: 5, title: 'Make a Plant Diary', place: 'Plant Diary', lesson: 'Lesson 5 · Make a Plant Diary', icon: '📓', badge: 'Diary Keeper', bicon: '📓', tip: '', p: [48.3, 72], l: [48.3, 72], rb: [52.8, 60], rl: [52.8, 60], soon: true }
+  };
   var UNITS = {
     u1: { id: 'u1', title: 'My 5 Senses', acts: ACTS, order: ORDER, cert: CERT, deco: DECO, certKey: 'cert', wide: false,
       intro: 'Welcome to the meadow! Follow the path. Tap the glowing spot to start.', done: 'You finished every game! Tap the telescope house for your certificate!',
@@ -984,6 +1153,15 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
       locked: 'Finish all the missions first. Then your certificate is ready!',
       certTitle: 'Little Nature Detective', certStick: '🐔 🌳 🦋 🌻 🪨', certMsg: 'You found out what is alive and what is not alive!',
       certSay: 'Congratulations! You are a Little Nature Detective! You know what is alive and what is not!' }
+,
+    u3: { id: 'u3', title: 'Plants', acts: ACTS3, order: ['c1', 'c2', 'c3', 'c4', 'c5'],
+      cert: { n: 6, place: 'Plant Show and Tell', icon: '🏅', badge: 'Little Plant Scientist', p: [22, 72], l: [22, 72], rb: [26.5, 60], rl: [26.5, 60] },
+      deco: [{ who: 'maya', p: [2.5, 101], l: [2.5, 101], pw: [6.5, 6.5] }, { who: 'isio', p: [8.5, 101], l: [8.5, 101], pw: [6.5, 6.5] }],
+      certKey: 'cert3', wide: true, cover: true, map: '../images/unit3/u3-map.webp', scene: '../images/unit3/u3-garden.webp',
+      intro: 'Welcome to the CuriousLab Garden! Follow the path. Tap the glowing spot to start.', done: 'You finished every game! Tap the last spot for your certificate!',
+      locked: 'Finish all the missions first. Then your certificate is ready!',
+      certTitle: 'Little Plant Scientist', certStick: '🫘 🌱 🌿 🌸 ☀️', certMsg: 'You found out how a bean seed grows into a plant!',
+      certSay: 'Congratulations! You are a Little Plant Scientist! You know how a seed grows into a plant!' }
   };
   var UN = UNITS.u1;
   function setUnit(id) { UN = UNITS[id]; ACTS = UN.acts; ORDER = UN.order; CERT = UN.cert; DECO = UN.deco; }
@@ -994,12 +1172,11 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
   function toUnits() {
     show('units'); $('ttl').textContent = 'CuriousLab Play Zone'; cur = null; sceneFor(null);
     var list = $('ulist'); list.innerHTML = '';
-    [['u1', '👁️👂👃', 'Unit 1', 'Me and My Senses'], ['u2', '🐔🌳🪨', 'Unit 2', 'Living and Non-living Things']].forEach(function (u) {
+    [['u1', '👁️👂👃', 'Unit 1', 'Me and My Senses'], ['u2', '🐔🌳🪨', 'Unit 2', 'Living and Non-living Things'], ['u3', '🫘🌱🌻', 'Unit 3', 'Plants']].forEach(function (u) {
       var c = h('button', { class: 'ucard open' }, '<span class="uico" aria-hidden="true">' + u[1] + '</span><span class="un">' + u[2] + '</span><h3>' + u[3] + '</h3><small>' + unitCount(UNITS[u[0]]) + ' of 6 missions finished</small><span class="go">Play ▶</span>');
       c.addEventListener('click', function () { sfx('pop'); toMap(u[0]); });
       list.appendChild(c);
     });
-    list.appendChild(h('div', { class: 'ucard soon', 'aria-label': 'Unit 3 Plants, coming soon' }, '<span class="uico" aria-hidden="true">🌱🌻</span><span class="un">Unit 3</span><h3>Plants</h3><small>🔒 Coming soon</small><span class="go">Soon</span>'));
     setSay('Hi, explorer! I am Maya. Pick a unit to start your adventure!', 'happy', 'maya');
   }
 
@@ -1013,7 +1190,7 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 4px solid 
     show('map'); $('ttl').textContent = UN.title; cur = null; sceneFor(UN);
     var wrap = $('mapwrap'); wrap.innerHTML = ''; wrap.className = 'mapwrap' + (UN.wide ? ' wide' : '');
     var host = wrap;
-    if (UN.wide) { host = h('div', { class: 'mapin' }); host.style.backgroundImage = 'url(' + UN.map + ')'; wrap.appendChild(host); }
+    if (UN.wide) { host = h('div', { class: 'mapin' }); host.style.backgroundImage = 'url(' + UN.map + ')'; if (UN.cover) host.style.backgroundSize = 'cover'; wrap.appendChild(host); }
     $('swipe').hidden = !UN.wide;
     DECO.forEach(function (d) {
       var e = h('div', { class: 'deco', style: '--px:' + d.p[0] + '%;--py:' + d.p[1] + '%;--lx:' + d.l[0] + '%;--ly:' + d.l[1] + '%;--pw:' + d.pw[0] + '%;--pwl:' + d.pw[1] + '%' }, '<img src="' + IMG[d.who].full + '" alt="">');

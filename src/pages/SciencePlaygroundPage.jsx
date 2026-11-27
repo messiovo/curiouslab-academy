@@ -23,7 +23,7 @@ const SciencePlaygroundPage = () => (
         Science Playground
       </h1>
       <p className="mb-6 max-w-2xl text-text/80">
-        For Explorers (ages 5–7). Play with Maya, Isio and RoboBuddy and discover how your body senses the world.
+        For Explorers (ages 5–7). Join Maya, Isio and RoboBuddy on fun, interactive science adventures as you explore the world around you!
       </p>
 
       <SimulationFrame
