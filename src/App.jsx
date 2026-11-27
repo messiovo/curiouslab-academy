@@ -15,6 +15,7 @@ import ContactPage from './pages/ContactPage';
 import FreeResourcesPage from './pages/FreeResources';
 import CareerPage from './pages/CareerPage';
 import AbacusPage from './pages/AbacusPage';
+import SciencePlaygroundPage from'./pages/SciencePlaygroundPage'
 import AbacusDashboard from './pages/AbacusDashboard';
 import OneColumnNoFriends from './pages/OneColumnNoFriends';
 import ComingSoon from './pages/ComingSoon';
@@ -170,6 +171,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/science-hub" element={<ScienceHub />} />
+          <Route path="/science-playground" element={<SciencePlaygroundPage />} />
            <Route path="/virtual-science-lab" element={<VirtualScienceLab />} />
            <Route path="/virtual-science-lab/microscope" element={<VirtualMicroscopePage />} />
           <Route path="/free-resources" element={<FreeResourcesPage />} />
